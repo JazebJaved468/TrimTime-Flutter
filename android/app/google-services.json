@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "455086253822",
-    "project_id": "trim-time-b71fa",
-    "storage_bucket": "trim-time-b71fa.appspot.com"
+    "project_number": "132866959008",
+    "project_id": "trim-time-ae996",
+    "storage_bucket": "trim-time-ae996.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:455086253822:android:9d68583ce78608653a27af",
+        "mobilesdk_app_id": "1:132866959008:android:9880c22cf2794398c20bc5",
         "android_client_info": {
           "package_name": "com.example.trim_time"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyABryRwgRE-v0q94DsHqlgK01t9t5c5UR8"
+          "current_key": "AIzaSyDLVrpM3Y5cdiYVa-j-UYMdyv0koEuEEdY"
         }
       ],
       "services": {

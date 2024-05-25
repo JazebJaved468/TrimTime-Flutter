@@ -41,21 +41,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAruY3SwN0XXTY_84yE9R1w6eIaB_kYvm0',
-    appId: '1:455086253822:web:39a5c6105ad2ebbb3a27af',
-    messagingSenderId: '455086253822',
-    projectId: 'trim-time-b71fa',
-    authDomain: 'trim-time-b71fa.firebaseapp.com',
-    storageBucket: 'trim-time-b71fa.appspot.com',
-    measurementId: 'G-T6TXK6T80W',
+    apiKey: 'AIzaSyCPpJvk8LAz5pbC1icxbtsWhxdvciCtctc',
+    appId: '1:132866959008:web:1470ed8ca95d15c2c20bc5',
+    messagingSenderId: '132866959008',
+    projectId: 'trim-time-ae996',
+    authDomain: 'trim-time-ae996.firebaseapp.com',
+    storageBucket: 'trim-time-ae996.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyABryRwgRE-v0q94DsHqlgK01t9t5c5UR8',
-    appId: '1:455086253822:android:9d68583ce78608653a27af',
-    messagingSenderId: '455086253822',
-    projectId: 'trim-time-b71fa',
-    storageBucket: 'trim-time-b71fa.appspot.com',
+    apiKey: 'AIzaSyDLVrpM3Y5cdiYVa-j-UYMdyv0koEuEEdY',
+    appId: '1:132866959008:android:9880c22cf2794398c20bc5',
+    messagingSenderId: '132866959008',
+    projectId: 'trim-time-ae996',
+    storageBucket: 'trim-time-ae996.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -77,13 +76,12 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyAruY3SwN0XXTY_84yE9R1w6eIaB_kYvm0',
-    appId: '1:455086253822:web:bd6a00ae2adb9b5d3a27af',
-    messagingSenderId: '455086253822',
-    projectId: 'trim-time-b71fa',
-    authDomain: 'trim-time-b71fa.firebaseapp.com',
-    storageBucket: 'trim-time-b71fa.appspot.com',
-    measurementId: 'G-L9K21LTYQL',
+    apiKey: 'AIzaSyCPpJvk8LAz5pbC1icxbtsWhxdvciCtctc',
+    appId: '1:132866959008:web:d0378187dbf12b24c20bc5',
+    messagingSenderId: '132866959008',
+    projectId: 'trim-time-ae996',
+    authDomain: 'trim-time-ae996.firebaseapp.com',
+    storageBucket: 'trim-time-ae996.appspot.com',
   );
 
 }
