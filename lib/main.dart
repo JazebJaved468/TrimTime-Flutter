@@ -1,6 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'firebase/config/firebase_options.dart';
+import 'providers/sample_provider.dart';
+import 'views/home/home.dart';
 
 void main() async {
   await Firebase.initializeApp(
@@ -15,29 +19,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Trim Time',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Trim Time'),
-      ),
-      body: Center(
-        child: Text('Welcome to Trim Time Home Page!'),
+    return MultiProvider(
+      providers: [
+        // Add providers here
+        ChangeNotifierProvider(
+          create: (_) => SampleProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Trim Time',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: Home(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
