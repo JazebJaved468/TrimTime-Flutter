@@ -6,7 +6,7 @@ import 'package:trim_time/views/authentication/signup.dart';
 class ClientHomePage extends StatelessWidget {
   ClientHomePage({super.key});
 
-  final User user = FirebaseAuth.instance.currentUser!;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,10 @@ class ClientHomePage extends StatelessWidget {
           IconButton(
             onPressed: () async {
               await signOut();
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => Signup()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Signup()),
+              );
             },
             icon: const Icon(Icons.logout),
           ),

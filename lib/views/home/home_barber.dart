@@ -14,10 +14,10 @@ class BarberHomePage extends StatelessWidget {
           IconButton(
             onPressed: () async {
               await signOut();
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => Signup()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Signup()),
+              );
             },
             icon: const Icon(Icons.logout),
           ),
