@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Map<String, dynamic> data = snapshot.data as Map<String, dynamic>;
 
             if (data['uid'] != null) {
-              if (data['isClient'] == true) {
+              if (data['isClient']) {
                 return ClientHomePage();
               } else {
                 return BarberHomePage();
