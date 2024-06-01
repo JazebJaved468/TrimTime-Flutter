@@ -1,11 +1,12 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:trim_time/utilities/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<UserCredential> signInWithGoogle() async {
+Future<UserCredential> signInWithGoogle({required bool isClient}) async {
   print('<------ signInWithGoogle starts---->');
   // Trigger the authentication flow
   final GoogleSignInAccount? googleUser = await GoogleSignIn(
@@ -30,14 +31,24 @@ Future<UserCredential> signInWithGoogle() async {
 
   print('user----> ${user}');
 
-  // Store user in local storage
-  storeUserIdInLocalStorage(user);
+  // if (user != null) {
+  //   // Store user in local storage
 
+  //   // Store user in firestore
+  //   // StoreUserInFirestore(user);
+  // }
+
+  storeDataInLocalStorage(user: user, isClient: isClient);
   return user;
 }
 
-Future<void> StoreUserInFirestore(UserCredential user) async {
-  print('StoreUserInFirestore---->');
+Future<void> StoreUserInFirestore() async {
+  // print('StoreUserInFirestore---->');
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  DocumentSnapshot user = await users.doc('1').get();
+
+  print('users Collection ----> ${users}');
+  print('User Document ----> ${user.data()}');
   // Store user in firestore
   // await FirebaseFirestore.instance.collection('users').doc(user.user!.uid).set({
   //   'name': user.user!.displayName,
@@ -47,25 +58,29 @@ Future<void> StoreUserInFirestore(UserCredential user) async {
   // });
 }
 
-getUserIDFromLocalStorage() async {
+getDataFromLocalStorage() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? userID = prefs.getString('uid');
-  return userID;
+  String? uid = prefs.getString('uid');
+  bool? isClient = prefs.getBool('isClient');
+  return {'uid': uid, 'isClient': isClient};
 }
 
-storeUserIdInLocalStorage(UserCredential user) async {
+storeDataInLocalStorage(
+    {required UserCredential user, required bool isClient}) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('uid', user.user!.uid);
+  prefs.setBool('isClient', isClient);
 }
 
-removeUserIdFromLocalStorage() async {
+removeDataFromLocalStorage() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove('uid');
+  prefs.remove('isClient');
 }
 
 signOut() async {
   GoogleSignIn().signOut();
   await FirebaseAuth.instance.signOut();
-  removeUserIdFromLocalStorage();
+  removeDataFromLocalStorage();
   print('signedOut---->');
 }

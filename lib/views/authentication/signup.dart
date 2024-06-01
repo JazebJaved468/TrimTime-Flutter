@@ -56,7 +56,8 @@ class _SignupState extends State<Signup> {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  UserCredential? userCredential = await signInWithGoogle();
+                  UserCredential? userCredential =
+                      await signInWithGoogle(isClient: isClient);
 
                   // Handle what happens after successful login
                   if (userCredential != null) {
@@ -84,9 +85,9 @@ class _SignupState extends State<Signup> {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  print(await getUserIDFromLocalStorage());
+                  StoreUserInFirestore();
                 },
-                child: Text('get User ID from Local Storage'))
+                child: Text('get User collection from firestore'))
           ],
         ),
       ),

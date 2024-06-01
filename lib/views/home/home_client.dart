@@ -8,10 +8,16 @@ class ClientHomePage extends StatelessWidget {
 
   // final User? user = FirebaseAuth.instance.currentUser;
 
-  String? userID;
-  getUserId() async {
-    userID = await getUserIDFromLocalStorage();
+  Map<String, dynamic>? localData;
+  getLocalData() async {
+    localData = await getDataFromLocalStorage();
   }
+
+  //  LocalStorageModel? localStorageData;
+  // getUserId() async {
+  //   localStorageData =
+  //       await LocalStorageModel.fromJson(await getDataFromLocalStorage());
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +39,13 @@ class ClientHomePage extends StatelessWidget {
       ),
       body: Center(
           child: FutureBuilder(
-        future: getUserId(),
+        future: getLocalData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           }
-          return Text('Welcome Client with userID \n${userID}');
+          return Text(
+              'Welcome Client with userID \n${localData!['uid']} \n isClient: ${localData!['isClient']}');
         },
       )),
     );
