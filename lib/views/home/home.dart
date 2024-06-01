@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 
 class Home extends StatelessWidget {
@@ -12,27 +13,32 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Trim Time'),
       ),
-      body: Center(
-        child: Consumer<SampleProvider>(
-          builder: (context, provider, child) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'No. of barbers available:',
+      body: Consumer<SampleProvider>(
+        builder: (context, provider, child) => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                color: CustomColors.gunmetal,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'No. of barbers available:',
+                      style: TextStyle(
+                          fontSize: 20, color: CustomColors.peelOrange),
+                    ),
+                    Text(
+                      '${sampleProvider.activeBarbers}',
+                      style: TextStyle(
+                          fontSize: 36, color: CustomColors.peelOrange),
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                '${sampleProvider.activeBarbers}',
-              ),
-              // Container(
-              //   width: 200,
-              //   height: 200,
-              //   child: Image.asset(
-              //     'assets/images/testpic.jpg',
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
