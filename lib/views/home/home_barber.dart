@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/login.dart';
-import 'package:trim_time/models/local_storage_model.dart';
-import 'package:trim_time/views/authentication/signup.dart';
+import 'package:trim_time/views/authentication/signup_page.dart';
 
 class BarberHomePage extends StatelessWidget {
   BarberHomePage({super.key});
-
-  // LocalStorageModel? localStorageData;
 
   Map<String, dynamic>? localData;
   getLocalData() async {
     localData = await getDataFromLocalStorage();
   }
-
-  // Map<String, dynamic>? localData;
-  // getUserId() async {
-  //   localData = await getDataFromLocalStorage();
-  // }
 
   @override
   Widget build(BuildContext context) {

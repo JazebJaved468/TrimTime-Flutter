@@ -1,23 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/login.dart';
-import 'package:trim_time/views/authentication/signup.dart';
+import 'package:trim_time/views/authentication/signup_page.dart';
 
 class ClientHomePage extends StatelessWidget {
   ClientHomePage({super.key});
-
-  // final User? user = FirebaseAuth.instance.currentUser;
 
   Map<String, dynamic>? localData;
   getLocalData() async {
     localData = await getDataFromLocalStorage();
   }
-
-  //  LocalStorageModel? localStorageData;
-  // getUserId() async {
-  //   localStorageData =
-  //       await LocalStorageModel.fromJson(await getDataFromLocalStorage());
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,29 +1,33 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:trim_time/utilities/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<UserCredential> signInWithGoogle({required bool isClient}) async {
+Future<Map<String, dynamic>> signInWithGoogle({required bool isClient}) async {
   print('<------ signInWithGoogle starts---->');
-  // Trigger the authentication flow
+
   final GoogleSignInAccount? googleUser = await GoogleSignIn(
           // clientId: CLIENT_ID,
           )
       .signIn();
 
-  // Obtain the auth details from the request
-
   final GoogleSignInAuthentication? googleAuth =
       await googleUser?.authentication;
 
-  // Create a new credential
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
+  final credential;
+  try {
+    credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+  } catch (e) {
+    print('Error in credential----> ${e}');
+    return {
+      'user': null,
+      'existsInOtherCategory': false,
+      'existsInItsOwnCategory': false,
+    };
+  }
 
   // Once signed in, return the UserCredential
   UserCredential user =
@@ -31,31 +35,62 @@ Future<UserCredential> signInWithGoogle({required bool isClient}) async {
 
   print('user----> ${user}');
 
-  // if (user != null) {
-  //   // Store user in local storage
-
-  //   // Store user in firestore
-  //   // StoreUserInFirestore(user);
-  // }
-
   storeDataInLocalStorage(user: user, isClient: isClient);
-  return user;
+
+  return {
+    'user': user,
+    ...await checkUserAlreadyExistsInOtherCategory(
+        user.user!.uid, isClient, user),
+  };
 }
 
-Future<void> StoreUserInFirestore() async {
-  // print('StoreUserInFirestore---->');
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot user = await users.doc('1').get();
+Future<Map<String, dynamic>> checkUserAlreadyExistsInOtherCategory(
+    String userId, bool isClient, UserCredential user) async {
+  final collection = isClient ? 'barbers' : 'clients';
+  CollectionReference users = FirebaseFirestore.instance.collection(collection);
+  DocumentSnapshot _user = await users.doc(userId).get();
 
-  print('users Collection ----> ${users}');
-  print('User Document ----> ${user.data()}');
-  // Store user in firestore
-  // await FirebaseFirestore.instance.collection('users').doc(user.user!.uid).set({
-  //   'name': user.user!.displayName,
-  //   'email': user.user!.email,
-  //   'photoURL': user.user!.photoURL,
-  //   'uid': user.user!.uid,
-  // });
+  if (_user.data() != null) {
+    print('User already exists in other category');
+    return {
+      'existsInOtherCategory': true,
+      'existsInItsOwnCategory': false,
+    };
+  } else {
+    print('User does not exist in other category');
+    checkUserAlreadyExistsInItsOwnCategory(userId, isClient, user);
+    return {
+      'existsInOtherCategory': false,
+      ...await checkUserAlreadyExistsInItsOwnCategory(userId, isClient, user),
+    };
+  }
+}
+
+Future<Map<String, dynamic>> checkUserAlreadyExistsInItsOwnCategory(
+    String userId, bool isClient, UserCredential user) async {
+  final collection = isClient ? 'clients' : 'barbers';
+  CollectionReference users = FirebaseFirestore.instance.collection(collection);
+  DocumentSnapshot _user = await users.doc(userId).get();
+
+  if (_user.data() != null) {
+    print('User already exists in its own category');
+    return {
+      'existsInItsOwnCategory': true,
+    };
+  } else {
+    print('user doesnot exist anywhere');
+    print('adding user to database');
+    await users.doc(userId).set({
+      'uid': userId,
+      'isClient': isClient,
+      'name': user.user!.displayName,
+      'email': user.user!.email,
+      'photoURL': user.user!.photoURL,
+    });
+    return {
+      'existsInItsOwnCategory': false,
+    };
+  }
 }
 
 getDataFromLocalStorage() async {

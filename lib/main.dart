@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trim_time/views/authentication/signup.dart';
+import 'package:trim_time/views/splashSreen/splash_screen.dart';
 
 import 'firebase/config/firebase_options.dart';
 import 'providers/sample_provider.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const Signup(),
+        home: SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
