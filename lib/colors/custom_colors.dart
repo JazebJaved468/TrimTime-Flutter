@@ -9,4 +9,5 @@ class CustomColors {
   static Color charcoal = const Color(0xFF1f222a);
   static Color white = const Color(0xFFffffff);
   static Color transparent = Colors.transparent;
+  static Color black = const Color(0xFF000000); 
 }
