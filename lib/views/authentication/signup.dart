@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trim_time/controller/google_authentication.dart';
+import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/views/home/home_barber.dart';
 import 'package:trim_time/views/home/home_client.dart';
 
@@ -57,6 +57,7 @@ class _SignupState extends State<Signup> {
               onPressed: () async {
                 try {
                   UserCredential? userCredential = await signInWithGoogle();
+
                   // Handle what happens after successful login
                   if (userCredential != null) {
                     // Navigate to the respective home page based on user type
@@ -70,7 +71,7 @@ class _SignupState extends State<Signup> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const BarberHomePage()),
+                            builder: (context) => BarberHomePage()),
                       );
                     }
                   }
@@ -81,6 +82,11 @@ class _SignupState extends State<Signup> {
               },
               child: const Text('Sign in with Google'),
             ),
+            ElevatedButton(
+                onPressed: () async {
+                  print(await getUserIDFromLocalStorage());
+                },
+                child: Text('get User ID from Local Storage'))
           ],
         ),
       ),

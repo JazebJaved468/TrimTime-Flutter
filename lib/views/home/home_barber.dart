@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:trim_time/controller/google_authentication.dart';
+import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/views/authentication/signup.dart';
 
 class BarberHomePage extends StatelessWidget {
-  const BarberHomePage({super.key});
+  BarberHomePage({super.key});
+
+  String? userID;
+  getUserId() async {
+    userID = await getUserIDFromLocalStorage();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +19,7 @@ class BarberHomePage extends StatelessWidget {
           IconButton(
             onPressed: () async {
               await signOut();
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => Signup()),
               );
@@ -23,9 +28,16 @@ class BarberHomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text('Hello Barber'),
-      ),
+      body: Center(
+          child: FutureBuilder(
+        future: getUserId(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          }
+          return Text('Welcome Barber with userID \n${userID}');
+        },
+      )),
     );
   }
 }
