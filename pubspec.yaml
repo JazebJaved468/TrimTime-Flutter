@@ -81,11 +81,11 @@ flutter:
   fonts:
     - family: dmsans
       fonts:
-        - asset: lib/fonts/dm_sans.ttf
+        - asset: assets/fonts/dm_sans.ttf
   #         style: italic
     - family: rubik
       fonts:
-        - asset: lib/fonts/rubik.ttf
+        - asset: assets/fonts/rubik.ttf
           weight: 700
   #
   # For details regarding fonts from package dependencies,

@@ -27,7 +27,7 @@ class LoadingScreen extends StatelessWidget {
             children: [
               // Logo
               Image.asset(
-                'assets/images/C.png', // Update with your logo asset path
+                'assets/images/logo.png', // Update with your logo asset path
                 height: screenHeight*.3,
                 width: screenWidth*.3, // Adjust size as needed
               ),
