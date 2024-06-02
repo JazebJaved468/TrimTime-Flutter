@@ -38,12 +38,7 @@ class MyApp extends StatelessWidget {
         ),
         home: Home(),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/loading',
-        routes: {
-          '/loading' : (context)=>LoadingScreen(),
-          '/welcome' : (context)=>WelcomeScreen(),
-          '/get_started': (context)=>GetStartedScreen()
-        },
+
       ),
     );
   }
