@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/login.dart';
+import 'package:trim_time/models/local_storage_model.dart';
 import 'package:trim_time/views/authentication/signup_page.dart';
 
 class BarberHomePage extends StatelessWidget {
   BarberHomePage({super.key});
 
-  Map<String, dynamic>? localData;
+  Map<String, dynamic>? response;
+  LocalStorageModel? localStorageData;
   getLocalData() async {
-    localData = await getDataFromLocalStorage();
+    response = await getDataFromLocalStorage();
+    localStorageData = LocalStorageModel.fromJson(response!);
   }
 
   @override
@@ -36,7 +39,7 @@ class BarberHomePage extends StatelessWidget {
             return const CircularProgressIndicator();
           }
           return Text(
-              'Welcome Barber with userID \n${localData!['uid']} \n isClient: ${localData!['isClient']}');
+              'Welcome Barber with userID \n${localStorageData?.uid} \n isClient: ${localStorageData?.isClient}');
         },
       )),
     );
