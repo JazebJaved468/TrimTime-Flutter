@@ -12,6 +12,9 @@ migrate_working_dir/
 
 # IntelliJ related
 *.iml
+*.lock
+*.bin
+
 *.ipr
 *.iws
 .idea/
@@ -44,3 +47,4 @@ app.*.map.json
 
 # Ignore the .dart_tool/chrom-device directory
 .dart_tool/chrom-device/
+
