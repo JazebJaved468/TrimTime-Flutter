@@ -37,7 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.6
   firebase_core: ^2.31.1
   provider: ^6.1.2
-
+  carousel_slider: ^4.0.0
+  smooth_page_indicator: ^1.0.0+2
+  intl: ^0.17.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -75,15 +77,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+  fonts:
+    - family: Raleway
+      fonts:
+        - asset: assets/fonts/Raleway-Regular.ttf
+        - asset: assets/fonts/Raleway-Bold.ttf
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
