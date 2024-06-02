@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trim_time/views/onBoardingScreens/get_started_screen.dart';
+import 'package:trim_time/views/onBoardingScreens/loading_screen.dart';
+import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
 
 import 'firebase/config/firebase_options.dart';
 import 'providers/sample_provider.dart';
@@ -35,6 +38,12 @@ class MyApp extends StatelessWidget {
         ),
         home: Home(),
         debugShowCheckedModeBanner: false,
+        initialRoute: '/loading',
+        routes: {
+          '/loading' : (context)=>LoadingScreen(),
+          '/welcome' : (context)=>WelcomeScreen(),
+          '/get_started': (context)=>GetStartedScreen()
+        },
       ),
     );
   }

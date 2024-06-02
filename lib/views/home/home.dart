@@ -5,7 +5,7 @@ import 'package:trim_time/providers/sample_provider.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     final sampleProvider = Provider.of<SampleProvider>(context, listen: true);
@@ -43,7 +43,7 @@ class Home extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          sampleProvider.incrementActiveBarbers();
+         Navigator.pushNamed(context, '/loading');
         },
         tooltip: 'Activate Barber',
         child: const Icon(Icons.person_add_alt_1_outlined),
