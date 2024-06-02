@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trim_time/controller/login.dart';
+import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/authentication/registration_page.dart';
 import 'package:trim_time/views/home/home_barber.dart';
 import 'package:trim_time/views/home/home_client.dart';
+import 'package:trim_time/views/registration/registeration_barber.dart';
+import 'package:trim_time/views/registration/registration_client.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -18,6 +22,15 @@ class _SignupState extends State<Signup> {
     Map<String, dynamic> response = await signInWithGoogle(isClient: isClient);
 
     if (response['user'] != null) {
+      // Setting user id in state
+
+      var firestoreData =
+          await getUserDataFromFirestore(response['user'].user!.uid, isClient);
+
+      // print('firestoreData----> ${firestoreData}');
+
+      final isRegistered = firestoreData['isRegistered'];
+
       if (response['existsInOtherCategory']) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
@@ -25,23 +38,62 @@ class _SignupState extends State<Signup> {
         ));
         await signOut();
       } else if (response['existsInItsOwnCategory'] && isClient) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ClientHomePage()),
-        );
+        if (isRegistered) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => ClientHomePage()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ClientRegistrationPage(
+                      email: firestoreData['email'],
+                      fullName: firestoreData['name'],
+                      phoneNumber: firestoreData['phoneNumber'],
+                      photoURL: firestoreData['photoURL'],
+                      gender: firestoreData['gender'],
+                    )),
+          );
+        }
       } else if (response['existsInItsOwnCategory'] && !isClient) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => BarberHomePage()),
-        );
+        if (isRegistered) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => BarberHomePage()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => BarberRegistrationPage()),
+          );
+        }
       } else if (!response['existsInItsOwnCategory']) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => RegistrationPage(
-                    isClient: isClient,
-                  )),
-        );
+        if (isClient) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ClientRegistrationPage(
+                      email: firestoreData['email'],
+                      fullName: firestoreData['name'],
+                      phoneNumber: firestoreData['phoneNumber'],
+                      photoURL: firestoreData['photoURL'],
+                      gender: firestoreData['gender'],
+                    )),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => BarberRegistrationPage()),
+          );
+        }
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       builder: (context) => RegistrationPage(
+        //             isClient: isClient,
+        //           )),
+        // );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -60,8 +112,11 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
-      ),
+          title: const Text('Sign Up'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {},
+          )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

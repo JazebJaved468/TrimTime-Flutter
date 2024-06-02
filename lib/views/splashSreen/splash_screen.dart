@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/models/local_storage_model.dart';
-import 'package:trim_time/views/authentication/registration_page.dart';
 import 'package:trim_time/views/authentication/signup_page.dart';
 import 'package:trim_time/views/home/home_barber.dart';
 import 'package:trim_time/views/home/home_client.dart';
+import 'package:trim_time/views/registration/registeration_barber.dart';
+import 'package:trim_time/views/registration/registration_client.dart';
 import 'package:trim_time/views/splashSreen/on_boarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,6 +31,8 @@ class _SplashScreenState extends State<SplashScreen> {
     // print(localStorageData?.uid);
     // print(localStorageData?.isFirstVisit);
 
+    // print('firestoreData----> ${firestoreData}');
+
     if (localStorageData!.isFirstVisit!) {
       Navigator.pushReplacement(
         context,
@@ -37,25 +40,59 @@ class _SplashScreenState extends State<SplashScreen> {
       );
     } else {
       if (localStorageData!.uid != null) {
+        var firestoreData = await getUserDataFromFirestore(
+            localStorageData!.uid!, localStorageData!.isClient!);
+        final isRegistered = firestoreData['isRegistered'];
         if (localStorageData!.isClient!) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => ClientHomePage()),
-          );
+          if (isRegistered) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ClientHomePage()),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ClientRegistrationPage(
+                        email: firestoreData['email'],
+                        fullName: firestoreData['name'],
+                        phoneNumber: firestoreData['phoneNumber'],
+                        photoURL: firestoreData['photoURL'],
+                        gender: firestoreData['gender'],
+                      )),
+            );
+          }
         } else if (!localStorageData!.isClient!) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => BarberHomePage()),
-          );
-        } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => RegistrationPage(
-                      isClient: localStorageData!.isClient,
-                    )),
-          );
+          if (isRegistered) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => BarberHomePage()),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => BarberRegistrationPage()),
+            );
+          }
+          // Navigator.pushReplacement(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => BarberHomePage()),
+          // );
         }
+
+        //  else {
+        // if (!localStorageData!.isClient!) {
+        //   Navigator.pushReplacement(
+        //     context,
+        //     MaterialPageRoute(builder: (context) => ClientRegistrationPage()),
+        //   );
+        // } else {
+        //   Navigator.pushReplacement(
+        //     context,
+        //     MaterialPageRoute(builder: (context) => BarberRegistrationPage()),
+        //   );
+        // }
+        // }
       } else {
         Navigator.pushReplacement(
           context,

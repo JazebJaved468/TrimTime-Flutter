@@ -19,7 +19,7 @@ class ClientHomePage extends StatelessWidget {
           IconButton(
             onPressed: () async {
               await signOut();
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => Signup()),
               );

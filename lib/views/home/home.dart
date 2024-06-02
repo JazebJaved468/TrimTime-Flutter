@@ -6,6 +6,8 @@ import 'package:trim_time/providers/sample_provider.dart';
 class Home extends StatelessWidget {
   const Home({super.key});
 
+  // Provider.of<SampleProvider>(context, listen: false);
+
   @override
   Widget build(BuildContext context) {
     final sampleProvider = Provider.of<SampleProvider>(context, listen: true);

@@ -5,5 +5,37 @@
 //         {'id': 4, 'name': 'massage', 'price': 150},
 //       ],
 
+// PRICE
+// {
+//            
+//           'price': 0,
+//           'serviceId': '',
+//         }
 
 
+
+// BOOKING  
+// {
+//           'id': '',
+//           'barberId': '',
+//           'clientId': '',
+//           'serviceId': '',
+//           'slotId': '',
+//           'isCompleted': false,
+//           'isCancelled': false,
+//           'isConfirmed': false,
+//           'isPaid': false,
+//           'isRated': false,
+//           'rating': 0,
+//           'review': ''
+//         }
+
+// RATING
+// {
+//           'rating': 0,
+//           'review': ''
+//           'id' : '',
+//           'barberId': '',
+//           'clientId': '',
+//           'bookingId': '',
+//         }

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trim_time/controller/date_time.dart';
+import 'package:trim_time/models/local_storage_model.dart';
 import 'package:uuid/uuid.dart';
 
 initializeApp() async {
@@ -11,52 +13,25 @@ initializeApp() async {
 
   if (isFirstVisit == null) {
     updateBooleanDataInLocalStorage(key: 'isFirstVisit', value: true);
+  } else {
+    Map<String, dynamic>? response;
+    LocalStorageModel? localStorageData;
+    getLocalData() async {
+      response = await getDataFromLocalStorage();
+      localStorageData = LocalStorageModel.fromJson(response!);
+    }
   }
 
   // ----------------------------------------------------------
+  // generateTimeSlots(DateTime.parse('2024-06-02T11:30:00.000'));
+  // DateTime today = DateTime.now();
+  // DateTime openingTime =
+  //     DateTime(today.year, today.month, today.day, 11, 0); // 11:00 AM
+  // DateTime closingTime =
+  //     DateTime(today.year, today.month, today.day, 23, 0); // 11:00 PM
 
-  List<Map<String, dynamic>> generateTimeSlots(
-      DateTime date, DateTime openingTime, DateTime closingTime) {
-    List<Map<String, dynamic>> slots = [];
-    DateTime currentTime = DateTime(
-        date.year, date.month, date.day, openingTime.hour, openingTime.minute);
-    var uuid = Uuid();
-
-    while (currentTime.isBefore(DateTime(date.year, date.month, date.day,
-        closingTime.hour, closingTime.minute))) {
-      DateTime endTime = currentTime.add(Duration(minutes: 30));
-
-      slots.add({
-        'slotId': uuid.v4(),
-        'start': currentTime.toIso8601String(),
-        'end': endTime.toIso8601String(),
-        'isBooked': false,
-        'clientId': null,
-        'updatedAt': null,
-        'isAvailable': true,
-      });
-
-      currentTime = endTime;
-    }
-
-    print('slots----> ${slots}');
-
-    print(
-        'date -----> ${DateFormat('dd-MM-yyyy').format(DateTime.parse('2024-06-02T11:30:00.000'))}');
-
-    // print('slots length----> ${DateTime()}');
-
-    return slots;
-  }
-
-  DateTime today = DateTime.now();
-  DateTime openingTime =
-      DateTime(today.year, today.month, today.day, 11, 0); // 11:00 AM
-  DateTime closingTime =
-      DateTime(today.year, today.month, today.day, 23, 0); // 11:00 PM
-
-  List<Map<String, dynamic>> slots =
-      generateTimeSlots(today, openingTime, closingTime);
+  // List<Map<String, dynamic>> slots =
+  //     generateTimeSlots(today, openingTime, closingTime);
 }
 
 Future<Map<String, dynamic>> signInWithGoogle({required bool isClient}) async {
@@ -157,6 +132,33 @@ Future<Map<String, dynamic>> checkUserAlreadyExistsInItsOwnCategory(
   }
 }
 
+getUserDataFromFirestore(String userId, bool isClient) async {
+  // print('user Id ----> $userId');
+  final collection = isClient ? 'clients' : 'barbers';
+  CollectionReference users = FirebaseFirestore.instance.collection(collection);
+  DocumentSnapshot _user = await users.doc(userId).get();
+  print('from function data ---->${_user.data()}');
+  return _user.data();
+}
+
+updateClientDataInFirestore(
+    {required String userId,
+    required bool isClient,
+    required Map<String, dynamic> data}) async {
+  final collection = isClient ? 'clients' : 'barbers';
+  CollectionReference users = FirebaseFirestore.instance.collection(collection);
+  await users.doc(userId).update(data);
+}
+
+updateBarberDataInFirestore(
+    {required String userId,
+    required bool isClient,
+    required Map<String, dynamic> data}) async {
+  final collection = isClient ? 'clients' : 'barbers';
+  CollectionReference users = FirebaseFirestore.instance.collection(collection);
+  await users.doc(userId).update(data);
+}
+
 storeUserDataInFirestore(
     {required UserCredential user, required bool isClient}) async {
   print('user data from google ----> ${user.user}');
@@ -175,21 +177,7 @@ storeUserDataInFirestore(
       'address': '',
       'gender': 'male',
       'favourite': [],
-      'bookings': [
-        {
-          'id': '',
-          'barberId': '',
-          'serviceId': '',
-          'slotId': '',
-          'isCompleted': false,
-          'isCancelled': false,
-          'isConfirmed': false,
-          'isPaid': false,
-          'isRated': false,
-          'rating': 0,
-          'review': ''
-        }
-      ],
+      'bookings': [],
     });
   } else {
     CollectionReference barbers =
@@ -217,13 +205,13 @@ storeUserDataInFirestore(
     String day7 = (today.add(Duration(days: 6)).toIso8601String());
     // String day8 = (today.add(Duration(days: 7)).toIso8601String());
 
-    print(
-        'Today with formattnig ---> ${DateFormat('dd-MM-yyyy').format(today)}');
+    // print(
+    //     'Today with formattnig ---> ${DateFormat('dd-MM-yyyy').format(today)}');
 
     // Print today's date
-    print('Today: ${today.day}-${today.month}-${today.year}');
-    print(
-        'Tomorrow: ${today.add(Duration(days: 1)).day}-${today.month}-${today.year}');
+    // print('Today: ${today.day}-${today.month}-${today.year}');
+    // print(
+    //     'Tomorrow: ${today.add(Duration(days: 1)).day}-${today.month}-${today.year}');
 
     await barbers.doc(user.user!.uid).set({
       'uid': user.user!.uid,
@@ -238,33 +226,65 @@ storeUserDataInFirestore(
       'shopName': '',
       'shopAddress': '',
       'shopPhoneNumber': '',
-      'bookings': [
-        {
-          'clientId': '',
-          'serviceId': '',
-          'slotId': '',
-        }
-      ],
+      'bookings': [],
       // 'shopTimings': '',
+      'prices': [
+        {
+          'price': 250,
+          'serviceId': '1',
+        },
+        {
+          'price': 170,
+          'serviceId': '2',
+        },
+        {
+          'price': 120,
+          'serviceId': '3',
+        },
+        {
+          'price': 150,
+          'serviceId': '4',
+        },
+      ],
       'services': [
-        {'id': 1, 'name': 'haircut', 'price': 250},
-        {'id': 2, 'name': 'shave', 'price': 170},
-        {'id': 3, 'name': 'beard trim', 'price': 120},
-        {'id': 4, 'name': 'massage', 'price': 150},
+        {
+          'id': 1,
+          'name': 'haircut',
+        },
+        {
+          'id': 2,
+          'name': 'shave',
+        },
+        {
+          'id': 3,
+          'name': 'beard trim',
+        },
+        {
+          'id': 4,
+          'name': 'massage',
+        },
       ],
       'availability': {
         day1: {
-          'slots': [
-            {
-              'slotId': '',
-              'start': '',
-              'end': '',
-              'isBooked': false,
-              'clientId': null,
-              'updatedAt': null,
-              'isAvailable': true,
-            }
-          ]
+          'slots': generateTimeSlots(DateTime.parse(day1)),
+        },
+        day2: {
+          'slots': generateTimeSlots(DateTime.parse(day2)),
+        },
+        day3: {
+          'slots': generateTimeSlots(DateTime.parse(day3)),
+        },
+        day4: {
+          'slots': generateTimeSlots(DateTime.parse(day4)),
+        },
+        day5: {
+          'slots': generateTimeSlots(DateTime.parse(day5)),
+        },
+        day6: {
+          'slots': generateTimeSlots(DateTime.parse(day6)),
+        },
+        day7: {
+          'slots': generateTimeSlots(DateTime.parse(day7)),
         },
       },
     });
