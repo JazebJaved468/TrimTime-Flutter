@@ -1,6 +1,9 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({super.key});
@@ -14,6 +17,11 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    final CarouselController _controller = CarouselController();
+
     final List<String> imgList = [
       'assets/images/brb1.jpg',
       'assets/images/brb2.jpg',
@@ -29,95 +37,85 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
       body: Column(
+
         children: [
-          CarouselSlider(
-            options: CarouselOptions(
-              height: 630.0,
-              viewportFraction: 1,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              },
-            ),
-            items: imgList.asMap().entries.map((entry) {
-              int index = entry.key;
-              String imgPath = entry.value;
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
-                      color: CustomColors.gunmetal,
-                    ),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          imgPath,
-                          fit: BoxFit.cover,
-                          height: 460,
-                          width: double.infinity,
-                        ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Text(
-                            textList[index],
-                            style: const TextStyle(
-                              fontSize: 29,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontFamily: 'rubik'
+          Column(
+            children: [
+              CarouselSlider(
+                items: imgList
+                    .map((item) => Container(
+                          child: Center(
+                            child: Image.asset(
+                              item,
+                              fit: BoxFit.cover,
+                              width: screenWidth,
                             ),
-                            textAlign: TextAlign.center,
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            }).toList(),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.map((url) {
-              int index = imgList.indexOf(url);
-              return Container(
-                width: 8.0,
-                height: 8.0,
-                margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _current == index
-                      ? CustomColors.peelOrange
-                      : Colors.white.withOpacity(0.4),
+                        ))
+                    .toList(),
+                carouselController: _controller,
+                options: CarouselOptions(
+                  height: screenHeight *.53,
+                  aspectRatio: screenWidth / (screenHeight / 3),
+                  viewportFraction: 1.0,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  },
                 ),
-              );
-            }).toList(),
+              ),
+              const SizedBox(height: 30),
+              Padding(
+                padding:  EdgeInsets.symmetric(horizontal: screenWidth*0.1),
+                child: Text(
+                  textList[_current],
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontFamily: 'rubik'
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 50),
+              AnimatedSmoothIndicator(
+                activeIndex: _current,
+                count: imgList.length,
+                effect: const ExpandingDotsEffect(
+                  dotWidth: 7.0,
+                  dotHeight: 6.0,
+                  activeDotColor: CustomColors.peelOrange,
+                  dotColor: Colors.white,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 95),
+          SizedBox(height: screenHeight*0.14),
           InkWell(
             splashColor: CustomColors.transparent,
             highlightColor: CustomColors.transparent,
-            onTap: (){print("pressed");},
+            onTap: () {
+              print("pressed");
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 15),
-              decoration: BoxDecoration(borderRadius:BorderRadius.circular(25),color: CustomColors.peelOrange),
-              width: 320,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: CustomColors.peelOrange
+              ),
+              width: screenWidth*.85,
               child: const Center(
-            
-                child:  Text(
-                  "Next" ,style: TextStyle(color: Colors.white , fontFamily: 'dmsans'),
+                child: Text(
+                  "Next",
+                  style: TextStyle(color: Colors.white, fontFamily: 'dmsans'),
                 ),
               ),
             ),
           )
         ],
-      
       ),
     );
   }
 }
-
-

@@ -8,6 +8,9 @@ class LoadingScreen extends StatelessWidget {
   const LoadingScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     Future.delayed(Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
@@ -17,7 +20,7 @@ class LoadingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
       body: Container(
-        margin: const EdgeInsets.only(top: 300),
+        margin: EdgeInsets.only(top: screenHeight*.25),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -25,8 +28,8 @@ class LoadingScreen extends StatelessWidget {
               // Logo
               Image.asset(
                 'assets/images/C.png', // Update with your logo asset path
-                height: 150.0,
-                width: 150, // Adjust size as needed
+                height: screenHeight*.3,
+                width: screenWidth*.3, // Adjust size as needed
               ),
               // const SizedBox(height: 100.0),
               // Loading Indicator

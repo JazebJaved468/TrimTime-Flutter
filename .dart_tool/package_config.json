@@ -170,6 +170,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "smooth_page_indicator",
+      "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/smooth_page_indicator-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "source_span",
       "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/source_span-1.10.0",
       "packageUri": "lib/",
@@ -230,7 +236,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-01T19:54:41.209573Z",
+  "generated": "2024-06-02T13:58:44.261306Z",
   "generator": "pub",
   "generatorVersion": "3.3.0"
 }

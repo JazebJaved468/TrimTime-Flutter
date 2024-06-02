@@ -34,20 +34,20 @@ class WelcomeScreen extends StatelessWidget {
                     color: CustomColors.white,
                     fontSize: 38,
                     fontWeight: FontWeight.w700,
-                    fontFamily: 'rubik'),
-              ),
-              SizedBox(
-                height: 1,
-              ),
-              Text(
-                'Trim Timer',
-                style: TextStyle(
-                    color: CustomColors.peelOrange,
-                    fontSize: 45,
-                    fontWeight: FontWeight.bold,
                     fontFamily: 'dmsans'),
               ),
-              SizedBox(height: 10),
+              SizedBox(
+                height: 7,
+              ),
+              Text(
+                'Trim Time',
+                style: TextStyle(
+                    color: CustomColors.peelOrange,
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: ''),
+              ),
+              SizedBox(height: 12),
               Text(
                 "The best barber & salon app in the \ncountry for your good looks and beauty.",
                 style: TextStyle(color: CustomColors.white),
