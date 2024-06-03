@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -28,40 +30,54 @@ class ClientRegistrationPage extends StatefulWidget {
 
 class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
   final isClient = true;
+  bool _isLoading = true;
+  List<String> genders = ['male', 'female'];
 
-  // var dropDownValue;
+  late String dropDownValue;
 
-  Map<String, dynamic>? response;
+  late Map<String, dynamic> localData;
 
-  LocalStorageModel? localStorageData;
+  // LocalStorageModel? localStorageData;
 
   _loadData() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    response = await getDataFromLocalStorage();
-    localStorageData = LocalStorageModel.fromJson(response!);
+    localData = await getDataFromLocalStorage();
 
-    return await getUserDataFromFirestore(localStorageData!.uid!, isClient);
+    print('localDAta in registration page----> $localData');
+
+    setState(() {
+      dropDownValue = localData['userData']['gender'];
+      _isLoading = false;
+    });
+
+    print('after set state function');
+    // localStorageData = LocalStorageModel.fromJson(response!);
+
+    // return await getUserDataFromFirestore(localStorageData!.uid!, isClient);
   }
 
-  String dropDownValue = 'male';
-  List<String> genders = ['male', 'female'];
+  // String dropDownValue = 'male';
+  // List<String> genders = ['male', 'female'];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _loadData();
+
+    print('print after init state function');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('email----> ${widget.email}');
-    print('number----> ${widget.phoneNumber}');
-    print('name----> ${widget.fullName}');
-    print('photoURL----> ${widget.photoURL}');
+    // print('email----> ${widget.email}');
+    // print('number----> ${widget.phoneNumber}');
+    // print('name----> ${widget.fullName}');
+    // print('photoURL----> ${widget.photoURL}');
     SampleProvider provider =
         Provider.of<SampleProvider>(context, listen: true);
+
     TextEditingController fullNameController =
         TextEditingController(text: widget.fullName);
     TextEditingController nickNameController = TextEditingController();
@@ -74,46 +90,35 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
     ;
     final genderController = TextEditingController(text: widget.gender);
     ;
+    TextEditingController addressController = TextEditingController();
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text("Client's Registration Page"),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => Signup()),
-              );
-            },
-            icon: const Icon(Icons.logout),
-          ),
-        ],
-      ),
-      body: FutureBuilder(
-          future: _loadData(),
-          builder: (builder, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text('Error: ${snapshot.error}'),
-              );
-            } else {
-              final data = snapshot.data as Map<String, dynamic>;
-              provider.userData = data;
-
-              print('data from provider----> ${provider.userData}');
-              return SingleChildScrollView(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: Text("Client's Registration Page"),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await signOut();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Signup()),
+                );
+              },
+              icon: const Icon(Icons.logout),
+            ),
+          ],
+        ),
+        body: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
                 child: Column(
                   children: [
                     Text('Register Yourself Here!'),
                     CircleAvatar(
                       radius: 50,
                       backgroundImage:
-                          NetworkImage(provider.userData['photoURL']),
+                          NetworkImage(localData['userData']['photoURL']),
                     ),
                     TextField(
                       maxLength: 30,
@@ -145,47 +150,79 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                       ),
                     ),
                     TextField(
-                      maxLength: 6,
-                      controller: genderController,
+                      maxLength: 70,
+                      controller: addressController,
                       decoration: InputDecoration(
-                        labelText: 'Gender',
+                        labelText: 'Address',
                       ),
+                    ),
+                    DropdownButton(
+                      // Initial Value
+                      value: dropDownValue,
+
+                      icon: const Icon(Icons.keyboard_arrow_down),
+
+                      items: genders.map((String item) {
+                        return DropdownMenuItem(
+                          value: item,
+                          child: Text(item.toUpperCase()),
+                        );
+                      }).toList(),
+
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropDownValue = newValue!;
+                        });
+                      },
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        print(
-                            'full name controller value ---> ${fullNameController.text}');
-                        print(
-                            'full name controller value ---> ${emailController.text}');
-                        print(
-                            'full name ${provider.activeBarbers} value ---> ${phoneNumberController.text}');
-                        print(
-                            'full name controller value ---> ${genderController.text}');
-                        // 'full name controller value ---> ${fullNameController.text}');
-                        await updateClientDataInFirestore(
-                            userId: provider.userData['uid'],
-                            isClient: provider.userData['isClient'],
+                        await updateUserRegistrationDataInFirestore(
+                            userId: localData['uid'],
+                            isClient: localData['isClient'],
                             data: {
                               'isRegistered': true,
                               'name': fullNameController.text,
                               'nickName': nickNameController.text,
                               'email': emailController.text,
                               'phoneNumber': phoneNumberController.text,
-                              'gender': genderController.text
+                              'gender': dropDownValue.toLowerCase(),
+                              'address': addressController.text,
                             });
+
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ClientHomePage()),
                         );
+
+                        await updateUserDataInLocalStorage(
+                            data: await getUserDataFromFirestore(
+                                localData['uid'], isClient));
                       },
                       child: Text('Update Profile'),
                     ),
                   ],
                 ),
-              );
-            }
-          }),
-    );
+              ));
+
+    // FutureBuilder(
+    //     future: _loadData(),
+    //     builder: (builder, snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.waiting) {
+    //         return Center(child: CircularProgressIndicator());
+    //       } else if (snapshot.hasError) {
+    //         return Center(
+    //           child: Text('Error: ${snapshot.error}'),
+    //         );
+    //       } else {
+    //         final data = snapshot.data as Map<String, dynamic>;
+    //         provider.userData = data;
+
+    //         print('data from provider----> ${provider.userData}');
+    //         return
+    //       }
+    //     }),
+    // );
   }
 }

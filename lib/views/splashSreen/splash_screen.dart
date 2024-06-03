@@ -16,16 +16,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Map<String, dynamic>? response;
-  LocalStorageModel? localStorageData;
+  late Map<String, dynamic> localData;
+  // LocalStorageModel? localStorageData;
 
   _loadData() async {
+    print('in splash screen');
     // await Future.delayed(const Duration(seconds: 4));
 
     await initializeApp();
 
-    response = await getDataFromLocalStorage();
-    localStorageData = LocalStorageModel.fromJson(response!);
+    localData = await getDataFromLocalStorage();
+    // localStorageData = LocalStorageModel.fromJson(response!);
 
     // print(localStorageData?.isClient);
     // print(localStorageData?.uid);
@@ -33,17 +34,20 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // print('firestoreData----> ${firestoreData}');
 
-    if (localStorageData!.isFirstVisit!) {
+    if (localData['isFirstVisit']) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => OnBoardingScreen()),
       );
     } else {
-      if (localStorageData!.uid != null) {
-        var firestoreData = await getUserDataFromFirestore(
-            localStorageData!.uid!, localStorageData!.isClient!);
-        final isRegistered = firestoreData['isRegistered'];
-        if (localStorageData!.isClient!) {
+      if (localData['uid'] != null) {
+        // var firestoreData = await getUserDataFromFirestore(
+        //     localStorageData!.uid!, localStorageData!.isClient!);
+
+        // print('<-------data from local storage----> \n $localData');
+
+        final isRegistered = localData['userData']['isRegistered'];
+        if (localData['isClient']) {
           if (isRegistered) {
             Navigator.pushReplacement(
               context,
@@ -54,15 +58,15 @@ class _SplashScreenState extends State<SplashScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) => ClientRegistrationPage(
-                        email: firestoreData['email'],
-                        fullName: firestoreData['name'],
-                        phoneNumber: firestoreData['phoneNumber'],
-                        photoURL: firestoreData['photoURL'],
-                        gender: firestoreData['gender'],
+                        photoURL: localData['userData']['photoURL'],
+                        phoneNumber: localData['userData']['phoneNumber'],
+                        email: localData['userData']['email'],
+                        fullName: localData['userData']['name'],
+                        gender: localData['userData']['gender'],
                       )),
             );
           }
-        } else if (!localStorageData!.isClient!) {
+        } else if (!localData['isClient']) {
           if (isRegistered) {
             Navigator.pushReplacement(
               context,
@@ -71,7 +75,16 @@ class _SplashScreenState extends State<SplashScreen> {
           } else {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => BarberRegistrationPage()),
+              MaterialPageRoute(
+                  builder: (context) => BarberRegistrationPage(
+                        photoURL: localData['userData']['photoURL'],
+                        phoneNumber: localData['userData']['phoneNumber'],
+                        email: localData['userData']['email'],
+                        fullName: localData['userData']['name'],
+                        gender: localData['userData']['gender'],
+                        openingTime: localData['userData']['openingTime'],
+                        closingTime: localData['userData']['closingTime'],
+                      )),
             );
           }
           // Navigator.pushReplacement(

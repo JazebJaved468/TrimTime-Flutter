@@ -24,12 +24,12 @@ class _SignupState extends State<Signup> {
     if (response['user'] != null) {
       // Setting user id in state
 
-      var firestoreData =
-          await getUserDataFromFirestore(response['user'].user!.uid, isClient);
+      final localData = await getDataFromLocalStorage();
+      ;
 
       // print('firestoreData----> ${firestoreData}');
 
-      final isRegistered = firestoreData['isRegistered'];
+      final isRegistered = localData['userData']['isRegistered'];
 
       if (response['existsInOtherCategory']) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -38,6 +38,10 @@ class _SignupState extends State<Signup> {
         ));
         await signOut();
       } else if (response['existsInItsOwnCategory'] && isClient) {
+        // localData
+
+        // isRegistered = localData['isRegistered'];
+
         if (isRegistered) {
           Navigator.pushReplacement(
             context,
@@ -48,11 +52,11 @@ class _SignupState extends State<Signup> {
             context,
             MaterialPageRoute(
                 builder: (context) => ClientRegistrationPage(
-                      email: firestoreData['email'],
-                      fullName: firestoreData['name'],
-                      phoneNumber: firestoreData['phoneNumber'],
-                      photoURL: firestoreData['photoURL'],
-                      gender: firestoreData['gender'],
+                      photoURL: localData['userData']['photoURL'],
+                      phoneNumber: localData['userData']['phoneNumber'],
+                      email: localData['userData']['email'],
+                      fullName: localData['userData']['name'],
+                      gender: localData['userData']['gender'],
                     )),
           );
         }
@@ -65,7 +69,16 @@ class _SignupState extends State<Signup> {
         } else {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => BarberRegistrationPage()),
+            MaterialPageRoute(
+                builder: (context) => BarberRegistrationPage(
+                      photoURL: localData['userData']['photoURL'],
+                      phoneNumber: localData['userData']['phoneNumber'],
+                      email: localData['userData']['email'],
+                      fullName: localData['userData']['name'],
+                      gender: localData['userData']['gender'],
+                      openingTime: localData['userData']['openingTime'],
+                      closingTime: localData['userData']['closingTime'],
+                    )),
           );
         }
       } else if (!response['existsInItsOwnCategory']) {
@@ -74,17 +87,26 @@ class _SignupState extends State<Signup> {
             context,
             MaterialPageRoute(
                 builder: (context) => ClientRegistrationPage(
-                      email: firestoreData['email'],
-                      fullName: firestoreData['name'],
-                      phoneNumber: firestoreData['phoneNumber'],
-                      photoURL: firestoreData['photoURL'],
-                      gender: firestoreData['gender'],
+                      photoURL: localData['userData']['photoURL'],
+                      phoneNumber: localData['userData']['phoneNumber'],
+                      email: localData['userData']['email'],
+                      fullName: localData['userData']['name'],
+                      gender: localData['userData']['gender'],
                     )),
           );
         } else {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => BarberRegistrationPage()),
+            MaterialPageRoute(
+                builder: (context) => BarberRegistrationPage(
+                      photoURL: localData['userData']['photoURL'],
+                      phoneNumber: localData['userData']['phoneNumber'],
+                      email: localData['userData']['email'],
+                      fullName: localData['userData']['name'],
+                      gender: localData['userData']['gender'],
+                      openingTime: localData['userData']['openingTime'],
+                      closingTime: localData['userData']['closingTime'],
+                    )),
           );
         }
         // Navigator.push(

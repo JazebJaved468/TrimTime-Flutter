@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -69,9 +71,14 @@ Future<Map<String, dynamic>> signInWithGoogle({required bool isClient}) async {
   final response = await checkUserAlreadyExistsInOtherCategory(
       user.user!.uid, isClient, user);
 
+  Map<String, dynamic> userDataFromFirestore =
+      await getUserDataFromFirestore(user.user!.uid, isClient);
+
   await storeUserDataInLocalStorage(
     user: user,
     isClient: isClient,
+    userDataFromFirestore:
+        jsonEncode(userDataFromFirestore), // encoding map into json string
   );
 
   return {
@@ -132,16 +139,21 @@ Future<Map<String, dynamic>> checkUserAlreadyExistsInItsOwnCategory(
   }
 }
 
+updateUserDataInLocalStorage({required Map<String, dynamic> data}) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('userData', jsonEncode(data));
+}
+
 getUserDataFromFirestore(String userId, bool isClient) async {
   // print('user Id ----> $userId');
   final collection = isClient ? 'clients' : 'barbers';
   CollectionReference users = FirebaseFirestore.instance.collection(collection);
   DocumentSnapshot _user = await users.doc(userId).get();
-  print('from function data ---->${_user.data()}');
-  return _user.data();
+  // print('from function data ---->${_user.data()}');
+  return _user.data() as Map<String, dynamic>;
 }
 
-updateClientDataInFirestore(
+updateUserRegistrationDataInFirestore(
     {required String userId,
     required bool isClient,
     required Map<String, dynamic> data}) async {
@@ -157,6 +169,19 @@ updateBarberDataInFirestore(
   final collection = isClient ? 'clients' : 'barbers';
   CollectionReference users = FirebaseFirestore.instance.collection(collection);
   await users.doc(userId).update(data);
+}
+
+generate7DaysSlots(DateTime startingDay, int openingTime, int closingTime) {
+  var availableSlots = {};
+  for (var i = 0; i < 7; i++) {
+    String day = (startingDay.add(Duration(days: i)).toIso8601String());
+    availableSlots[day] = {
+      'slots': generateTimeSlots(DateTime.parse(day), openingTime, closingTime),
+    };
+  }
+
+  print('Available Slots ---> $availableSlots');
+  return availableSlots;
 }
 
 storeUserDataInFirestore(
@@ -178,6 +203,7 @@ storeUserDataInFirestore(
       'gender': 'male',
       'favourite': [],
       'bookings': [],
+      'ratings': [],
     });
   } else {
     CollectionReference barbers =
@@ -196,13 +222,13 @@ storeUserDataInFirestore(
     // String day7 = DateFormat('dd-MM-yyyy').format(today.add(Duration(days: 6)));
     // String day8 = DateFormat('dd-MM-yyyy').format(today.add(Duration(days: 7)));
 
-    String day1 = today.toIso8601String();
-    String day2 = (today.add(Duration(days: 1)).toIso8601String());
-    String day3 = (today.add(Duration(days: 2)).toIso8601String());
-    String day4 = (today.add(Duration(days: 3)).toIso8601String());
-    String day5 = (today.add(Duration(days: 4)).toIso8601String());
-    String day6 = (today.add(Duration(days: 5)).toIso8601String());
-    String day7 = (today.add(Duration(days: 6)).toIso8601String());
+    // String day1 = today.toIso8601String();
+    // String day2 = (today.add(Duration(days: 1)).toIso8601String());
+    // String day3 = (today.add(Duration(days: 2)).toIso8601String());
+    // String day4 = (today.add(Duration(days: 3)).toIso8601String());
+    // String day5 = (today.add(Duration(days: 4)).toIso8601String());
+    // String day6 = (today.add(Duration(days: 5)).toIso8601String());
+    // String day7 = (today.add(Duration(days: 6)).toIso8601String());
     // String day8 = (today.add(Duration(days: 7)).toIso8601String());
 
     // print(
@@ -220,73 +246,44 @@ storeUserDataInFirestore(
       'email': user.user!.email,
       'photoURL': user.user!.photoURL,
       'phoneNumber': user.user!.phoneNumber ?? '',
+      'ratings': [],
       'isRegistered': false,
       'nickName': '',
       'gender': 'male',
       'shopName': '',
       'shopAddress': '',
       'shopPhoneNumber': '',
+      'openingTime': 11,
+      'closingTime': 23,
       'bookings': [],
-      // 'shopTimings': '',
-      'prices': [
+      'services': [
         {
           'price': 250,
-          'serviceId': '1',
+          'id': '1',
+          'name': 'haircut',
+          'isProviding': true,
         },
         {
           'price': 170,
-          'serviceId': '2',
+          'id': '2',
+          'name': 'shave',
+          'isProviding': true,
         },
         {
           'price': 120,
-          'serviceId': '3',
+          'id': '3',
+          'name': 'beard trim',
+          'isProviding': true,
         },
         {
           'price': 150,
-          'serviceId': '4',
-        },
-      ],
-      'services': [
-        {
-          'id': 1,
-          'name': 'haircut',
-        },
-        {
-          'id': 2,
-          'name': 'shave',
-        },
-        {
-          'id': 3,
-          'name': 'beard trim',
-        },
-        {
-          'id': 4,
+          'id': '4',
           'name': 'massage',
+          'isProviding': false,
         },
       ],
-      'availability': {
-        day1: {
-          'slots': generateTimeSlots(DateTime.parse(day1)),
-        },
-        day2: {
-          'slots': generateTimeSlots(DateTime.parse(day2)),
-        },
-        day3: {
-          'slots': generateTimeSlots(DateTime.parse(day3)),
-        },
-        day4: {
-          'slots': generateTimeSlots(DateTime.parse(day4)),
-        },
-        day5: {
-          'slots': generateTimeSlots(DateTime.parse(day5)),
-        },
-        day6: {
-          'slots': generateTimeSlots(DateTime.parse(day6)),
-        },
-        day7: {
-          'slots': generateTimeSlots(DateTime.parse(day7)),
-        },
-      },
+      'availability':
+          generate7DaysSlots(DateTime.now(), OPENING_TIME, CLOSING_TIME)
     });
   }
 }
@@ -296,18 +293,32 @@ getDataFromLocalStorage() async {
   String? uid = prefs.getString('uid');
   bool? isClient = prefs.getBool('isClient');
   bool? isFirstVisit = prefs.getBool('isFirstVisit');
+  String? userData = prefs.getString('userData');
 
   print('keys in local storage ---> ${prefs.getKeys()}');
-  return {'uid': uid, 'isClient': isClient, 'isFirstVisit': isFirstVisit};
+  print('-----------------getting data from local storage-----------------');
+
+  print(' uid----> $uid');
+  print(' isClient----> $isClient');
+  print(' isFirstVisit----> $isFirstVisit');
+  print(' userData----> ${jsonDecode(userData ?? '{}')}');
+  return {
+    'uid': uid,
+    'isClient': isClient,
+    'isFirstVisit': isFirstVisit,
+    'userData': jsonDecode(userData ?? '{}')
+  };
 }
 
 storeUserDataInLocalStorage({
   required UserCredential user,
   required bool isClient,
+  required String userDataFromFirestore,
 }) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('uid', user.user!.uid);
   prefs.setBool('isClient', isClient);
+  prefs.setString('userData', userDataFromFirestore);
 }
 
 updateBooleanDataInLocalStorage(
@@ -320,6 +331,7 @@ removeDataFromLocalStorage() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove('uid');
   prefs.remove('isClient');
+  prefs.remove('userData');
 }
 
 signOut() async {
