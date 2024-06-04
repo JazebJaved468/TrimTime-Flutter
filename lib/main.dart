@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
 
+import 'package:trim_time/views/barber_profile/barber_profile.dart';
 import 'firebase/config/firebase_options.dart';
 import 'providers/sample_provider.dart';
 
