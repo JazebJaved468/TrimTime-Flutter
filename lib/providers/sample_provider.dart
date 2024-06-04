@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
-class SampleProvider extends ChangeNotifier {
+class SampleProvider with ChangeNotifier {
   var userData = {};
   int activeBarbers = 0;
   bool gender = true;
+
+  bool? isProvidingHaircut = false;
+  bool? isProvidingShave = false;
+  bool? isProvidingBeardTrim = false;
+  bool? isProvidingMassage = false;
 
   void incrementActiveBarbers() {
     activeBarbers++;
@@ -17,6 +22,26 @@ class SampleProvider extends ChangeNotifier {
 
   void changeGender() {
     gender = !gender;
+    notifyListeners();
+  }
+
+  void setIsProvidingHaircut(bool value) {
+    isProvidingHaircut = value;
+    notifyListeners();
+  }
+
+  void setIsProvidingShave(bool value) {
+    isProvidingShave = value;
+    notifyListeners();
+  }
+
+  void setIsProvidingBeardTrim(bool value) {
+    isProvidingBeardTrim = value;
+    notifyListeners();
+  }
+
+  void setIsProvidingMassage(bool value) {
+    isProvidingMassage = value;
     notifyListeners();
   }
 }

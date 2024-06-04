@@ -1,3 +1,7 @@
+
+// DATE TIME FLOW
+// DateTime.now().toIso8601String() => '2021-09-29T14:00:00.000' => DateTime.parse('2021-09-29T14:00:00.000') => DateFormate('yyyy-MM-dd').format(parsedDate) => '2021-09-29'
+
 // 'services': [
 //         {'id': 1, 'name': 'haircut', 'price': 250},
 //         {'id': 2, 'name': 'shave', 'price': 170},

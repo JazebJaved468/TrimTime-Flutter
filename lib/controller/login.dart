@@ -3,11 +3,8 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trim_time/controller/date_time.dart';
-import 'package:trim_time/models/local_storage_model.dart';
-import 'package:uuid/uuid.dart';
 
 initializeApp() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -24,28 +21,11 @@ initializeApp() async {
           data: await getUserDataFromFirestore(
               localData['uid'], localData['isClient']));
     }
-    // Map<String, dynamic>? response;
-    // LocalStorageModel? localStorageData;
-    // getLocalData() async {
-    //   response = await getDataFromLocalStorage();
-    //   localStorageData = LocalStorageModel.fromJson(response!);
-    // }
   }
-
-  // ----------------------------------------------------------
-  // generateTimeSlots(DateTime.parse('2024-06-02T11:30:00.000'));
-  // DateTime today = DateTime.now();
-  // DateTime openingTime =
-  //     DateTime(today.year, today.month, today.day, 11, 0); // 11:00 AM
-  // DateTime closingTime =
-  //     DateTime(today.year, today.month, today.day, 23, 0); // 11:00 PM
-
-  // List<Map<String, dynamic>> slots =
-  //     generateTimeSlots(today, openingTime, closingTime);
 }
 
 Future<Map<String, dynamic>> signInWithGoogle({required bool isClient}) async {
-  print('<------ signInWithGoogle starts---->');
+  print('-----------------> Signin With Google Starts <-----------------');
 
   final GoogleSignInAccount? googleUser = await GoogleSignIn(
           // clientId: CLIENT_ID,
@@ -74,8 +54,6 @@ Future<Map<String, dynamic>> signInWithGoogle({required bool isClient}) async {
   UserCredential user =
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-  print('user----> ${user}');
-
   final response = await checkUserAlreadyExistsInOtherCategory(
       user.user!.uid, isClient, user);
 
@@ -102,13 +80,13 @@ Future<Map<String, dynamic>> checkUserAlreadyExistsInOtherCategory(
   DocumentSnapshot _user = await users.doc(userId).get();
 
   if (_user.data() != null) {
-    print('User already exists in other category');
+    print('--------User already exists in other category');
     return {
       'existsInOtherCategory': true,
       'existsInItsOwnCategory': false,
     };
   } else {
-    print('User does not exist in other category');
+    print('--------User does not exist in other category');
     checkUserAlreadyExistsInItsOwnCategory(userId, isClient, user);
     return {
       'existsInOtherCategory': false,
@@ -124,23 +102,16 @@ Future<Map<String, dynamic>> checkUserAlreadyExistsInItsOwnCategory(
   DocumentSnapshot _user = await users.doc(userId).get();
 
   if (_user.data() != null) {
-    print('User already exists in its own category');
+    print('--------User already exists in its own category');
     return {
       'existsInItsOwnCategory': true,
     };
   } else {
-    print('user doesnot exist anywhere');
-    print('adding user to database');
+    print('--------User doesnot exist anywhere');
+    print('--------Adding user to Database(Firestore)');
 
     await storeUserDataInFirestore(user: user, isClient: isClient);
 
-    // await users.doc(userId).set({
-    //   'uid': userId,
-    //   'isClient': isClient,
-    //   'name': user.user!.displayName,
-    //   'email': user.user!.email,
-    //   'photoURL': user.user!.photoURL,
-    // });
     return {
       'existsInItsOwnCategory': false,
     };
@@ -153,11 +124,9 @@ updateUserDataInLocalStorage({required Map<String, dynamic> data}) async {
 }
 
 getUserDataFromFirestore(String userId, bool isClient) async {
-  // print('user Id ----> $userId');
   final collection = isClient ? 'clients' : 'barbers';
   CollectionReference users = FirebaseFirestore.instance.collection(collection);
   DocumentSnapshot _user = await users.doc(userId).get();
-  // print('from function data ---->${_user.data()}');
   return _user.data() as Map<String, dynamic>;
 }
 
@@ -188,13 +157,13 @@ generate7DaysSlots(DateTime startingDay, int openingTime, int closingTime) {
     };
   }
 
-  print('Available Slots ---> $availableSlots');
   return availableSlots;
 }
 
 storeUserDataInFirestore(
     {required UserCredential user, required bool isClient}) async {
-  print('user data from google ----> ${user.user}');
+  print(
+      '-----------------> Storing User Data In FireStore From Google <-----------------');
   if (isClient) {
     CollectionReference clients =
         FirebaseFirestore.instance.collection('clients');
@@ -217,36 +186,6 @@ storeUserDataInFirestore(
     CollectionReference barbers =
         FirebaseFirestore.instance.collection('barbers');
 
-    DateTime today = DateTime.now();
-
-    // Print today's date
-
-    // String day1 = DateFormat('dd-MM-yyyy').format(today);
-    // String day2 = DateFormat('dd-MM-yyyy').format(today.add(Duration(days: 1)));
-    // String day3 = DateFormat('dd-MM-yyyy').format(today.add(Duration(days: 2)));
-    // String day4 = DateFormat('dd-MM-yyyy').format(today.add(Duration(days: 3)));
-    // String day5 = DateFormat('dd-MM-yyyy').format(today.add(Duration(days: 4)));
-    // String day6 = DateFormat('dd-MM-yyyy').format(today.add(Duration(days: 5)));
-    // String day7 = DateFormat('dd-MM-yyyy').format(today.add(Duration(days: 6)));
-    // String day8 = DateFormat('dd-MM-yyyy').format(today.add(Duration(days: 7)));
-
-    // String day1 = today.toIso8601String();
-    // String day2 = (today.add(Duration(days: 1)).toIso8601String());
-    // String day3 = (today.add(Duration(days: 2)).toIso8601String());
-    // String day4 = (today.add(Duration(days: 3)).toIso8601String());
-    // String day5 = (today.add(Duration(days: 4)).toIso8601String());
-    // String day6 = (today.add(Duration(days: 5)).toIso8601String());
-    // String day7 = (today.add(Duration(days: 6)).toIso8601String());
-    // String day8 = (today.add(Duration(days: 7)).toIso8601String());
-
-    // print(
-    //     'Today with formattnig ---> ${DateFormat('dd-MM-yyyy').format(today)}');
-
-    // Print today's date
-    // print('Today: ${today.day}-${today.month}-${today.year}');
-    // print(
-    //     'Tomorrow: ${today.add(Duration(days: 1)).day}-${today.month}-${today.year}');
-
     await barbers.doc(user.user!.uid).set({
       'uid': user.user!.uid,
       'isClient': isClient,
@@ -267,26 +206,22 @@ storeUserDataInFirestore(
       'services': [
         {
           'price': 250,
-          'id': '1',
-          'name': 'haircut',
+          'serviceId': '1',
           'isProviding': true,
         },
         {
           'price': 170,
-          'id': '2',
-          'name': 'shave',
+          'serviceId': '2',
           'isProviding': true,
         },
         {
           'price': 120,
-          'id': '3',
-          'name': 'beard trim',
+          'serviceId': '3',
           'isProviding': true,
         },
         {
           'price': 150,
-          'id': '4',
-          'name': 'massage',
+          'serviceId': '4',
           'isProviding': false,
         },
       ],
@@ -297,19 +232,14 @@ storeUserDataInFirestore(
 }
 
 getDataFromLocalStorage() async {
+  print(
+      '-----------------> Getting Data From Local Storage <-----------------');
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? uid = prefs.getString('uid');
   bool? isClient = prefs.getBool('isClient');
   bool? isFirstVisit = prefs.getBool('isFirstVisit');
   String? userData = prefs.getString('userData');
 
-  print('keys in local storage ---> ${prefs.getKeys()}');
-  print('-----------------getting data from local storage-----------------');
-
-  print(' uid----> $uid');
-  print(' isClient----> $isClient');
-  print(' isFirstVisit----> $isFirstVisit');
-  print(' userData----> ${jsonDecode(userData ?? '{}')}');
   return {
     'uid': uid,
     'isClient': isClient,
@@ -323,6 +253,7 @@ storeUserDataInLocalStorage({
   required bool isClient,
   required String userDataFromFirestore,
 }) async {
+  print('-----------------> Storing Data In Local Storage <-----------------');
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('uid', user.user!.uid);
   prefs.setBool('isClient', isClient);
@@ -336,6 +267,8 @@ updateBooleanDataInLocalStorage(
 }
 
 removeDataFromLocalStorage() async {
+  print(
+      '-----------------> Removing Data From Local Storage <-----------------');
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove('uid');
   prefs.remove('isClient');
@@ -343,8 +276,8 @@ removeDataFromLocalStorage() async {
 }
 
 signOut() async {
+  print('-----------------> Signout <-----------------');
   GoogleSignIn().signOut();
   await FirebaseAuth.instance.signOut();
   removeDataFromLocalStorage();
-  print('signedOut---->');
 }

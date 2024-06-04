@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:trim_time/controller/login.dart';
-import 'package:trim_time/providers/sample_provider.dart';
-import 'package:trim_time/views/authentication/registration_page.dart';
 import 'package:trim_time/views/home/home_barber.dart';
 import 'package:trim_time/views/home/home_client.dart';
 import 'package:trim_time/views/registration/registeration_barber.dart';
@@ -78,6 +75,7 @@ class _SignupState extends State<Signup> {
                       gender: localData['userData']['gender'],
                       openingTime: localData['userData']['openingTime'],
                       closingTime: localData['userData']['closingTime'],
+                      services: localData['userData']['services'],
                     )),
           );
         }
@@ -106,16 +104,10 @@ class _SignupState extends State<Signup> {
                       gender: localData['userData']['gender'],
                       openingTime: localData['userData']['openingTime'],
                       closingTime: localData['userData']['closingTime'],
+                      services: localData['userData']['services'],
                     )),
           );
         }
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       builder: (context) => RegistrationPage(
-        //             isClient: isClient,
-        //           )),
-        // );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -179,27 +171,6 @@ class _SignupState extends State<Signup> {
                     _isLoading = true;
                   });
                   _handleLogin(context);
-                  // UserCredential? userCredential =
-                  // Map<String, dynamic> loginResponse =
-                  //     await signInWithGoogle(isClient: isClient);
-
-                  // print('loginResponse----> ${(loginResponse)}');
-
-                  // Handle what happens after successful login
-                  // if (userCredential != null) {
-                  // Navigate to the respective home page based on user type
-                  // if (isClient) {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => ClientHomePage()),
-                  //   );
-                  // } else {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => BarberHomePage()),
-                  //   );
-                  // }
-                  // }
                 } catch (e) {
                   // Handle sign in error
                   print(e);
