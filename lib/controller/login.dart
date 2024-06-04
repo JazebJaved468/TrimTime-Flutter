@@ -12,16 +12,24 @@ import 'package:uuid/uuid.dart';
 initializeApp() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool? isFirstVisit = prefs.getBool('isFirstVisit');
+  late Map<String, dynamic> localData;
 
   if (isFirstVisit == null) {
     updateBooleanDataInLocalStorage(key: 'isFirstVisit', value: true);
   } else {
-    Map<String, dynamic>? response;
-    LocalStorageModel? localStorageData;
-    getLocalData() async {
-      response = await getDataFromLocalStorage();
-      localStorageData = LocalStorageModel.fromJson(response!);
+    localData = await getDataFromLocalStorage();
+
+    if (localData['uid'] != null) {
+      updateUserDataInLocalStorage(
+          data: await getUserDataFromFirestore(
+              localData['uid'], localData['isClient']));
     }
+    // Map<String, dynamic>? response;
+    // LocalStorageModel? localStorageData;
+    // getLocalData() async {
+    //   response = await getDataFromLocalStorage();
+    //   localStorageData = LocalStorageModel.fromJson(response!);
+    // }
   }
 
   // ----------------------------------------------------------
