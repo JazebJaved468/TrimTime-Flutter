@@ -1,9 +1,8 @@
-// import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:trim_time/views/sign_in.dart';
 
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({super.key});
@@ -14,13 +13,12 @@ class GetStartedScreen extends StatefulWidget {
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
   int _current = 0;
+  final CarouselController _controller = CarouselController();
 
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    final CarouselController _controller = CarouselController();
 
     final List<String> imgList = [
       'assets/images/brb1.jpg',
@@ -36,85 +34,102 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
-      body: Column(
-
-        children: [
-          Column(
-            children: [
-              CarouselSlider(
-                items: imgList
-                    .map((item) => Container(
-                          child: Center(
-                            child: Image.asset(
-                              item,
-                              fit: BoxFit.cover,
-                              width: screenWidth,
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque, 
+        onHorizontalDragEnd: (details) {
+          if (details.velocity.pixelsPerSecond.dx > 0) {
+            _controller.previousPage();
+          } else if (details.velocity.pixelsPerSecond.dx < 0) {
+            _controller.nextPage();
+          }
+        },
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                CarouselSlider(
+                  items: imgList
+                      .map((item) => Container(
+                            child: Center(
+                              child: Image.asset(
+                                item,
+                                fit: BoxFit.cover,
+                                width: screenWidth,
+                              ),
                             ),
-                          ),
-                        ))
-                    .toList(),
-                carouselController: _controller,
-                options: CarouselOptions(
-                  height: screenHeight *.53,
-                  aspectRatio: screenWidth / (screenHeight / 3),
-                  viewportFraction: 1.0,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(height: 30),
-              Padding(
-                padding:  EdgeInsets.symmetric(horizontal: screenWidth*0.1),
-                child: Text(
-                  textList[_current],
-                  style: const TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontFamily: 'rubik'
+                          ))
+                      .toList(),
+                  carouselController: _controller,
+                  options: CarouselOptions(
+                    height: screenHeight * .53,
+                    aspectRatio: screenWidth / (screenHeight / 3),
+                    viewportFraction: 1.0,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
+                    },
+                    enableInfiniteScroll: false,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(height: 50),
-              AnimatedSmoothIndicator(
-                activeIndex: _current,
-                count: imgList.length,
-                effect: const ExpandingDotsEffect(
-                  dotWidth: 7.0,
-                  dotHeight: 6.0,
-                  activeDotColor: CustomColors.peelOrange,
-                  dotColor: Colors.white,
+                const SizedBox(height: 30),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                  child: Text(
+                    textList[_current],
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'rubik',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: screenHeight*0.14),
-          InkWell(
-            splashColor: CustomColors.transparent,
-            highlightColor: CustomColors.transparent,
-            onTap: () {
-              print("pressed");
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: CustomColors.peelOrange
-              ),
-              width: screenWidth*.85,
-              child: const Center(
-                child: Text(
-                  "Next",
-                  style: TextStyle(color: Colors.white, fontFamily: 'dmsans'),
+                const SizedBox(height: 50),
+                AnimatedSmoothIndicator(
+                  activeIndex: _current,
+                  count: imgList.length,
+                  effect: const ExpandingDotsEffect(
+                    dotWidth: 7.0,
+                    dotHeight: 6.0,
+                    activeDotColor: CustomColors.peelOrange,
+                    dotColor: Colors.white,
+                  ),
                 ),
-              ),
+                SizedBox(height: screenHeight * 0.14),
+                InkWell(
+                  splashColor: CustomColors.transparent,
+                  highlightColor: CustomColors.transparent,
+                  onTap: () {
+                    if (_current < 2) {
+                      _controller.nextPage();
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignIn()),
+                      );
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: CustomColors.peelOrange,
+                    ),
+                    width: screenWidth * .85,
+                    child: const Center(
+                      child: Text(
+                        "Next",
+                        style: TextStyle(color: Colors.white, fontFamily: 'dmsans'),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
