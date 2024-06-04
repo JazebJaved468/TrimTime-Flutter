@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:trim_time/views/onBoardingScreens/get_started_screen.dart';
 import 'package:trim_time/views/onBoardingScreens/loading_screen.dart';
 import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
+import 'package:trim_time/views/sign_in.dart';
 
 import 'firebase/config/firebase_options.dart';
 import 'providers/sample_provider.dart';
 import 'views/home/home.dart';
+import 'views/sign_in.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Home(),
+        home: WelcomeScreen(),
         debugShowCheckedModeBanner: false,
 
       ),
