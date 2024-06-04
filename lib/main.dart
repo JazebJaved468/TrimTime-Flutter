@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
+import 'package:trim_time/views/bookings/booking.dart';
 
 import 'package:trim_time/views/barber_profile/barber_profile.dart';
 import 'firebase/config/firebase_options.dart';
