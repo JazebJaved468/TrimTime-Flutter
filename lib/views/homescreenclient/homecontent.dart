@@ -214,13 +214,13 @@ class LocationSection extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            Text(
+            const Text(
               'See All',
               style: TextStyle(
                 color: Colors.orange, 
@@ -229,7 +229,7 @@ class LocationSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        Column(
+         const Column(
           crossAxisAlignment: CrossAxisAlignment.start, 
           children: [
             LocationCard(
@@ -308,7 +308,7 @@ class _LocationCardState extends State<LocationCard> {
             ),
             title: Text(
               widget.title,
-              style: TextStyle(color: Colors.white),
+              style:const TextStyle(color: Colors.white),
             ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
