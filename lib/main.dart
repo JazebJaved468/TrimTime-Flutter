@@ -8,6 +8,7 @@ import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
 import 'firebase/config/firebase_options.dart';
 import 'providers/sample_provider.dart';
 import 'views/home/home.dart';
+import 'views/homescreenclient/homescreenclient.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Home(),
+        home: HomeScreen(),
         debugShowCheckedModeBanner: false,
 
       ),

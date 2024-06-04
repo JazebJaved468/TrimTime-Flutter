@@ -8,6 +8,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "badges",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/badges-3.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -236,7 +242,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-04T07:41:49.950780Z",
+  "generated": "2024-06-04T10:29:28.834869Z",
   "generator": "pub",
   "generatorVersion": "3.3.0"
 }
