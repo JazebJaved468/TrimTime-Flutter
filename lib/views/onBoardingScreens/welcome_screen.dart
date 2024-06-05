@@ -30,15 +30,15 @@ class WelcomeScreen extends StatelessWidget {
             ),
           ),
           child: Container(
-            height: screenHeight * .28,
+            height: 300,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DefaultTextStyle(
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: CustomColors.white,
-                      fontSize: screenWidth * .109,
+                      fontSize: 40,
                       fontWeight: FontWeight.bold),
                   child: AnimatedTextKit(
                     totalRepeatCount: 1,
@@ -53,14 +53,14 @@ class WelcomeScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: screenHeight * 0.02,
+                const SizedBox(
+                  height: 18,
                 ),
                 Container(
-                  height: screenHeight * .1,
+
                   child: DefaultTextStyle(
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.15,
+                    style: const TextStyle(
+                      fontSize: 53,
                       color: CustomColors.peelOrange,
                       fontWeight: FontWeight.bold,
                     ),
@@ -75,8 +75,8 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: screenHeight * 0.00,
+                const SizedBox(
+                  height: 18,
                 ),
                 Animate(
                   effects: [
@@ -85,10 +85,10 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                         const ScaleEffect(alignment: Alignment.centerLeft)
                       ],
-                  child: Text(
+                  child: const  Text(
                     "The best barber & salon app in the \ncountry for your good looks and beauty.",
                     style: TextStyle(
-                        color: CustomColors.white, fontSize: screenWidth * 0.04),
+                        color: CustomColors.white, fontSize:14),
                   ),
                 )
               ],
