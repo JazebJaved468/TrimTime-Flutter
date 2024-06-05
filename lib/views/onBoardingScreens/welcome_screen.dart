@@ -30,7 +30,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
           ),
           child: Container(
-            height: screenHeight * .25,
+            height: screenWidth * .6,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
