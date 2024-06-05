@@ -22,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
         },
         child: Container(
           alignment: Alignment.bottomLeft,
-          padding: const EdgeInsets.only(bottom: 20, left: 25),
+          padding: const EdgeInsets.only(bottom: 35, left: 25),
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/welcome_bg.jpg'),
