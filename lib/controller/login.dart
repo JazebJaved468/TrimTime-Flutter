@@ -281,3 +281,15 @@ signOut() async {
   await FirebaseAuth.instance.signOut();
   removeDataFromLocalStorage();
 }
+
+updateBarberAvailabilityInFireStore(
+    {required String barberId, required Map<String, dynamic> data}) {
+  print(
+      '-----------------> Updating Barber Availability In FireStore <-----------------');
+
+  print('User ID ---> ${barberId}');
+  CollectionReference barbers =
+      FirebaseFirestore.instance.collection('barbers');
+
+  barbers.doc(barberId).update({'availability': data});
+}

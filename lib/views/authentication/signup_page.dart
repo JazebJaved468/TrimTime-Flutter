@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/login.dart';
-import 'package:trim_time/views/home/home_barber.dart';
-import 'package:trim_time/views/home/home_client.dart';
-import 'package:trim_time/views/registration/registeration_barber.dart';
-import 'package:trim_time/views/registration/registration_client.dart';
+import 'package:trim_time/views/barberScreens/home_barber.dart';
+import 'package:trim_time/views/clientScreens/home_client.dart';
+import 'package:trim_time/views/barberScreens/registeration_barber.dart';
+import 'package:trim_time/views/clientScreens/registration_client.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});

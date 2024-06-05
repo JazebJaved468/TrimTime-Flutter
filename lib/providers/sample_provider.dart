@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SampleProvider with ChangeNotifier {
-  var userData = {};
+  late String uid;
   int activeBarbers = 0;
   bool gender = true;
+  late Map<String, dynamic> barberAvailability;
 
   bool? isProvidingHaircut = false;
   bool? isProvidingShave = false;
@@ -15,8 +16,13 @@ class SampleProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setUserData(Map<String, dynamic> data) {
-    userData = data;
+  // void setUserData(Map<String, dynamic> data) {
+  //   userData = data;
+  //   notifyListeners();
+  // }
+
+  void setUserId({required String userId}) {
+    uid = userId;
     notifyListeners();
   }
 
@@ -44,4 +50,15 @@ class SampleProvider with ChangeNotifier {
     isProvidingMassage = value;
     notifyListeners();
   }
+
+  updateBarberAvailability(
+      {required String day, required int slotIndex, required bool value}) {
+    barberAvailability[day]['slots'][slotIndex]['isAvailable'] = value;
+
+    notifyListeners();
+  }
+
+  // barberAvailability = '';
+
+  // notifyListeners();
 }

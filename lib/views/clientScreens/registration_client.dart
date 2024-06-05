@@ -7,7 +7,7 @@ import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/models/local_storage_model.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/authentication/signup_page.dart';
-import 'package:trim_time/views/home/home_client.dart';
+import 'package:trim_time/views/clientScreens/home_client.dart';
 
 class ClientRegistrationPage extends StatefulWidget {
   ClientRegistrationPage(
