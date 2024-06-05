@@ -19,12 +19,8 @@ class _SignupState extends State<Signup> {
     Map<String, dynamic> response = await signInWithGoogle(isClient: isClient);
 
     if (response['user'] != null) {
-      // Setting user id in state
-
       final localData = await getDataFromLocalStorage();
       ;
-
-      // print('firestoreData----> ${firestoreData}');
 
       final isRegistered = localData['userData']['isRegistered'];
 

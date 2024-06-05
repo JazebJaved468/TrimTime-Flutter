@@ -124,6 +124,8 @@ updateUserDataInLocalStorage({required Map<String, dynamic> data}) async {
 }
 
 getUserDataFromFirestore(String userId, bool isClient) async {
+  print(
+      '-----------------> Getting User Data From FireStore <-----------------');
   final collection = isClient ? 'clients' : 'barbers';
   CollectionReference users = FirebaseFirestore.instance.collection(collection);
   DocumentSnapshot _user = await users.doc(userId).get();
@@ -283,13 +285,12 @@ signOut() async {
 }
 
 updateBarberAvailabilityInFireStore(
-    {required String barberId, required Map<String, dynamic> data}) {
+    {required String barberId, required Map<String, dynamic> data}) async {
   print(
       '-----------------> Updating Barber Availability In FireStore <-----------------');
 
-  print('User ID ---> ${barberId}');
   CollectionReference barbers =
       FirebaseFirestore.instance.collection('barbers');
 
-  barbers.doc(barberId).update({'availability': data});
+  await barbers.doc(barberId).update({'availability': data});
 }

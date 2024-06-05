@@ -10,7 +10,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sampleProvider = Provider.of<SampleProvider>(context, listen: true);
+    final sampleProvider = Provider.of<SampleProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Trim Time'),

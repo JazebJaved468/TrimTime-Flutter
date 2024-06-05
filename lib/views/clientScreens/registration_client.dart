@@ -1,11 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:trim_time/controller/login.dart';
-import 'package:trim_time/models/local_storage_model.dart';
-import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/authentication/signup_page.dart';
 import 'package:trim_time/views/clientScreens/home_client.dart';
 
@@ -44,17 +38,12 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
 
     localData = await getDataFromLocalStorage();
 
-    print('localDAta in registration page----> $localData');
+    print('localData in registration page----> $localData');
 
     setState(() {
       dropDownValue = localData['userData']['gender'];
       _isLoading = false;
     });
-
-    print('after set state function');
-    // localStorageData = LocalStorageModel.fromJson(response!);
-
-    // return await getUserDataFromFirestore(localStorageData!.uid!, isClient);
   }
 
   // String dropDownValue = 'male';
@@ -65,19 +54,10 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
     // TODO: implement initState
     super.initState();
     _loadData();
-
-    print('print after init state function');
   }
 
   @override
   Widget build(BuildContext context) {
-    // print('email----> ${widget.email}');
-    // print('number----> ${widget.phoneNumber}');
-    // print('name----> ${widget.fullName}');
-    // print('photoURL----> ${widget.photoURL}');
-    SampleProvider provider =
-        Provider.of<SampleProvider>(context, listen: true);
-
     TextEditingController fullNameController =
         TextEditingController(text: widget.fullName);
     TextEditingController nickNameController = TextEditingController();
@@ -88,8 +68,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
     TextEditingController phoneNumberController =
         TextEditingController(text: widget.phoneNumber);
     ;
-    final genderController = TextEditingController(text: widget.gender);
-    ;
+
     TextEditingController addressController = TextEditingController();
 
     return Scaffold(
@@ -205,24 +184,5 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                   ],
                 ),
               ));
-
-    // FutureBuilder(
-    //     future: _loadData(),
-    //     builder: (builder, snapshot) {
-    //       if (snapshot.connectionState == ConnectionState.waiting) {
-    //         return Center(child: CircularProgressIndicator());
-    //       } else if (snapshot.hasError) {
-    //         return Center(
-    //           child: Text('Error: ${snapshot.error}'),
-    //         );
-    //       } else {
-    //         final data = snapshot.data as Map<String, dynamic>;
-    //         provider.userData = data;
-
-    //         print('data from provider----> ${provider.userData}');
-    //         return
-    //       }
-    //     }),
-    // );
   }
 }
