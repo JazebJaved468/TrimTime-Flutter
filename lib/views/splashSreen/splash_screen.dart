@@ -23,8 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
     print('-----------------> Splash Screen Starts <-----------------');
     await Future.delayed(const Duration(seconds: 2));
 
-    print('after future delay');
-
     await initializeApp();
 
     localData = await getDataFromLocalStorage();

@@ -112,11 +112,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                         context,
                         MaterialPageRoute(builder: (context) => SignIn()),
                       );
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => SignIn()),
-                      // );
                     }
                   },
                   child: Container(

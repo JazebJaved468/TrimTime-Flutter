@@ -37,10 +37,6 @@ class _SignInState extends State<SignIn> {
         ));
         await signOut();
       } else if (response['existsInItsOwnCategory'] && isClient) {
-        // localData
-
-        // isRegistered = localData['isRegistered'];
-
         if (isRegistered) {
           Navigator.pushReplacement(
             context,
@@ -112,17 +108,11 @@ class _SignInState extends State<SignIn> {
         }
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Error in login. Please try again.'),
       ));
     }
-
-    // setState(() {
-    //   _isLoading = false;
-    // });
   }
-
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -176,14 +166,12 @@ class _SignInState extends State<SignIn> {
                     _buildButton("Client", isClient, () {
                       setState(() {
                         isClient = true;
-                        print("cust");
                       });
                     }),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     _buildButton("Barber", !isClient, () {
                       setState(() {
                         isClient = false;
-                        print("brb");
                       });
                     }),
                   ],
@@ -214,14 +202,10 @@ class _SignInState extends State<SignIn> {
                   child: OutlinedButton(
                     onPressed: () async {
                       try {
-                        // setState(() {
-                        //   _isLoading = true;
-                        // });
                         sampleProvider.setSignInCIP(true);
                         await _handleLogin(context);
                         sampleProvider.setSignInCIP(false);
                       } catch (e) {
-                        // Handle sign in error
                         print(e);
                       }
                     },
