@@ -3,6 +3,8 @@ import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/views/clientScreens/home_client.dart';
+import 'package:trim_time/views/homescreenclient/homecontent.dart';
+import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
 import 'package:trim_time/views/sign_in.dart';
 
 class ClientRegistrationPage extends StatefulWidget {
@@ -173,8 +175,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
 
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ClientHomePage()),
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
                         );
 
                         await updateUserDataInLocalStorage(

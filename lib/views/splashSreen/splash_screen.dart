@@ -5,6 +5,8 @@ import 'package:trim_time/views/barberScreens/home_barber.dart';
 import 'package:trim_time/views/clientScreens/home_client.dart';
 import 'package:trim_time/views/barberScreens/registeration_barber.dart';
 import 'package:trim_time/views/clientScreens/registration_client.dart';
+import 'package:trim_time/views/homescreenclient/homecontent.dart';
+import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
 import 'package:trim_time/views/onBoardingScreens/loading_screen.dart';
 import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
 import 'package:trim_time/views/sign_in.dart';
@@ -41,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
           if (isRegistered) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => ClientHomePage()),
+              MaterialPageRoute(builder: (context) => HomeScreen()),
             );
           } else {
             Navigator.pushReplacement(

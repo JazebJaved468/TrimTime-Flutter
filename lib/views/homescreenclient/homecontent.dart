@@ -1,127 +1,182 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/controller/local_storage.dart';
+import 'package:trim_time/controller/login.dart';
+import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/views/sign_in.dart';
 
-class HomeContent extends StatelessWidget {
+class HomeContent extends StatefulWidget {
   const HomeContent({Key? key}) : super(key: key);
 
   @override
+  State<HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  late Map<String, dynamic> localData;
+
+  final isClient = true;
+
+  bool _isLoading = true;
+
+  _loadData() async {
+    localData = await getDataFromLocalStorage();
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      color: CustomColors.gunmetal,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Morning, Daniel 👋',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: CustomColors.white,
-              ),
+    SampleProvider sampleProvider =
+        Provider.of<SampleProvider>(context, listen: false);
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Client Home Page'),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await signOut();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignIn()),
+                );
+              },
+              icon: const Icon(Icons.logout),
             ),
-            const SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search',
-                hintStyle:
-                    TextStyle(color: CustomColors.white.withOpacity(0.6)),
-                prefixIcon: Icon(Icons.search, color: CustomColors.white),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: CustomColors.charcoal,
-              ),
-              style: TextStyle(color: CustomColors.white),
-            ),
-            const SizedBox(height: 16),
-            CarouselSlider(
-              options: CarouselOptions(
-                height: 150.0,
-                enlargeCenterPage: true,
-                autoPlay: true,
-                aspectRatio: 16 / 9,
-                autoPlayCurve: Curves.fastOutSlowIn,
-                enableInfiniteScroll: true,
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                viewportFraction: 0.8,
-              ),
-              items: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: CustomColors.peelOrange,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '30% OFF\nToday\'s Special',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: CustomColors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Get a discount for every service order!\nOnly valid for today!',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: CustomColors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: CustomColors.peelOrange,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Special Offer!',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: CustomColors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Enjoy exclusive discounts and deals!',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: CustomColors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-                // Add more slides as needed
-              ],
-            ),
-            const SizedBox(height: 16),
-            const CategorySection(),
-            const SizedBox(height: 16),
-            const LocationSection(title: 'Most Popular'),
           ],
         ),
-      ),
-    );
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container(
+                color: CustomColors.gunmetal,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Morning, Daniel 👋',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: CustomColors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search',
+                          hintStyle: TextStyle(
+                              color: CustomColors.white.withOpacity(0.6)),
+                          prefixIcon:
+                              Icon(Icons.search, color: CustomColors.white),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: CustomColors.charcoal,
+                        ),
+                        style: TextStyle(color: CustomColors.white),
+                      ),
+                      const SizedBox(height: 16),
+                      CarouselSlider(
+                        options: CarouselOptions(
+                          height: 150.0,
+                          enlargeCenterPage: true,
+                          autoPlay: true,
+                          aspectRatio: 16 / 9,
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enableInfiniteScroll: true,
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 800),
+                          viewportFraction: 0.8,
+                        ),
+                        items: [
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: CustomColors.peelOrange,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '30% OFF\nToday\'s Special',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: CustomColors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  'Get a discount for every service order!\nOnly valid for today!',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: CustomColors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: CustomColors.peelOrange,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Special Offer!',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: CustomColors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  'Enjoy exclusive discounts and deals!',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: CustomColors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Add more slides as needed
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      const CategorySection(),
+                      const SizedBox(height: 16),
+                      const LocationSection(title: 'Most Popular'),
+                    ],
+                  ),
+                ),
+              ));
   }
 }
 
@@ -180,7 +235,7 @@ class CategoryChip extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 30,
-            backgroundColor: Color.fromRGBO(51, 41, 28, 1),
+          backgroundColor: Color.fromRGBO(51, 41, 28, 1),
           child: Icon(icon, color: CustomColors.peelOrange),
         ),
         const SizedBox(height: 4),
@@ -223,14 +278,14 @@ class LocationSection extends StatelessWidget {
             const Text(
               'See All',
               style: TextStyle(
-                color: Colors.orange, 
+                color: Colors.orange,
               ),
             ),
           ],
         ),
         const SizedBox(height: 8),
-         const Column(
-          crossAxisAlignment: CrossAxisAlignment.start, 
+        const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             LocationCard(
               title: 'Belle Curls',
@@ -308,7 +363,7 @@ class _LocationCardState extends State<LocationCard> {
             ),
             title: Text(
               widget.title,
-              style:const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,7 +376,7 @@ class _LocationCardState extends State<LocationCard> {
                   children: [
                     Icon(
                       Icons.star,
-                      color: Colors.orange, 
+                      color: Colors.orange,
                       size: 18,
                     ),
                     SizedBox(width: 4),

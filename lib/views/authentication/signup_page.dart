@@ -5,6 +5,8 @@ import 'package:trim_time/views/barberScreens/home_barber.dart';
 import 'package:trim_time/views/clientScreens/home_client.dart';
 import 'package:trim_time/views/barberScreens/registeration_barber.dart';
 import 'package:trim_time/views/clientScreens/registration_client.dart';
+import 'package:trim_time/views/homescreenclient/homecontent.dart';
+import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -39,7 +41,7 @@ class _SignupState extends State<Signup> {
         if (isRegistered) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => ClientHomePage()),
+            MaterialPageRoute(builder: (context) => HomeScreen()),
           );
         } else {
           Navigator.pushReplacement(

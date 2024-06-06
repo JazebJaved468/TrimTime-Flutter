@@ -16,7 +16,8 @@ class _NavigationExampleState extends State<NavigationExample> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
-        type: BottomNavigationBarType.fixed, // Ensure no background circle for selected icon
+        type: BottomNavigationBarType
+            .fixed, // Ensure no background circle for selected icon
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;
@@ -25,14 +26,15 @@ class _NavigationExampleState extends State<NavigationExample> {
         backgroundColor: CustomColors.gunmetal,
         indicatorColor: Colors.amber, // Not necessary since type is fixed
         selectedIndex: currentPageIndex,
-        destinations:[
+        destinations: [
           NavigationDestination(
             selectedIcon: Icon(Icons.home, color: CustomColors.peelOrange),
             icon: Icon(Icons.home_outlined, color: Colors.white),
             label: 'Home',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.content_cut, color: CustomColors.peelOrange),
+            selectedIcon:
+                Icon(Icons.content_cut, color: CustomColors.peelOrange),
             icon: Icon(Icons.content_cut, color: Colors.white),
             label: 'Barber',
           ),
@@ -61,7 +63,8 @@ class _NavigationExampleState extends State<NavigationExample> {
         const Center(
           child: Text(
             'Barber Page',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
 
@@ -69,7 +72,8 @@ class _NavigationExampleState extends State<NavigationExample> {
         const Center(
           child: Text(
             'Favorite Page',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
 
@@ -77,7 +81,8 @@ class _NavigationExampleState extends State<NavigationExample> {
         const Center(
           child: Text(
             'My Booking Page',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
 
@@ -85,7 +90,8 @@ class _NavigationExampleState extends State<NavigationExample> {
         const Center(
           child: Text(
             'Profile Page',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
       ][currentPageIndex],
@@ -120,11 +126,13 @@ class NavigationBar extends StatelessWidget {
       backgroundColor: backgroundColor,
       selectedItemColor: CustomColors.peelOrange,
       unselectedItemColor: Colors.white,
-      items: destinations.map((destination) => BottomNavigationBarItem(
-        icon: destination.icon,
-        activeIcon: destination.selectedIcon,
-        label: destination.label,
-      )).toList(),
+      items: destinations
+          .map((destination) => BottomNavigationBarItem(
+                icon: destination.icon,
+                activeIcon: destination.selectedIcon,
+                label: destination.label,
+              ))
+          .toList(),
     );
   }
 }
