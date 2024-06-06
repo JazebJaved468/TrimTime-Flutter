@@ -6,13 +6,15 @@ class SampleProvider with ChangeNotifier {
   bool gender = true;
   late Map<String, dynamic> barberAvailability;
 
-  bool updateSlotsCIP = false;
-  bool updateDaysCIP = false;
-
   bool? isProvidingHaircut = false;
   bool? isProvidingShave = false;
   bool? isProvidingBeardTrim = false;
   bool? isProvidingMassage = false;
+
+// CIP : CAll IN PROGRESS
+  bool updateSlotsCIP = false;
+  bool updateDaysCIP = false;
+  bool signInCIP = false;
 
   void incrementActiveBarbers() {
     activeBarbers++;
@@ -74,6 +76,11 @@ class SampleProvider with ChangeNotifier {
 
   setUpdateDaysCIP(bool value) {
     updateDaysCIP = value;
+    notifyListeners();
+  }
+
+  setSignInCIP(bool value) {
+    signInCIP = value;
     notifyListeners();
   }
 

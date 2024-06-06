@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/views/sign_in.dart';
 
 class GetStartedScreen extends StatefulWidget {
@@ -35,7 +36,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
       body: GestureDetector(
-        behavior: HitTestBehavior.opaque, 
+        behavior: HitTestBehavior.opaque,
         onHorizontalDragEnd: (details) {
           if (details.velocity.pixelsPerSecond.dx > 0) {
             _controller.previousPage();
@@ -101,14 +102,21 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                 InkWell(
                   splashColor: CustomColors.transparent,
                   highlightColor: CustomColors.transparent,
-                  onTap: () {
+                  onTap: () async {
                     if (_current < 2) {
                       _controller.nextPage();
                     } else {
-                      Navigator.push(
+                      await updateBooleanDataInLocalStorage(
+                          key: 'isFirstVisit', value: false);
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => SignIn()),
                       );
+
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => SignIn()),
+                      // );
                     }
                   },
                   child: Container(
@@ -118,10 +126,11 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                       color: CustomColors.peelOrange,
                     ),
                     width: screenWidth * .85,
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        "Next",
-                        style: TextStyle(color: Colors.white, fontFamily: 'dmsans'),
+                        _current < 2 ? "Next" : "Get Started",
+                        style: TextStyle(
+                            color: Colors.white, fontFamily: 'dmsans'),
                       ),
                     ),
                   ),

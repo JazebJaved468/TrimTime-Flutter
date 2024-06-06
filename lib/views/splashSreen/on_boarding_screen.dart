@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/local_storage.dart';
-import 'package:trim_time/controller/login.dart';
-import 'package:trim_time/views/authentication/signup_page.dart';
+import 'package:trim_time/views/sign_in.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -23,7 +22,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     key: 'isFirstVisit', value: false);
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => Signup()),
+                  MaterialPageRoute(builder: (context) => SignIn()),
                 );
               },
               child: Text('get Started'))

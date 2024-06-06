@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/login.dart';
-import 'package:trim_time/views/authentication/signup_page.dart';
+import 'package:trim_time/views/sign_in.dart';
 
 class BarberListing extends StatefulWidget {
   const BarberListing({super.key});
@@ -41,7 +41,7 @@ class _BarberListingState extends State<BarberListing> {
               await signOut();
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Signup()),
+                MaterialPageRoute(builder: (context) => SignIn()),
               );
             },
             icon: const Icon(Icons.logout),

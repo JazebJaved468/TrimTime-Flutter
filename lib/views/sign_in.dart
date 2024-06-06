@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/controller/local_storage.dart';
+import 'package:trim_time/controller/login.dart';
+import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/views/barberScreens/home_barber.dart';
+import 'package:trim_time/views/barberScreens/registeration_barber.dart';
+import 'package:trim_time/views/clientScreens/home_client.dart';
+import 'package:trim_time/views/clientScreens/registration_client.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -12,8 +21,113 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   bool isClient = true;
 
+  Future _handleLogin(BuildContext context) async {
+    Map<String, dynamic> response = await signInWithGoogle(isClient: isClient);
+
+    if (response['user'] != null) {
+      final localData = await getDataFromLocalStorage();
+      ;
+
+      final isRegistered = localData['userData']['isRegistered'];
+
+      if (response['existsInOtherCategory']) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              'Account ALready exists in ${isClient ? 'barber' : 'client'} category'),
+        ));
+        await signOut();
+      } else if (response['existsInItsOwnCategory'] && isClient) {
+        // localData
+
+        // isRegistered = localData['isRegistered'];
+
+        if (isRegistered) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => ClientHomePage()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ClientRegistrationPage(
+                      photoURL: localData['userData']['photoURL'],
+                      phoneNumber: localData['userData']['phoneNumber'],
+                      email: localData['userData']['email'],
+                      fullName: localData['userData']['name'],
+                      gender: localData['userData']['gender'],
+                    )),
+          );
+        }
+      } else if (response['existsInItsOwnCategory'] && !isClient) {
+        if (isRegistered) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => BarberHomePage()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BarberRegistrationPage(
+                      photoURL: localData['userData']['photoURL'],
+                      phoneNumber: localData['userData']['phoneNumber'],
+                      email: localData['userData']['email'],
+                      fullName: localData['userData']['name'],
+                      gender: localData['userData']['gender'],
+                      openingTime: localData['userData']['openingTime'],
+                      closingTime: localData['userData']['closingTime'],
+                      services: localData['userData']['services'],
+                    )),
+          );
+        }
+      } else if (!response['existsInItsOwnCategory']) {
+        if (isClient) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ClientRegistrationPage(
+                      photoURL: localData['userData']['photoURL'],
+                      phoneNumber: localData['userData']['phoneNumber'],
+                      email: localData['userData']['email'],
+                      fullName: localData['userData']['name'],
+                      gender: localData['userData']['gender'],
+                    )),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BarberRegistrationPage(
+                      photoURL: localData['userData']['photoURL'],
+                      phoneNumber: localData['userData']['phoneNumber'],
+                      email: localData['userData']['email'],
+                      fullName: localData['userData']['name'],
+                      gender: localData['userData']['gender'],
+                      openingTime: localData['userData']['openingTime'],
+                      closingTime: localData['userData']['closingTime'],
+                      services: localData['userData']['services'],
+                    )),
+          );
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error in login. Please try again.'),
+      ));
+    }
+
+    // setState(() {
+    //   _isLoading = false;
+    // });
+  }
+
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    SampleProvider sampleProvider =
+        Provider.of<SampleProvider>(context, listen: false);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -35,10 +149,11 @@ class _SignInState extends State<SignIn> {
                 const Text(
                   "Let's you in",
                   style: TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w700,
-                      color: CustomColors.white,
-                      fontFamily: 'dmsans'),
+                    fontSize: 36,
+                    fontWeight: FontWeight.w700,
+                    color: CustomColors.white,
+                    // fontFamily: 'dmsans'
+                  ),
                 ),
                 SizedBox(
                   height: screenHeight * .05,
@@ -46,10 +161,11 @@ class _SignInState extends State<SignIn> {
                 const Text(
                   "Select Your Role",
                   style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: CustomColors.white,
-                      fontFamily: 'dmsans'),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: CustomColors.white,
+                    // fontFamily: 'dmsans'
+                  ),
                 ),
                 SizedBox(
                   height: screenHeight * .05,
@@ -57,7 +173,7 @@ class _SignInState extends State<SignIn> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildButton("Customer", isClient, () {
+                    _buildButton("Client", isClient, () {
                       setState(() {
                         isClient = true;
                         print("cust");
@@ -74,6 +190,17 @@ class _SignInState extends State<SignIn> {
                 ),
                 SizedBox(
                   height: screenHeight * .2,
+                  child: Consumer<SampleProvider>(
+                    builder: (context, provider, child) {
+                      // print(provider.signInCIP);
+                      return provider.signInCIP
+                          ? const SpinKitFadingCircle(
+                              color: CustomColors.peelOrange,
+                              size: 50.0,
+                            )
+                          : const SizedBox();
+                    },
+                  ),
                 ),
                 const Text(
                   'Welcome to Trim Time!',
@@ -85,8 +212,18 @@ class _SignInState extends State<SignIn> {
                 SizedBox(
                   width: 300, // Adjust the width as needed
                   child: OutlinedButton(
-                    onPressed: () {
-                      // Add your onPressed code here
+                    onPressed: () async {
+                      try {
+                        // setState(() {
+                        //   _isLoading = true;
+                        // });
+                        sampleProvider.setSignInCIP(true);
+                        await _handleLogin(context);
+                        sampleProvider.setSignInCIP(false);
+                      } catch (e) {
+                        // Handle sign in error
+                        print(e);
+                      }
                     },
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -115,13 +252,13 @@ class _SignInState extends State<SignIn> {
                           "Continue with Google",
                           style: TextStyle(
                             color: Colors.white, // Text color
-                            fontFamily: 'dmsans',
+                            // fontFamily: 'dmsans',
                           ),
                         ),
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -152,7 +289,7 @@ class _SignInState extends State<SignIn> {
           text,
           style: TextStyle(
             color: isSelected ? Colors.white : CustomColors.peelOrange,
-            fontFamily: 'dmsans',
+            // fontFamily: 'dmsans',
           ),
         ),
       ),

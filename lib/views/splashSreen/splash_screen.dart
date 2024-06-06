@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/initialization.dart';
 import 'package:trim_time/controller/local_storage.dart';
-import 'package:trim_time/controller/login.dart';
-import 'package:trim_time/views/authentication/signup_page.dart';
 import 'package:trim_time/views/barberScreens/home_barber.dart';
 import 'package:trim_time/views/clientScreens/home_client.dart';
 import 'package:trim_time/views/barberScreens/registeration_barber.dart';
 import 'package:trim_time/views/clientScreens/registration_client.dart';
-import 'package:trim_time/views/splashSreen/on_boarding_screen.dart';
+import 'package:trim_time/views/onBoardingScreens/loading_screen.dart';
+import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
+import 'package:trim_time/views/sign_in.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,7 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _loadData() async {
     print('-----------------> Splash Screen Starts <-----------------');
-    // await Future.delayed(const Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 2));
+
+    print('after future delay');
 
     await initializeApp();
 
@@ -30,7 +32,9 @@ class _SplashScreenState extends State<SplashScreen> {
     if (localData['isFirstVisit']) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => OnBoardingScreen()),
+
+        // MaterialPageRoute(builder: (context) => OnBoardingScreen()),
+        MaterialPageRoute(builder: (context) => WelcomeScreen()),
       );
     } else {
       if (localData['uid'] != null) {
@@ -80,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Signup()),
+          MaterialPageRoute(builder: (context) => SignIn()),
         );
       }
     }
@@ -95,10 +99,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    return LoadingScreen();
   }
 }
