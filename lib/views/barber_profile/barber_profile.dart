@@ -5,6 +5,7 @@ import 'package:trim_time/components/carousel.dart';
 import 'package:trim_time/components/reviewBox.dart';
 import 'package:trim_time/components/servicesContainer.dart';
 import 'package:trim_time/components/timeSlotBox.dart';
+import 'package:trim_time/views/appointment_summary/appointment_summary.dart';
 
 class BarberProfile extends StatefulWidget {
   const BarberProfile({super.key});
@@ -21,7 +22,7 @@ class _BarberProfileState extends State<BarberProfile> {
   bool customIcon = false;
   int selectedIndex = -1;
   var selectedtime = null; //req for make an appointment
-    List<String> selectedServices = [];
+  List<String> selectedServices = [];
   // List of time slots
   List<String> times = [
     '1:00 PM - 1:30 PM',
@@ -45,7 +46,6 @@ class _BarberProfileState extends State<BarberProfile> {
       print(time);
     });
   }
-
 
   void onServiceTap(String service) {
     setState(() {
@@ -289,9 +289,8 @@ class _BarberProfileState extends State<BarberProfile> {
                         // ),
                         // Services(),
 
-
-                       ///he spread operator ... takes each Services from the generated list and inserts it into the  list of row children.
-                        ...List.generate(services.length, (index) { 
+                        ///he spread operator ... takes each Services from the generated list and inserts it into the  list of row children.
+                        ...List.generate(services.length, (index) {
                           return Services(
                             service: services[index],
                             clicked: selectedServices.contains(services[index]),
@@ -442,7 +441,9 @@ class _BarberProfileState extends State<BarberProfile> {
                                       List.generate(times.length, (index) {
                                     return TimeSlot(
                                       time: times[index],
-                                      isSelected: selectedIndex == index, ///We set the isSelected property of each TimeSlot widget to true if its index matches the selectedIndex, indicating that it is currently selected. Everyime when the slot is pressed , only that slots isSelected proprty will bocome true and other remains false. bcz selectedIndex== tappedIndex
+                                      isSelected: selectedIndex == index,
+
+                                      ///We set the isSelected property of each TimeSlot widget to true if its index matches the selectedIndex, indicating that it is currently selected. Everyime when the slot is pressed , only that slots isSelected proprty will bocome true and other remains false. bcz selectedIndex== tappedIndex
                                       onTap: () =>
                                           onTimeSlotTap(index, times[index]),
                                     );
@@ -553,7 +554,8 @@ class _BarberProfileState extends State<BarberProfile> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const NextScreen()),
+                                      builder: (context) =>
+                                          const AppointmentSummary()),
                                 );
                               },
                             ),
@@ -586,20 +588,6 @@ class _BarberProfileState extends State<BarberProfile> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-//example payment page
-class NextScreen extends StatelessWidget {
-  const NextScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Make Payment'),
       ),
     );
   }
