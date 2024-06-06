@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/views/onBoardingScreens/loading_screen.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -45,7 +46,10 @@ class Home extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          sampleProvider.incrementActiveBarbers();
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const LoadingScreen()),
+          );
         },
         tooltip: 'Activate Barber',
         child: const Icon(Icons.person_add_alt_1_outlined),
