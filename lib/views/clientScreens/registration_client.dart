@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trim_time/controller/firestore.dart';
+import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/views/authentication/signup_page.dart';
 import 'package:trim_time/views/clientScreens/home_client.dart';

@@ -6,7 +6,8 @@ class SampleProvider with ChangeNotifier {
   bool gender = true;
   late Map<String, dynamic> barberAvailability;
 
-  bool updateAvailabilityCIP = false;
+  bool updateSlotsCIP = false;
+  bool updateDaysCIP = false;
 
   bool? isProvidingHaircut = false;
   bool? isProvidingShave = false;
@@ -53,15 +54,26 @@ class SampleProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  updateBarberAvailability(
+  updateBarberSlotsAvailability(
       {required String day, required int slotIndex, required bool value}) {
     barberAvailability[day]['slots'][slotIndex]['isAvailable'] = value;
 
     notifyListeners();
   }
 
-  setLoading(bool value) {
-    updateAvailabilityCIP = value;
+  updateBarberDaysAvailability({required String day, required bool value}) {
+    barberAvailability[day]['isAvailable'] = value;
+
+    notifyListeners();
+  }
+
+  setUpdateSlotsCIP(bool value) {
+    updateSlotsCIP = value;
+    notifyListeners();
+  }
+
+  setUpdateDaysCIP(bool value) {
+    updateDaysCIP = value;
     notifyListeners();
   }
 
