@@ -51,7 +51,7 @@
     },
     {
       "name": "firebase_core",
-      "rootUri": "file:///C:/Users/Mahnoor/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_core-2.31.1",
+      "rootUri": "file:///C:/Users/Mahnoor/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_core-2.32.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -236,7 +236,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-04T21:44:58.920966Z",
+  "generated": "2024-06-06T17:32:19.705593Z",
   "generator": "pub",
   "generatorVersion": "3.3.1"
 }

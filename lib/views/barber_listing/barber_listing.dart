@@ -113,12 +113,12 @@ class _BarberListingState extends State<BarberListing> {
       appBar: AppBar(
         backgroundColor: CustomColors.gunmetal,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           'Barbers',
           style: TextStyle(color: Colors.white),
         ),
@@ -127,14 +127,14 @@ class _BarberListingState extends State<BarberListing> {
       body: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(5),
-            margin: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
             child: TextFormField(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                   hintText: 'Search',
-                  hintStyle:
-                      TextStyle(color: Colors.grey, fontFamily: 'Raleway'),
+                  hintStyle: const TextStyle(
+                      color: Colors.grey, fontFamily: 'Raleway'),
                   fillColor: CustomColors.charcoal,
                   filled: true,
                   prefixIcon: const Icon(
@@ -154,7 +154,7 @@ class _BarberListingState extends State<BarberListing> {
                   )),
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
@@ -163,19 +163,19 @@ class _BarberListingState extends State<BarberListing> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   buildChoiceChip('All', 0),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   buildChoiceChip('Haircut', 1),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   buildChoiceChip('Beard Trim', 2),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   buildChoiceChip('Hair Coloring', 3),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   buildChoiceChip('Face Treatment', 4),
@@ -204,7 +204,7 @@ class _BarberListingState extends State<BarberListing> {
 
   Widget buildChoiceChip(String label, int index) {
     final isSelected = selectedIndex == index;
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         setState(() {
           selectedIndex = index;
@@ -212,7 +212,7 @@ class _BarberListingState extends State<BarberListing> {
       },
       child: Container(
         // width: 100,
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
           color: isSelected ? CustomColors.peelOrange : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
@@ -252,19 +252,10 @@ class BookingCard extends StatefulWidget {
 
 class _BookingCardState extends State<BookingCard> {
   bool clicked = false;
-  bool cardClicked = false;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
-        if (cardClicked) {
-          cardClicked = false;
-          setState(() {});
-        } else {
-          cardClicked = true;
-          setState(() {});
-        }
-
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const BarberProfile()),
@@ -272,13 +263,6 @@ class _BookingCardState extends State<BookingCard> {
       },
       child: Card(
         color: Colors.grey[900],
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color:
-                  cardClicked ? CustomColors.peelOrange : CustomColors.charcoal,
-              width: 1),
-          borderRadius: BorderRadius.circular(15.0),
-        ),
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -307,7 +291,7 @@ class _BookingCardState extends State<BookingCard> {
                               color: CustomColors.white,
                               fontWeight: FontWeight.bold),
                         ),
-                        InkWell(
+                        GestureDetector(
                           onTap: () {
                             if (clicked) {
                               clicked = false;
@@ -327,8 +311,8 @@ class _BookingCardState extends State<BookingCard> {
                     const SizedBox(height: 5),
                     Text(
                       widget.shopName,
-                      style: TextStyle(
-                          color: const Color.fromARGB(255, 180, 178, 178)),
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 180, 178, 178)),
                     ),
                     const SizedBox(height: 5),
                     Row(
@@ -338,13 +322,13 @@ class _BookingCardState extends State<BookingCard> {
                           color: CustomColors.peelOrange,
                           size: 20,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         Text(
                           widget.stars,
-                          style: TextStyle(
-                            color: const Color.fromARGB(255, 180, 178, 178),
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 180, 178, 178),
                           ),
                         ),
                       ],
