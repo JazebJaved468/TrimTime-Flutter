@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/controller/local_storage.dart';
@@ -8,7 +9,8 @@ import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/sign_in.dart';
 
 class HomeContent extends StatefulWidget {
-  const HomeContent({Key? key}) : super(key: key);
+  HomeContent({Key? key, required this.allBarbers}) : super(key: key);
+  final List<Map<String, dynamic>> allBarbers;
 
   @override
   State<HomeContent> createState() => _HomeContentState();
@@ -58,8 +60,10 @@ class _HomeContentState extends State<HomeContent> {
         ),
         body: _isLoading
             ? const Center(
-                child: CircularProgressIndicator(),
-              )
+                child: SpinKitFadingCircle(
+                color: CustomColors.peelOrange,
+                size: 50.0,
+              ))
             : Container(
                 color: CustomColors.gunmetal,
                 child: SingleChildScrollView(
@@ -67,13 +71,20 @@ class _HomeContentState extends State<HomeContent> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Morning, Daniel 👋',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: CustomColors.white,
-                        ),
+                      Consumer<SampleProvider>(
+                        builder: (context, provider, child) {
+                          provider.setUserData(localData['userData']);
+                          provider.uid = localData['userData']['uid'];
+                          provider.setAllBarbers(widget.allBarbers);
+                          return Text(
+                            'Morning, ${provider.userData['name']} 👋',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: CustomColors.white,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 16),
                       TextField(

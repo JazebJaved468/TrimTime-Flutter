@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
+import 'package:trim_time/controller/firestore.dart';
+import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/views/barber_listing/barber_listing.dart';
+import 'package:trim_time/views/favouriteScreen/favourite_screen.dart';
 import '../../views/homescreenclient/homecontent.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 
@@ -12,8 +18,36 @@ class NavigationExample extends StatefulWidget {
 class _NavigationExampleState extends State<NavigationExample> {
   int currentPageIndex = 0;
 
+  late List<Map<String, dynamic>> allBarbers;
+
+  final isClient = true;
+
+  bool _isLoading = true;
+
+  _loadData() async {
+    allBarbers = await getAllBarbersFromFireStore();
+
+    // print('BArber Listing: ${barbers}');
+
+    // currentListing = allBarbers;
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    SampleProvider sampleProvider =
+        Provider.of<SampleProvider>(context, listen: false);
+
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         type: BottomNavigationBarType
@@ -41,7 +75,7 @@ class _NavigationExampleState extends State<NavigationExample> {
           NavigationDestination(
             selectedIcon: Icon(Icons.favorite, color: CustomColors.peelOrange),
             icon: Icon(Icons.favorite_border, color: Colors.white),
-            label: 'Favorite',
+            label: 'Favorites',
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.book, color: CustomColors.peelOrange),
@@ -55,46 +89,58 @@ class _NavigationExampleState extends State<NavigationExample> {
           ),
         ],
       ),
-      body: [
-        /// Home page
-        const HomeContent(), // Call the HomeContent widget here
+      body: _isLoading
+          ? const Center(
+              child: const SpinKitFadingCircle(
+              color: CustomColors.peelOrange,
+              size: 50.0,
+            ))
+          : [
+              /// Home page
+              HomeContent(
+                allBarbers: allBarbers,
+              ), // Call the HomeContent widget here
 
-        /// Barber page (Placeholder)
-        const Center(
-          child: Text(
-            'Barber Page',
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
+              /// Barber page (Placeholder)
+              BarberListing(
+                allBarbers: allBarbers,
+              ),
 
-        /// Favorite page (Placeholder)
-        const Center(
-          child: Text(
-            'Favorite Page',
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
+              FavouriteScreen(),
 
-        /// My Booking page (Placeholder)
-        const Center(
-          child: Text(
-            'My Booking Page',
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
+              /// Favorite page (Placeholder)
+              // const Center(
+              //   child: Text(
+              //     'Favorite Page',
+              //     style: TextStyle(
+              //         fontSize: 24,
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.white),
+              //   ),
+              // ),
 
-        /// Profile page (Placeholder)
-        const Center(
-          child: Text(
-            'Profile Page',
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
-      ][currentPageIndex],
+              /// My Booking page (Placeholder)
+              const Center(
+                child: Text(
+                  'My Booking Page',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+
+              /// Profile page (Placeholder)
+              const Center(
+                child: Text(
+                  'Profile Page',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+            ][currentPageIndex],
     );
   }
 }

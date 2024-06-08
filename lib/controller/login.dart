@@ -39,6 +39,13 @@ Future<Map<String, dynamic>> signInWithGoogle({required bool isClient}) async {
   final response = await checkUserAlreadyExistsInOtherCategory(
       user.user!.uid, isClient, user);
 
+  if (response['existsInOtherCategory']) {
+    return {
+      'user': user,
+      ...response,
+    };
+  }
+
   Map<String, dynamic> userDataFromFirestore =
       await getUserDataFromFirestore(user.user!.uid, isClient);
 

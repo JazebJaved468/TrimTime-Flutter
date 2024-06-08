@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
@@ -93,7 +95,11 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
           ],
         ),
         body: _isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(
+                child: const SpinKitFadingCircle(
+                color: CustomColors.peelOrange,
+                size: 50.0,
+              ))
             : SingleChildScrollView(
                 child: Column(
                   children: [

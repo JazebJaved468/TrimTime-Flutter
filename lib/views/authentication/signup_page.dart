@@ -8,6 +8,7 @@ import 'package:trim_time/views/clientScreens/registration_client.dart';
 import 'package:trim_time/views/homescreenclient/homecontent.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
 
+// remove this file
 class Signup extends StatefulWidget {
   const Signup({super.key});
 
@@ -75,6 +76,7 @@ class _SignupState extends State<Signup> {
                       openingTime: localData['userData']['openingTime'],
                       closingTime: localData['userData']['closingTime'],
                       services: localData['userData']['services'],
+                      uid: localData['uid'],
                     )),
           );
         }
@@ -104,6 +106,7 @@ class _SignupState extends State<Signup> {
                       openingTime: localData['userData']['openingTime'],
                       closingTime: localData['userData']['closingTime'],
                       services: localData['userData']['services'],
+                      uid: localData['uid'],
                     )),
           );
         }

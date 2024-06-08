@@ -77,6 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         openingTime: localData['userData']['openingTime'],
                         closingTime: localData['userData']['closingTime'],
                         services: localData['userData']['services'],
+                        uid: localData['uid'],
                       )),
             );
           }

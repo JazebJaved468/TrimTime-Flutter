@@ -76,6 +76,7 @@ class _SignInState extends State<SignIn> {
                       openingTime: localData['userData']['openingTime'],
                       closingTime: localData['userData']['closingTime'],
                       services: localData['userData']['services'],
+                      uid: localData['uid'],
                     )),
           );
         }
@@ -105,6 +106,7 @@ class _SignInState extends State<SignIn> {
                       openingTime: localData['userData']['openingTime'],
                       closingTime: localData['userData']['closingTime'],
                       services: localData['userData']['services'],
+                      uid: localData['uid'],
                     )),
           );
         }

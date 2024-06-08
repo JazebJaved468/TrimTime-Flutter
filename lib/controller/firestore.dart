@@ -41,8 +41,9 @@ updateBarberAvailabilityInFirestore(
   await barbers.doc(barberId).update({'availability': data});
 }
 
-getBarberListingFromFireStore() async {
-  print('-----------------> Getting Barber Listing <-----------------');
+getAllBarbersFromFireStore() async {
+  print(
+      '-----------------> Getting all Barbers Listing from Firestore <-----------------');
   CollectionReference barbers =
       FirebaseFirestore.instance.collection('barbers');
   QuerySnapshot querySnapshot = await barbers.get();
@@ -66,6 +67,21 @@ getBarberListingFromFireStore() async {
   }
 
   return allBarbers;
+}
+
+updateClientFavoritesInFirestore(
+    {required String clientId, required List favouritesList}) async {
+  print(
+      '-----------------> Updating Client Favorites In FireStore <-----------------');
+  CollectionReference clients =
+      FirebaseFirestore.instance.collection('clients');
+
+  print('updateing client favourites with this data $favouritesList');
+
+  await clients.doc(clientId).update({'favourites': favouritesList});
+
+  //  await updateUserDataInLocalStorage(
+  // data: await getUserDataFromFirestore(uid, isClient));
 }
 
 storeUserDataInFirestore(
@@ -111,30 +127,49 @@ storeUserDataInFirestore(
       'openingTime': 11,
       'closingTime': 23,
       'bookings': [],
-      'services': [
-        {
+      'services': {
+        '1': {
           'price': 250,
           'serviceId': '1',
           'isProviding': true,
         },
-        {
+        '2': {
           'price': 170,
+          'isProviding': true,
           'serviceId': '2',
-          'isProviding': true,
         },
-        {
+        '3': {
           'price': 120,
-          'serviceId': '3',
           'isProviding': true,
+          'serviceId': '3',
         },
-        {
+        '4': {
           'price': 150,
-          'serviceId': '4',
           'isProviding': false,
+          'serviceId': '4',
         },
-      ],
+      },
       'availability':
           generate7DaysSlots(DateTime.now(), OPENING_TIME, CLOSING_TIME)
     });
   }
 }
+
+
+
+
+// getHaircutBarbersFromFirestore() async {
+//   print(
+//       '-----------------> Getting Haircut Barbers Listng from Firestore <-----------------');
+//   CollectionReference barbers =
+//       FirebaseFirestore.instance.collection('barbers');
+
+//   var haircutFilterBarbersList =
+//       await barbers.where('services.1.isProviding', isEqualTo: true).get();
+
+//   var tempList = haircutFilterBarbersList.docs.map((e) {
+//     return e.data() as Map<String, dynamic>;
+//   }).toList();
+
+//   print(tempList);
+// }

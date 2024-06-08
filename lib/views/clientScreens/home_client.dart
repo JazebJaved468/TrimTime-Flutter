@@ -72,7 +72,9 @@ class _ClientHomePageState extends State<ClientHomePage> {
                   Text('isClient: ${localData['isClient']}'),
                   ElevatedButton(
                     onPressed: () {
-                      sampleProvider.uid = localData['userData']['uid'];
+                      // sampleProvider.uid = localData['userData']['uid'];
+                      // sampleProvider.setUserData(localData['userData']);
+
                       // sampleProvider.barberAvailability =
                       //     localData['userData']['availability'];
                       Navigator.push(

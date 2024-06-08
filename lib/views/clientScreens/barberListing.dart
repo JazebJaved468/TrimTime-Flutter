@@ -3,6 +3,8 @@ import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/views/sign_in.dart';
 
+// remove this file
+
 class BarberListing extends StatefulWidget {
   const BarberListing({super.key});
 
@@ -16,7 +18,7 @@ class _BarberListingState extends State<BarberListing> {
   bool _isLoading = true;
 
   _loadData() async {
-    await getBarberListingFromFireStore();
+    await getAllBarbersFromFireStore();
 
     setState(() {
       _isLoading = false;
