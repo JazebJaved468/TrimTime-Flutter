@@ -20,8 +20,11 @@ class _SignInState extends State<SignIn> {
       child: Scaffold(
         backgroundColor: CustomColors.gunmetal,
         body: Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: screenWidth * .06),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+            padding: EdgeInsets.only(top: 15),
             child: Column(
               children: [
                 Image.asset(
@@ -71,11 +74,14 @@ class _SignInState extends State<SignIn> {
                       });
                     }),
                   ],
-                ),
-                SizedBox(
-                  height: screenHeight * .2,
-                ),
-                const Text(
+                )
+            ],
+            ),),
+            Container(
+              padding: EdgeInsets.only(bottom: 30),
+              child: Column(
+                children: [
+                  const Text(
                   'Welcome to Trim Time!',
                   style: TextStyle(color: CustomColors.white),
                 ),
@@ -122,12 +128,16 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                 )
+                ],
+              ),
+            )
+                
               ],
             ),
           ),
         ),
-      ),
-    );
+      );
+
   }
 
   Widget _buildButton(String text, bool isSelected, VoidCallback onPressed) {
