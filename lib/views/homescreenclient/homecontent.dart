@@ -75,14 +75,14 @@ class _HomeContentState extends State<HomeContent> {
                       Consumer<SampleProvider>(
                         builder: (context, provider, child) {
                           // remove if-block if issue creates
-                          if (!provider.invalidateHomeDataInitializtion) {
-                            provider.setUserData(localData['userData']);
-                            provider.uid = localData['userData']['uid'];
-                            provider.invalidateHomeDataInitializtion = true;
-                            provider.setAllBarbers(widget.allBarbers);
-                            provider.setAllBookings(widget.allBookings);
-                            print('update user datafrom home ');
-                          }
+                          // if (!provider.invalidateHomeDataInitializtion) {
+                          provider.setUserData(localData['userData']);
+                          provider.uid = localData['userData']['uid'];
+                          provider.invalidateHomeDataInitializtion = true;
+                          provider.setAllBarbers(widget.allBarbers);
+                          provider.setAllBookings(widget.allBookings);
+                          print('update user datafrom home ');
+                          // }
                           return Text(
                             'Hello, ${provider.userData['name']} 👋',
                             style: TextStyle(

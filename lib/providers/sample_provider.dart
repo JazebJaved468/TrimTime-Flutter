@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trim_time/controller/date_time.dart';
 import 'package:trim_time/controller/firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:trim_time/controller/local_storage.dart';
@@ -26,7 +27,10 @@ class SampleProvider with ChangeNotifier {
   bool createBookingCIP = false;
 
   // Client side States
-  String clientGender = 'male';
+  String clientGender = 'male'; // used in client registeration screen
+  String barberGender = 'male'; // used in barber registeration screen
+  int barberOpeningTime = OPENING_TIME; // used in barber registeration screen
+  int barberClosingTime = CLOSING_TIME; // used in barber registeration screen
   Map<String, dynamic> selectedBarber = {};
   String selectedService = '';
   late String selectedServiceName = getSelectedServiceName();
@@ -34,8 +38,23 @@ class SampleProvider with ChangeNotifier {
   Map selectedSlot = {};
   late List slotsToShow = getSlotsToShow();
 
+  updateBarberOpeningTime(int value) {
+    barberOpeningTime = value;
+    notifyListeners();
+  }
+
+  updateBarberClosingTime(int value) {
+    barberClosingTime = value;
+    notifyListeners();
+  }
+
   updateClientGEnder(String value) {
     clientGender = value;
+    notifyListeners();
+  }
+
+  updateBarberGender(String value) {
+    barberGender = value;
     notifyListeners();
   }
 

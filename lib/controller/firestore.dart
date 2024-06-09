@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:trim_time/controller/date_time.dart';
 import 'package:trim_time/controller/local_storage.dart';
+import 'package:trim_time/controller/login.dart';
 import 'package:uuid/uuid.dart';
 
 getUserDataFromFirestore(String userId, bool isClient) async {
@@ -11,6 +12,7 @@ getUserDataFromFirestore(String userId, bool isClient) async {
   final collection = isClient ? 'clients' : 'barbers';
   CollectionReference users = FirebaseFirestore.instance.collection(collection);
   DocumentSnapshot _user = await users.doc(userId).get();
+
   return _user.data() as Map<String, dynamic>;
 }
 
