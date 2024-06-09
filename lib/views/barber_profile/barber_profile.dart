@@ -12,6 +12,7 @@ import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/clientScreens/summary.dart';
+import 'package:trim_time/views/appointment_summary/appointment_summary.dart';
 
 class BarberProfile extends StatefulWidget {
   const BarberProfile({super.key});
@@ -726,7 +727,7 @@ class _BarberProfileState extends State<BarberProfile> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => BookingSummary()),
+                            builder: (context) => AppointmentSummary()),
                       );
 
                       // provider.setCreateBookingCIP(true);
@@ -838,20 +839,6 @@ class _BarberProfileState extends State<BarberProfile> {
             );
           }),
         ],
-      ),
-    );
-  }
-}
-
-//example payment page
-class NextScreen extends StatelessWidget {
-  const NextScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Make Payment'),
       ),
     );
   }
