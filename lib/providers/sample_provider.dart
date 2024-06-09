@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/firestore.dart';
+import 'package:intl/intl.dart';
 
 class SampleProvider with ChangeNotifier {
   late String uid;
   late Map<String, dynamic> userData;
+  bool signInCIP = false;
   bool gender = true;
   int activeBarbers = 0;
   late Map<String, dynamic> barberAvailability;
@@ -15,7 +17,134 @@ class SampleProvider with ChangeNotifier {
   bool? isProvidingBeardTrim = false;
   bool? isProvidingMassage = false;
 
+// CIP : CAll IN PROGRESS
+  bool updateSlotsCIP = false;
+  bool updateDaysCIP = false;
+  bool createBookingCIP = false;
+
+  // Client side States
   Map<String, dynamic> selectedBarber = {};
+  String selectedService = '';
+  DateTime selectedDate = DateTime.now();
+  Map selectedSlot = {};
+  late List slotsToShow = getSlotsToShow();
+
+  getBarberServicesForBarberProfile() {
+    String serviceName = '';
+    List tempList = [];
+    Map<String, dynamic> servicesFromDb = selectedBarber['services'];
+    servicesFromDb.forEach((key, value) {
+      if (value['isProviding']) {
+        if (key == '1') {
+          serviceName = 'Haircut';
+        } else if (key == '2') {
+          serviceName = 'Shave';
+        } else if (key == '3') {
+          serviceName = 'Beard Trim';
+        } else if (key == '4') {
+          serviceName = 'Massage';
+        }
+
+        tempList.add({
+          'serviceName': serviceName,
+          'price': value['price'],
+          'serviceId': key,
+        });
+      }
+    });
+
+    print('\ntemp list of services ----> $tempList  ');
+
+    return tempList;
+  }
+
+  updateSelectedSlot(Map slot) {
+    selectedSlot = slot;
+    notifyListeners();
+  }
+
+  updateSelectedDate(DateTime date) {
+    selectedDate = date;
+    selectedSlot = {};
+    notifyListeners();
+  }
+
+  updateSlotsToShow() {
+    slotsToShow = getSlotsToShow();
+    notifyListeners();
+  }
+
+  getSlotsToShow() {
+    List tempSlotsList = [];
+
+    print('in updaet slots to show func');
+
+    print('selected date ----> ${selectedDate.toIso8601String()}');
+
+    selectedBarber['availability'].forEach((date, info) {
+      // print('date ----> $date');
+      var fomattedDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
+      var selectedDateFormatted = DateFormat('dd-MM-yyyy').format(selectedDate);
+
+      if (selectedDateFormatted == fomattedDate) {
+        // print('date matched');
+        if (selectedBarber['availability'][date]['isAvailable']) {
+          {
+            selectedBarber['availability'][date]['slots'].forEach((slot) {
+              if (slot['isAvailable'] && slot['isBooked'] == false) {
+                tempSlotsList.add(slot);
+              }
+            });
+            // print('barber available on that day ----> $date');
+            // barberAvailability = info;
+          }
+          // barberAvailability = info;
+        } else {
+          tempSlotsList = [];
+        }
+        // if (slot['isAvailable'] && slot['isBooked'] == false) {
+        //   tempSlotsList.add(slot);
+        // }
+
+        //  slotsToShow = tempSlotsList;
+
+        // print('slots list length ----> ${tempSlotsList.length}');
+      }
+    });
+
+    // bool isAvailable = selectedBarber['availability']
+    //     [selectedDate.toIso8601String()]['isAvailable'];
+
+    // print('is available on taht day ----> $isAvailable');
+
+    // if (isAvailable) {
+    //   slotsToShow = [];
+    // } else {
+
+    //   for (var slot in selectedBarber['availability']
+    //       [selectedDate.toIso8601String()]['slots']) {
+    //     if (slot['isAvailable'] && slot['isBooked'] == false) {
+    //       tempSlotsList.add(slot);
+    //     }
+    //   }
+
+    //   slotsToShow = tempSlotsList;
+    // }
+    // slotsToShow = tempSlotsList;
+    // notifyListeners();
+    return tempSlotsList;
+  }
+
+  updateSelectedService(String serviceId) {
+    if (selectedService == serviceId) {
+      selectedService = '';
+    } else {
+      selectedService = serviceId;
+    }
+
+    print('selected service from provider----> $selectedService');
+    notifyListeners();
+  }
 
   getInAppFavouriteList() {
     List tempData = [];
@@ -42,11 +171,6 @@ class SampleProvider with ChangeNotifier {
     inAppfavouriteList = getInAppFavouriteList();
     notifyListeners();
   }
-
-// CIP : CAll IN PROGRESS
-  bool updateSlotsCIP = false;
-  bool updateDaysCIP = false;
-  bool signInCIP = false;
 
   late List<Map<String, dynamic>> allBarbers = [];
   late List haircutFilterBarbers = getHaircutFilterBarbers();
@@ -185,6 +309,12 @@ class SampleProvider with ChangeNotifier {
   updateBarberDaysAvailability({required String day, required bool value}) {
     barberAvailability[day]['isAvailable'] = value;
 
+    notifyListeners();
+  }
+
+  setCreateBookingCIP(bool value) {
+    createBookingCIP = value;
+    print('create booking ----> $createBookingCIP ');
     notifyListeners();
   }
 

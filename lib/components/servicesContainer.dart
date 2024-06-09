@@ -1,28 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/providers/sample_provider.dart';
 
 class Services extends StatelessWidget {
-  final bool clicked;
-  final VoidCallback onTap;
-  final String service;
+  // final bool clicked;
+  // final VoidCallback onTap;
+  final bool isSelected;
+  final Map service;
 
   const Services({
     Key? key,
-    required this.onTap,
+    // required this.onTap,
     required this.service,
-    required this.clicked,
+    required this.isSelected,
+    // required this.onTap,
+    // required this.clicked,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
+    SampleProvider sampleProvider =
+        Provider.of<SampleProvider>(context, listen: false);
+
+    // bool isSelected = sampleProvider.selectedService == service['serviceId'];
+
+    return GestureDetector(
+      onTap: () {
+        sampleProvider.updateSelectedService(service['serviceId']);
+      },
+
+      // sampleProvider.updateSelectedService(service['serviceId']),
       child: Container(
         height: 160,
         width: 120,
         margin: const EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
-          color: clicked ? CustomColors.peelOrange : CustomColors.charcoal,
+          color: isSelected ? CustomColors.peelOrange : CustomColors.charcoal,
           border: Border.all(color: CustomColors.peelOrange),
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
@@ -46,7 +60,7 @@ class Services extends StatelessWidget {
               ),
             ),
             Text(
-              service,
+              service['serviceName'],
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: CustomColors.white,
@@ -54,7 +68,7 @@ class Services extends StatelessWidget {
               ),
             ),
             Text(
-              'Rs. 300',
+              service['price'].toString(),
               style: TextStyle(
                 color: CustomColors.white,
               ),

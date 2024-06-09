@@ -1,10 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/components/carousel.dart';
 import 'package:trim_time/components/reviewBox.dart';
 import 'package:trim_time/components/servicesContainer.dart';
 import 'package:trim_time/components/timeSlotBox.dart';
+import 'package:trim_time/controller/firestore.dart';
+import 'package:trim_time/controller/local_storage.dart';
+import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/views/clientScreens/summary.dart';
 
 class BarberProfile extends StatefulWidget {
   const BarberProfile({super.key});
@@ -14,6 +21,8 @@ class BarberProfile extends StatefulWidget {
 }
 
 class _BarberProfileState extends State<BarberProfile> {
+  late bool isFavourite;
+
   bool clicked = false;
   var selectedService = null; //req for make an appointment
   var selectedDate = null; //req for make an appointment
@@ -21,7 +30,7 @@ class _BarberProfileState extends State<BarberProfile> {
   bool customIcon = false;
   int selectedIndex = -1;
   var selectedtime = null; //req for make an appointment
-    List<String> selectedServices = [];
+  List<String> selectedServices = [];
   // List of time slots
   List<String> times = [
     '1:00 PM - 1:30 PM',
@@ -31,12 +40,12 @@ class _BarberProfileState extends State<BarberProfile> {
     '3:00 PM - 3:30 PM'
   ];
 
-  List<String> services = [
-    'Hair Cut',
-    'Beard Trim',
-    'Hair Coloring',
-    'Face Treatment',
-  ];
+  // List<String> services = [
+  //   'Hair Cut',
+  //   'Beard Trim',
+  //   'Hair Coloring',
+  //   'Face Treatment',
+  // ];
 
   void onTimeSlotTap(int index, String time) {
     setState(() {
@@ -46,23 +55,26 @@ class _BarberProfileState extends State<BarberProfile> {
     });
   }
 
-
-  void onServiceTap(String service) {
-    setState(() {
-      if (selectedServices.contains(service)) {
-        selectedServices.remove(service);
-      } else {
-        selectedServices.add(service);
-      }
-      print(selectedServices); // For debugging purposes
-    });
-  }
+  // void onServiceTap(String service) {
+  //   setState(() {
+  //     if (selectedServices.contains(service)) {
+  //       selectedServices.remove(service);
+  //     } else {
+  //       selectedServices.add(service);
+  //     }
+  //     print(selectedServices); // For debugging purposes
+  //   });
+  // }
 
   Future<void> selectDate() async {
     DateTime? selected = await showDatePicker(
-        context: context,
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(Duration(days: 7)));
+      context: context,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(
+        Duration(days: 7),
+      ),
+      initialDate: DateTime.now(),
+    );
 
     if (selected != null) {
       print(selected);
@@ -76,6 +88,16 @@ class _BarberProfileState extends State<BarberProfile> {
 
   @override
   Widget build(BuildContext context) {
+    SampleProvider sampleProvider =
+        Provider.of<SampleProvider>(context, listen: false);
+
+    String selectedBarberId = sampleProvider.selectedBarber['uid'];
+    List services = sampleProvider.getBarberServicesForBarberProfile();
+
+    print('services in widgett ----> $services');
+
+    print('selected barber ----> ${sampleProvider.selectedBarber['uid']}');
+
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
       body: Stack(
@@ -98,7 +120,7 @@ class _BarberProfileState extends State<BarberProfile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Barbarella Inova',
+                      sampleProvider.selectedBarber['name'],
                       style: TextStyle(
                           fontSize: 30,
                           color: CustomColors.white,
@@ -108,22 +130,41 @@ class _BarberProfileState extends State<BarberProfile> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: InkWell(
-                        onTap: () {
-                          if (clicked) {
-                            clicked = false;
-                            setState(() {});
-                          } else {
-                            clicked = true;
-                            setState(() {});
-                          }
-                        },
-                        child: Icon(
-                          clicked ? Icons.favorite : Icons.favorite_border,
-                          color: clicked ? Colors.red : Colors.white,
-                        ),
-                      ),
-                    ),
+                      child: Consumer<SampleProvider>(
+                          builder: (context, provider, Widget? child) {
+                        isFavourite = sampleProvider.allBarbers.firstWhere(
+                            (element) =>
+                                element['uid'] ==
+                                selectedBarberId)['isFavourite'];
+                        return GestureDetector(
+                          onTap: () async {
+                            if (isFavourite) {
+                              print('remove fav');
+                              sampleProvider
+                                  .removeBarberFromFavourites(selectedBarberId);
+                            } else {
+                              print('add fav');
+                              sampleProvider
+                                  .addBarberToFavourites(selectedBarberId);
+                            }
+
+                            provider.updateInAppFavouriteList();
+                            updateClientFavoritesInFirestore(
+                                clientId: provider.uid,
+                                favouritesList:
+                                    provider.userData['favourites']);
+                            updateUserDataInLocalStorage(
+                                data: provider.userData);
+                          },
+                          child: Icon(
+                            isFavourite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: isFavourite ? Colors.red : Colors.white,
+                          ),
+                        );
+                      }),
+                    )
                   ],
                 ),
               ),
@@ -145,7 +186,7 @@ class _BarberProfileState extends State<BarberProfile> {
                       width: 10,
                     ),
                     Text(
-                      'British Hair Salon',
+                      sampleProvider.selectedBarber['shopName'],
                       style: TextStyle(
                           color: CustomColors.white,
                           fontSize: 15,
@@ -174,7 +215,7 @@ class _BarberProfileState extends State<BarberProfile> {
                     ),
                     Flexible(
                       child: Text(
-                        '6993 Meadow Valley Terrace, New York',
+                        sampleProvider.selectedBarber['shopAddress'],
                         style: TextStyle(
                           color: CustomColors.white,
                           fontSize: 15,
@@ -206,7 +247,7 @@ class _BarberProfileState extends State<BarberProfile> {
                       width: 10,
                     ),
                     Text(
-                      '1234 5667 8907',
+                      sampleProvider.selectedBarber['phoneNumber'],
                       style: TextStyle(
                           color: CustomColors.white,
                           fontSize: 15,
@@ -270,35 +311,79 @@ class _BarberProfileState extends State<BarberProfile> {
                 height: 15,
               ),
 
-              Container(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        // Services(),
-                        // SizedBox(
-                        //   width: 10,
-                        // ),
-                        // Services(),
-                        // SizedBox(
-                        //   width: 10,
-                        // ),
-                        // Services(),
-                        // SizedBox(
-                        //   width: 10,
-                        // ),
-                        // Services(),
+              // Consumer<SampleProvider>(builder: (context, provider, child) {
+              //   return
+              SizedBox(
+                height: 160,
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Consumer<SampleProvider>(
+                        builder: (context, provider, child) {
+                      return Services(
+                        service: services[index],
+                        isSelected: provider.selectedService ==
+                            services[index]['serviceId'],
+                        // onTap: provider.updateSelectedService(
+                        //     services[index]['serviceId']),
+                      );
+                    });
+                  },
+                  itemCount: services.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                ),
+              )
+              // })
+              ,
 
+              // SizedBox(
+              //   height: 160,
+              //   child: ListView.builder(
+              //     itemBuilder: (context, index) {
+              //       return Services(
+              //         service: services[index],
+              //         clicked: selectedServices.contains(services[index]),
+              //         onTap: ,
+              //       );
+              //     },
+              //     itemCount: services.length,
+              //     shrinkWrap: true,
+              //     scrollDirection: Axis.horizontal,
+              //   ),
+              // ),
+              // Container(
+              //   padding: const EdgeInsets.only(left: 15),
+              //   child: SingleChildScrollView(
+              //     scrollDirection: Axis.horizontal,
+              //     child: Row(
+              //       children: [
+              //         // Services(),
+              //         // SizedBox(
+              //         //   width: 10,
+              //         // ),
+              //         // Services(),
+              //         // SizedBox(
+              //         //   width: 10,
+              //         // ),
+              //         // Services(),
+              //         // SizedBox(
+              //         //   width: 10,
+              //         // ),
+              //         // Services(),
 
-                       ///he spread operator ... takes each Services from the generated list and inserts it into the  list of row children.
-                        ...List.generate(services.length, (index) { 
-                          return Services(
-                            service: services[index],
-                            clicked: selectedServices.contains(services[index]),
-                            onTap: () => onServiceTap(services[index]),
-                          );
-                        }),
-                      ]))),
+              //         ///he spread operator ... takes each Services from the generated list and inserts it into the  list of row children.
+
+              //         ...List.generate(services.length, (index) {
+              //           return Services(
+              //             service: services[index],
+              //             clicked: selectedServices.contains(services[index]),
+              //             onTap: () => onServiceTap(services[index]),
+              //           );
+              //         }),
+              //       ],
+              //     ),
+              //   ),
+              // ),
 
               const SizedBox(
                 height: 20,
@@ -318,18 +403,40 @@ class _BarberProfileState extends State<BarberProfile> {
                           fontWeight: FontWeight.bold,
                           color: CustomColors.white),
                     ),
-                    InkWell(
-                      onTap: () {
-                        selectDate();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Icon(
-                          Icons.calendar_month_outlined,
-                          color: CustomColors.white,
+                    Consumer<SampleProvider>(
+                        builder: (context, provider, child) {
+                      return InkWell(
+                        onTap: () async {
+                          DateTime? selected = await showDatePicker(
+                            context: context,
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now().add(
+                              Duration(days: 6),
+                            ),
+                            initialDate:
+                                sampleProvider.selectedDate ?? DateTime.now(),
+                          );
+
+                          print('DAte selected ----> $selected');
+
+                          if (selected != null) {
+                            sampleProvider.updateSelectedDate(selected);
+                            sampleProvider.updateSlotsToShow();
+                          }
+                          print(
+                              'DAte selected in provider ----> ${sampleProvider.selectedDate}');
+
+                          // selectDate();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Icon(
+                            Icons.calendar_month_outlined,
+                            color: CustomColors.white,
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ],
                 ),
               ),
@@ -349,17 +456,35 @@ class _BarberProfileState extends State<BarberProfile> {
                             const BorderRadius.all(Radius.circular(10))),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        selectedDate == null
-                            ? 'No Day Selected'
-                            : 'Schedule Appointment on $selectedDate',
-                        style: TextStyle(
-                          color: CustomColors.white,
-                          fontFamily: 'Poppins',
-                          fontSize: 15,
-                        ),
-                        textAlign: TextAlign.center,
+                      child: Consumer<SampleProvider>(
+                        builder: (context, provider, child) {
+                          var date = DateFormat('EEEE, dd-MM-yyyy')
+                              .format(provider.selectedDate);
+                          return Text(
+                            provider.selectedDate == null
+                                ? 'No Day Selected'
+                                : 'Schedule Booking on $date',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                              fontFamily: 'Poppins',
+                              fontSize: 15,
+                            ),
+                            textAlign: TextAlign.center,
+                          );
+                        },
                       ),
+
+                      // Text(
+                      //   selectedDate == null
+                      //       ? 'No Day Selected'
+                      //       : 'Schedule Booking on $selectedDate',
+                      //   style: TextStyle(
+                      //     color: CustomColors.white,
+                      //     fontFamily: 'Poppins',
+                      //     fontSize: 15,
+                      //   ),
+                      //   textAlign: TextAlign.center,
+                      // ),
                     )),
               ),
 
@@ -392,72 +517,115 @@ class _BarberProfileState extends State<BarberProfile> {
                 decoration: BoxDecoration(
                     color: CustomColors.charcoal,
                     borderRadius: const BorderRadius.all(Radius.circular(10))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: selectedDay == null
-                      ? Center(
-                          child: Text(
-                            'No Day Selected',
-                            style: TextStyle(
-                              color: CustomColors.white,
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
+                child: Consumer<SampleProvider>(
+                    builder: (context, provider, child) {
+                  var day = DateFormat('EEEE').format(provider.selectedDate);
+
+                  List slots = provider.slotsToShow;
+
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: provider.selectedDate == null
+                        ? Center(
+                            child: Text(
+                              'No Day Selected',
+                              style: TextStyle(
+                                color: CustomColors.white,
+                                fontFamily: 'Poppins',
+                                fontSize: 15,
+                              ),
                             ),
-                          ),
-                        )
-                      : ExpansionTile(
-                          shape:
-                              const Border(), //to remove divider lines when expanded
-                          title: Text(
-                            '$selectedDay',
-                            style: TextStyle(
-                              color: CustomColors.white,
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                            ),
-                          ),
-                          trailing: Icon(
-                            customIcon
-                                ? Icons.keyboard_arrow_up
-                                : Icons.keyboard_arrow_down,
-                            color: customIcon
-                                ? CustomColors.peelOrange
-                                : CustomColors.peelOrange,
-                          ),
-                          children: [
-                            Row(
-                              children: [
-                                Flexible(
-                                    child: Wrap(
-                                  spacing: 10,
-                                  runSpacing: 20,
-                                  // children: [
-                                  //   TimeSlot(),
-                                  //   TimeSlot(),
-                                  //   TimeSlot(),
-                                  //   TimeSlot(),
-                                  //   TimeSlot(),
-                                  // ],
-                                  children:
-                                      List.generate(times.length, (index) {
-                                    return TimeSlot(
-                                      time: times[index],
-                                      isSelected: selectedIndex == index, ///We set the isSelected property of each TimeSlot widget to true if its index matches the selectedIndex, indicating that it is currently selected. Everyime when the slot is pressed , only that slots isSelected proprty will bocome true and other remains false. bcz selectedIndex== tappedIndex
-                                      onTap: () =>
-                                          onTimeSlotTap(index, times[index]),
-                                    );
-                                  }),
-                                )),
-                              ],
-                            )
-                          ],
-                          onExpansionChanged: (bool expanded) {
-                            setState(() {
-                              customIcon = expanded;
-                            });
-                          },
-                        ),
-                ),
+                          )
+                        : slots.length == 0
+                            ? Center(
+                                child: Text(
+                                  'Barber is not Available on $day',
+                                  style: TextStyle(
+                                    color: CustomColors.white,
+                                    fontFamily: 'Poppins',
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              )
+                            :
+
+                            // Wrap(
+                            //   spacing: 10,
+                            //   runSpacing: 20,
+                            //   children: List.generate(slots.length, (index) {
+                            //     return TimeSlot(
+                            //       time: slots[index]['time'],
+                            //       isSelected: selectedIndex == index,
+                            //       onTap: () => onTimeSlotTap(
+                            //           index, slots[index]['time']),
+                            //     );
+                            //   }),
+                            // )
+
+                            // Text('have slots'),
+
+                            ExpansionTile(
+                                shape:
+                                    const Border(), //to remove divider lines when expanded
+                                title: Text(
+                                  day,
+                                  style: TextStyle(
+                                    color: CustomColors.white,
+                                    fontFamily: 'Poppins',
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  customIcon
+                                      ? Icons.keyboard_arrow_up
+                                      : Icons.keyboard_arrow_down,
+                                  color: customIcon
+                                      ? CustomColors.peelOrange
+                                      : CustomColors.peelOrange,
+                                ),
+                                children: [
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                          child: Wrap(
+                                        spacing: 10,
+                                        runSpacing: 20,
+                                        // children: [
+                                        //   TimeSlot(),
+                                        //   TimeSlot(),
+                                        //   TimeSlot(),
+                                        //   TimeSlot(),
+                                        //   TimeSlot(),
+                                        // ],
+                                        children: List.generate(slots.length,
+                                            (index) {
+                                          return Consumer<SampleProvider>(
+                                              builder:
+                                                  (context, provider, child) {
+                                            return TimeSlot(
+                                              slot: slots[index],
+                                              isSelected: provider
+                                                      .selectedSlot['slotId'] ==
+                                                  slots[index]['slotId'],
+
+                                              ///We set the isSelected property of each TimeSlot widget to true if its index matches the selectedIndex, indicating that it is currently selected. Everyime when the slot is pressed , only that slots isSelected proprty will bocome true and other remains false. bcz selectedIndex== tappedIndex
+                                              // onTap: () => onTimeSlotTap(
+                                              //     index, times[index]),
+                                            );
+                                          });
+                                        }),
+                                      )),
+                                    ],
+                                  )
+                                ],
+                                onExpansionChanged: (bool expanded) {
+                                  setState(() {
+                                    customIcon = expanded;
+                                  });
+                                },
+                              ),
+                  );
+                }),
               ),
 
               const SizedBox(
@@ -504,87 +672,171 @@ class _BarberProfileState extends State<BarberProfile> {
             ]),
           ),
           // Fixed position container
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              color: CustomColors.gunmetal,
-              height: 70,
-              child: InkWell(
-                onTap: () {
-                  // Check if all three fields are null
-                  if (selectedServices.isEmpty ||
-                      selectedDate == null ||
-                      selectedtime == null) {
+
+          Consumer<SampleProvider>(builder: (context, provider, child) {
+            return Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                color: CustomColors.gunmetal,
+                height: 70,
+                child: InkWell(
+                  onTap: () async {
+                    // Check if all three fields are null
+                    // if (provider.selectedSlot == {} ||
+
+                    //     selectedDate == null ||
+                    //     selectedtime == null) {
                     // Show alert box: Kindly provide complete info
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Alert'),
-                          content: const Text('Kindly provide complete info.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('OK'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  } else {
+
+                    print('\n Booking Data ---------->');
+                    print(
+                        '\n Booking Date ----------> ${provider.selectedDate.toIso8601String()}');
+                    print(
+                        '\n Booking service ----------> ${provider.selectedService}');
+                    print(
+                        '\n Booking Slot ----------> ${provider.selectedSlot}');
+
+                    if (provider.selectedSlot.isEmpty ||
+                        provider.selectedService == '') {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Alert'),
+                            content: Text(provider.selectedService == ''
+                                ? 'Kindly select service.'
+                                : 'Kindly select time slot.'),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                    // }
+                    else {
+                      print('in else block');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BookingSummary()),
+                      );
+
+                      // provider.setCreateBookingCIP(true);
+
+                      //  bool isSlotAvailable =  await checkBookingSlotIsAvailableInFirestore(
+                      //       barberId: provider.selectedBarber['uid'],
+                      //       slotId: provider.selectedSlot['slotId'],
+                      //       selectedDate:
+                      //           provider.selectedDate.toIso8601String()
+                      //   );
+
+                      // await createBookingInFirestore(
+                      //     barberId: provider.selectedBarber['uid'],
+                      //     clientId: provider.userData['uid'],
+                      //     serviceId: provider.selectedService,
+                      //     slot: provider.selectedSlot,
+                      //     selectedDate:
+                      //         provider.selectedDate.toIso8601String());
+
+                      // provider.createBooking(
+                      //     barberId: provider.selectedBarber['uid'],
+                      //     serviceId: provider.selectedService,
+                      //     slotId: provider.selectedSlot['slotId'],
+                      //     date: provider.selectedDate);
+
+                      // provider.setCreateBookingCIP(false);
+
+                      // showDialog(
+                      //   context: context,
+                      //   builder: (BuildContext context) {
+                      //     return AlertDialog(
+                      //       title: const Text('Alert'),
+                      //       content: Text(
+                      //           'successful booking made on ${provider.selectedSlot}.'),
+                      //       actions: <Widget>[
+                      //         TextButton(
+                      //           child: const Text('OK'),
+                      //           onPressed: () {
+                      //             Navigator.of(context).pop();
+                      //           },
+                      //         ),
+                      //       ],
+                      //     );
+                      //   },
+                      // );
+                    }
+                    // } else {
                     // Show alert box: Successful booking
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Success'),
-                          content: Text(
-                              'Successful booking made on $selectedDate between $selectedtime.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Next'),
-                              onPressed: () {
-                                // Redirect to next screen
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const NextScreen()),
-                                );
-                              },
+                    // showDialog(
+                    //   context: context,
+                    //   builder: (BuildContext context) {
+                    //     return AlertDialog(
+                    //       title: const Text('Success'),
+                    //       content: Text(
+                    //           'Successful booking made on $selectedDate between $selectedtime.'),
+                    //       actions: <Widget>[
+                    //         TextButton(
+                    //           child: const Text('Next'),
+                    //           onPressed: () {
+                    //             // Redirect to next screen
+                    //             Navigator.of(context).pop();
+                    //             Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                   builder: (context) => const NextScreen()),
+                    //             );
+                    //           },
+                    //         ),
+                    //       ],
+                    //     );
+                    //   },
+                    // );
+                    // }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        top: 10, bottom: 10, left: 30, right: 30),
+                    height: 50,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        color: CustomColors.peelOrange,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50))),
+                    child: Center(
+                      child: provider.createBookingCIP
+                          ? const SpinKitFadingCircle(
+                              color: CustomColors.charcoal,
+                              size: 30.0,
+                            )
+                          : Text(
+                              'Book Now',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(
-                      top: 10, bottom: 10, left: 30, right: 30),
-                  height: 50,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      color: CustomColors.peelOrange,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(50))),
-                  child: const Center(
-                    child: Text(
-                      'Book Now',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
+
+                      // Text(
+                      //   'Book Now',
+                      //   style: TextStyle(
+                      //       color: Colors.white,
+                      //       fontSize: 15,
+                      //       fontWeight: FontWeight.bold),
+                      // ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );

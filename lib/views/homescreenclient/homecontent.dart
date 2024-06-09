@@ -77,7 +77,7 @@ class _HomeContentState extends State<HomeContent> {
                           provider.uid = localData['userData']['uid'];
                           provider.setAllBarbers(widget.allBarbers);
                           return Text(
-                            'Morning, ${provider.userData['name']} 👋',
+                            'Hello, ${provider.userData['name']} 👋',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,

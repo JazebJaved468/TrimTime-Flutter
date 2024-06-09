@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:trim_time/controller/date_time.dart';
 import 'package:trim_time/controller/local_storage.dart';
+import 'package:uuid/uuid.dart';
 
 getUserDataFromFirestore(String userId, bool isClient) async {
   print(
@@ -82,6 +84,122 @@ updateClientFavoritesInFirestore(
 
   //  await updateUserDataInLocalStorage(
   // data: await getUserDataFromFirestore(uid, isClient));
+}
+
+checkBookingSlotIsAvailableInFirestore(
+    {required String barberId,
+    required String slotId,
+    required String selectedDate}) async {
+  print(
+      '-----------------> Checking Booking Slot Is Available In FireStore <-----------------');
+
+  bool isAvailable = false;
+  CollectionReference barbers =
+      FirebaseFirestore.instance.collection('barbers');
+
+  DocumentSnapshot _barber = await barbers.doc(barberId).get();
+  Map<String, dynamic> barberData = _barber.data() as Map<String, dynamic>;
+
+  barberData['availability'].forEach((date, info) {
+    // print('date ----> $date');
+    var fomattedDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
+    var selectedDateFormatted =
+        DateFormat('dd-MM-yyyy').format(DateTime.parse(selectedDate));
+
+    if (selectedDateFormatted == fomattedDate) {
+      // print('date matched');
+      if (barberData['availability'][date]['isAvailable']) {
+        {
+          barberData['availability'][date]['slots'].forEach((slot) {
+            if (slot['isAvailable'] && slot['isBooked'] == false) {
+              if (slot['slotId'] == slotId) {
+                isAvailable = true;
+              }
+            }
+          });
+          // print('barber available on that day ----> $date');
+          // barberAvailability = info;
+        }
+        // barberAvailability = info;
+      } else {
+        isAvailable = false;
+      }
+      // if (slot['isAvailable'] && slot['isBooked'] == false) {
+      //   tempSlotsList.add(slot);
+      // }
+
+      //  slotsToShow = tempSlotsList;
+
+      // print('slots list length ----> ${tempSlotsList.length}');
+    }
+  });
+
+  // bookings.where('slotId', isEqualTo: 'slotId').get().then((value) {
+  //   if (value.docs.isEmpty) {
+  //     print('Slot is available');
+  //   } else {
+  //     print('Slot is not available');
+  //   }
+  // });
+  return isAvailable;
+}
+
+createBookingInFirestore({
+  required String barberId,
+  required String clientId,
+  required String serviceId,
+  required Map slot,
+  required String selectedDate,
+}) async {
+  print('-----------------> Creating Booking In FireStore <-----------------');
+
+  bool isSlotAvailable = await checkBookingSlotIsAvailableInFirestore(
+      barberId: barberId, slotId: slot['slotId'], selectedDate: selectedDate);
+
+  CollectionReference bookings =
+      FirebaseFirestore.instance.collection('bookings');
+
+  var uuid = Uuid();
+
+  if (isSlotAvailable) {
+    bookings.add({
+      'id': uuid.v4(),
+      'barberId': barberId,
+      'clientId': clientId,
+      'serviceId': serviceId,
+      'slotId': slot['slotId'],
+      'startTime': slot['start'],
+      'endTime': slot['end'],
+      'isCompleted': false,
+      'isCancelled': false,
+      'isConfirmed': false,
+      'isPaid': false,
+      'isRated': false,
+      'rating': 0,
+      'review': '',
+      'bookingDate': selectedDate,
+      'updatedAt': DateTime.now().toIso8601String(),
+    });
+
+    return 0; // 0 means booking is successful
+  } else {
+    return 1; // 1 means slot is not available, booking failed
+  }
+
+  // bookings.add({
+  //   'id': '',
+  //   'barberId': '',
+  //   'clientId': '',
+  //   'serviceId': '',
+  //   'slotId': '',
+  //   'isCompleted': false,
+  //   'isCancelled': false,
+  //   'isConfirmed': false,
+  //   'isPaid': false,
+  //   'isRated': false,
+  //   'rating': 0,
+  //   'review': ''
+  // });
 }
 
 storeUserDataInFirestore(
