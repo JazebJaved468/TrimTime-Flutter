@@ -108,10 +108,9 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                     } else {
                       await updateBooleanDataInLocalStorage(
                           key: 'isFirstVisit', value: false);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignIn()),
-                      );
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => SignIn()),
+                          (Route route) => false);
                     }
                   },
                   child: Container(

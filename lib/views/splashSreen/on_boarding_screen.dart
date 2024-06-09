@@ -20,10 +20,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               onPressed: () {
                 updateBooleanDataInLocalStorage(
                     key: 'isFirstVisit', value: false);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignIn()),
-                );
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => SignIn()),
+                    (Route route) => false);
               },
               child: Text('get Started'))
         ],

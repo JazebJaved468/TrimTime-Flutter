@@ -55,6 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         email: localData['userData']['email'],
                         fullName: localData['userData']['name'],
                         gender: localData['userData']['gender'],
+                        shouldNavigate: true,
                       )),
             );
           }
@@ -83,10 +84,9 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         }
       } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SignIn()),
-        );
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => SignIn()),
+            (Route route) => false);
       }
     }
   }

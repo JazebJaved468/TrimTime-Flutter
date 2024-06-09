@@ -43,6 +43,30 @@ updateBarberAvailabilityInFirestore(
   await barbers.doc(barberId).update({'availability': data});
 }
 
+getAllBookingsFromFireStore({
+  required String clientId,
+}) async {
+  print(
+      '-----------------> Getting All Bookings Listing from Firestore <-----------------');
+  CollectionReference bookings =
+      FirebaseFirestore.instance.collection('bookings');
+  QuerySnapshot querySnapshot =
+      await bookings.where('clientId', isEqualTo: clientId).get();
+  List? allBookings = querySnapshot.docs.map((e) {
+    return e.data() as Map<String, dynamic>;
+  }).toList();
+
+  // print('All Bookings: $allBookings');
+
+  for (var booking in allBookings) {
+    Map<String, dynamic> barberData =
+        await getUserDataFromFirestore(booking['barberId'], false);
+    booking['barberData'] = barberData;
+  }
+
+  return allBookings;
+}
+
 getAllBarbersFromFireStore() async {
   print(
       '-----------------> Getting all Barbers Listing from Firestore <-----------------');
@@ -149,21 +173,22 @@ createBookingInFirestore({
   required String clientId,
   required String serviceId,
   required Map slot,
-  required String selectedDate,
+  required String date,
+  required int amount,
 }) async {
   print('-----------------> Creating Booking In FireStore <-----------------');
 
   bool isSlotAvailable = await checkBookingSlotIsAvailableInFirestore(
-      barberId: barberId, slotId: slot['slotId'], selectedDate: selectedDate);
+      barberId: barberId, slotId: slot['slotId'], selectedDate: date);
 
   CollectionReference bookings =
       FirebaseFirestore.instance.collection('bookings');
 
-  var uuid = Uuid();
+  var uuid = Uuid().v4();
 
   if (isSlotAvailable) {
     bookings.add({
-      'id': uuid.v4(),
+      'id': uuid,
       'barberId': barberId,
       'clientId': clientId,
       'serviceId': serviceId,
@@ -177,13 +202,60 @@ createBookingInFirestore({
       'isRated': false,
       'rating': 0,
       'review': '',
-      'bookingDate': selectedDate,
+      'date': date,
+      'paidAmount': 0,
+      'totalAmount': amount,
       'updatedAt': DateTime.now().toIso8601String(),
     });
 
-    return 0; // 0 means booking is successful
+    CollectionReference barbers =
+        FirebaseFirestore.instance.collection('barbers');
+
+    CollectionReference clients =
+        FirebaseFirestore.instance.collection('clients');
+
+    await barbers.doc(barberId).update({
+      'bookings': FieldValue.arrayUnion([uuid])
+    });
+
+    await clients.doc(clientId).update({
+      'bookings': FieldValue.arrayUnion([uuid])
+    });
+
+    Map<String, dynamic> barberData =
+        await getUserDataFromFirestore(barberId, false);
+
+    barberData['availability'].forEach((_date, info) {
+      var fomattedDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(_date));
+      var selectedDateFormatted =
+          DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
+
+      if (selectedDateFormatted == fomattedDate) {
+        barberData['availability'][_date]['slots'].forEach((_slot) {
+          if (_slot['slotId'] == slot['slotId']) {
+            _slot['isBooked'] = true;
+          }
+        });
+      }
+    });
+
+    updateBarberDataInFirestore(
+        userId: barberId, isClient: false, data: barberData);
+
+    updateUserDataInLocalStorage(
+        data: await getUserDataFromFirestore(clientId, true));
+
+    return {
+      'status': 0,
+      'message': 'Booking is successful',
+      'bookingId': uuid,
+    }; // 0 means booking is successful
   } else {
-    return 1; // 1 means slot is not available, booking failed
+    return {
+      'status': -1,
+      'message': 'Booking failed, slot is not available',
+      'bookingId': null,
+    }; // 1 means slot is not available, booking failed
   }
 
   // bookings.add({

@@ -54,6 +54,7 @@ class _SignInState extends State<SignIn> {
                       email: localData['userData']['email'],
                       fullName: localData['userData']['name'],
                       gender: localData['userData']['gender'],
+                      shouldNavigate: true,
                     )),
           );
         }
@@ -91,6 +92,7 @@ class _SignInState extends State<SignIn> {
                       email: localData['userData']['email'],
                       fullName: localData['userData']['name'],
                       gender: localData['userData']['gender'],
+                      shouldNavigate: true,
                     )),
           );
         } else {

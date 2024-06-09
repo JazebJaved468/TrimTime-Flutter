@@ -20,18 +20,24 @@
 
 // BOOKING  
 // {
-//           'id': '',
-//           'barberId': '',
-//           'clientId': '',
-//           'serviceId': '',
-//           'slotId': '',
-//           'isCompleted': false,
-//           'isCancelled': false,
-//           'isConfirmed': false,
-//           'isPaid': false,
-//           'isRated': false,
-//           'rating': 0,
-//           'review': ''
+// //          'id': uuid,
+//       'barberId': barberId,
+//       'clientId': clientId,
+//       'serviceId': serviceId,
+//       'slotId': slot['slotId'],
+//       'startTime': slot['start'],
+//       'endTime': slot['end'],
+//       'isCompleted': false,
+//       'isCancelled': false,
+//       'isConfirmed': false,
+//       'isPaid': false,
+//       'isRated': false,
+//       'rating': 0,
+//       'review': '',
+//       'date': date,
+//       'paidAmount': 0,
+//       'totalAmount': 0,
+//       'updatedAt': DateTime.now().toIso8601String(),
 //         }
 
 // RATING

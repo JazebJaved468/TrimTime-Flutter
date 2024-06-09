@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/controller/firestore.dart';
+import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barber_listing/barber_listing.dart';
+import 'package:trim_time/views/bookings/booking.dart';
+import 'package:trim_time/views/clientScreens/registration_client.dart';
 import 'package:trim_time/views/favouriteScreen/favourite_screen.dart';
 import '../../views/homescreenclient/homecontent.dart';
 import 'package:trim_time/colors/custom_colors.dart';
@@ -19,13 +22,19 @@ class _NavigationExampleState extends State<NavigationExample> {
   int currentPageIndex = 0;
 
   late List<Map<String, dynamic>> allBarbers;
+  late List<Map<String, dynamic>> allBookings;
+  late Map<String, dynamic> localData;
 
   final isClient = true;
 
   bool _isLoading = true;
 
   _loadData() async {
+    localData = await getDataFromLocalStorage();
     allBarbers = await getAllBarbersFromFireStore();
+    allBookings = await getAllBookingsFromFireStore(clientId: localData['uid']);
+
+    print('localData in ----> $localData');
 
     // print('BArber Listing: ${barbers}');
 
@@ -99,6 +108,7 @@ class _NavigationExampleState extends State<NavigationExample> {
               /// Home page
               HomeContent(
                 allBarbers: allBarbers,
+                allBookings: allBookings,
               ), // Call the HomeContent widget here
 
               /// Barber page (Placeholder)
@@ -119,27 +129,38 @@ class _NavigationExampleState extends State<NavigationExample> {
               //   ),
               // ),
 
+              BookingScreen(),
+
               /// My Booking page (Placeholder)
-              const Center(
-                child: Text(
-                  'My Booking Page',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
+              // const Center(
+              //   child: Text(
+              //     'My Booking Page',
+              //     style: TextStyle(
+              //         fontSize: 24,
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.white),
+              //   ),
+              // ),
+
+              ClientRegistrationPage(
+                photoURL: localData['userData']['photoURL'],
+                fullName: localData['userData']['name'],
+                email: localData['userData']['email'],
+                phoneNumber: localData['userData']['phoneNumber'],
+                gender: localData['userData']['gender'],
+                shouldNavigate: false,
               ),
 
               /// Profile page (Placeholder)
-              const Center(
-                child: Text(
-                  'Profile Page',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ),
+              // const Center(
+              //   child: Text(
+              //     'Profile Page',
+              //     style: TextStyle(
+              //         fontSize: 24,
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.white),
+              //   ),
+              // ),
             ][currentPageIndex],
     );
   }

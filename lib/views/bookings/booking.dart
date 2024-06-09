@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/providers/sample_provider.dart';
 
 class BookingScreen extends StatefulWidget {
   @override
@@ -7,7 +9,10 @@ class BookingScreen extends StatefulWidget {
 }
 
 class _BookingScreenState extends State<BookingScreen> {
+  final isClient = true;
   int selectedIndex = 0;
+
+  late List currentListing;
 
   final List<Map<String, String>> upcomingBookings = [
     {
@@ -16,7 +21,7 @@ class _BookingScreenState extends State<BookingScreen> {
       'dateTime': 'Mon, 14 Jun 2023, 2:00 PM',
       'price': '\$30',
       'bookingId': '12345',
-      'imageUrl': 'assets/images/testpic.jpg', 
+      'imageUrl': 'assets/images/testpic.jpg',
     },
     {
       'barberName': 'John Loww',
@@ -24,7 +29,7 @@ class _BookingScreenState extends State<BookingScreen> {
       'dateTime': 'Mon, 14 Jun 2023, 2:00 PM',
       'price': '\$30',
       'bookingId': '12345',
-      'imageUrl': 'assets/images/testpic.jpg', 
+      'imageUrl': 'assets/images/testpic.jpg',
     },
     {
       'barberName': 'John Poee',
@@ -43,7 +48,7 @@ class _BookingScreenState extends State<BookingScreen> {
       'dateTime': 'Tue, 15 Jun 2023, 4:00 PM',
       'price': '\$40',
       'bookingId': '67890',
-      'imageUrl': 'assets/images/testpic.jpg', 
+      'imageUrl': 'assets/images/testpic.jpg',
     },
   ];
 
@@ -54,23 +59,25 @@ class _BookingScreenState extends State<BookingScreen> {
       'dateTime': 'Wed, 16 Jun 2023, 10:00 AM',
       'price': '\$50',
       'bookingId': '11223',
-      'imageUrl': 'assets/images/testpic.jpg', 
+      'imageUrl': 'assets/images/testpic.jpg',
     },
   ];
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> currentBookings;
+    SampleProvider sampleProvider =
+        Provider.of<SampleProvider>(context, listen: false);
+    // List<Map<String, String>> currentListing;
 
     switch (selectedIndex) {
       case 1:
-        currentBookings = cancelledBookings;
+        currentListing = sampleProvider.cancelledBookingsClient;
         break;
       case 2:
-        currentBookings = completedBookings;
+        currentListing = sampleProvider.completedBookingsClient;
         break;
       default:
-        currentBookings = upcomingBookings;
+        currentListing = sampleProvider.upcomingBookingsClient;
     }
 
     return Scaffold(
@@ -102,22 +109,44 @@ class _BookingScreenState extends State<BookingScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: currentBookings.length,
-              itemBuilder: (context, index) {
-                final booking = currentBookings[index];
-                return BookingCard(
-                  barberName: booking['barberName']!,
-                  shopName: booking['shopName']!,
-                  dateTime: booking['dateTime']!,
-                  price: booking['price']!,
-                  bookingId: booking['bookingId']!,
-                  imageUrl: booking['imageUrl']!,
-                );
-              },
-            ),
+
+          Consumer<SampleProvider>(
+            builder: (context, provider, child) {
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: currentListing.length,
+                  itemBuilder: (context, index) {
+                    final booking = currentListing[index];
+                    return BookingCard(
+                      barberName: booking['barberData']['name'],
+                      shopName: booking['barberData']['shopName'],
+                      dateTime: booking['startTime'],
+                      price: booking['totalAmount'],
+                      bookingId: booking['id'],
+                      imageUrl: booking['barberData']['photoURL'],
+                    );
+                  },
+                ),
+              );
+            },
           ),
+
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: currentListing.length,
+          //     itemBuilder: (context, index) {
+          //       final booking = currentListing[index];
+          //       return BookingCard(
+          //         barberName: booking['barberData']['name'],
+          //         shopName: booking['barberData']['shopName'],
+          //         dateTime: booking['startTime'],
+          //         price: booking['totalAmount'],
+          //         bookingId: booking['id'],
+          //         imageUrl: booking['barberData']['photoURL'],
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
@@ -125,7 +154,7 @@ class _BookingScreenState extends State<BookingScreen> {
 
   Widget buildChoiceChip(String label, int index) {
     final isSelected = selectedIndex == index;
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         setState(() {
           selectedIndex = index;
@@ -155,7 +184,7 @@ class BookingCard extends StatelessWidget {
   final String barberName;
   final String shopName;
   final String dateTime;
-  final String price;
+  final int price;
   final String bookingId;
   final String imageUrl;
 
@@ -180,7 +209,7 @@ class BookingCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
+              child: Image.network(
                 imageUrl,
                 width: 80,
                 height: 80,
@@ -197,11 +226,15 @@ class BookingCard extends StatelessWidget {
                     children: [
                       Text(
                         barberName,
-                        style: TextStyle(color: CustomColors.peelOrange, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: CustomColors.peelOrange,
+                            fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        price,
-                        style: TextStyle(color: CustomColors.peelOrange, fontWeight: FontWeight.bold),
+                        'Rs. ${price}',
+                        style: TextStyle(
+                            color: CustomColors.peelOrange,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

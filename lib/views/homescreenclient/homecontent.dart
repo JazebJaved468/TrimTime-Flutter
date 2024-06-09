@@ -9,8 +9,10 @@ import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/sign_in.dart';
 
 class HomeContent extends StatefulWidget {
-  HomeContent({Key? key, required this.allBarbers}) : super(key: key);
+  HomeContent({Key? key, required this.allBarbers, required this.allBookings})
+      : super(key: key);
   final List<Map<String, dynamic>> allBarbers;
+  final List<Map<String, dynamic>> allBookings;
 
   @override
   State<HomeContent> createState() => _HomeContentState();
@@ -49,10 +51,9 @@ class _HomeContentState extends State<HomeContent> {
             IconButton(
               onPressed: () async {
                 await signOut();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignIn()),
-                );
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => SignIn()),
+                    (Route route) => false);
               },
               icon: const Icon(Icons.logout),
             ),
@@ -73,9 +74,15 @@ class _HomeContentState extends State<HomeContent> {
                     children: [
                       Consumer<SampleProvider>(
                         builder: (context, provider, child) {
-                          provider.setUserData(localData['userData']);
-                          provider.uid = localData['userData']['uid'];
-                          provider.setAllBarbers(widget.allBarbers);
+                          // remove if-block if issue creates
+                          if (!provider.invalidateHomeDataInitializtion) {
+                            provider.setUserData(localData['userData']);
+                            provider.uid = localData['userData']['uid'];
+                            provider.invalidateHomeDataInitializtion = true;
+                            provider.setAllBarbers(widget.allBarbers);
+                            provider.setAllBookings(widget.allBookings);
+                            print('update user datafrom home ');
+                          }
                           return Text(
                             'Hello, ${provider.userData['name']} 👋',
                             style: TextStyle(

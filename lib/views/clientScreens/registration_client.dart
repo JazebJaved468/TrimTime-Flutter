@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
+import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/clientScreens/home_client.dart';
 import 'package:trim_time/views/homescreenclient/homecontent.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
@@ -16,13 +18,15 @@ class ClientRegistrationPage extends StatefulWidget {
       required this.phoneNumber,
       required this.email,
       required this.fullName,
-      required this.gender});
+      required this.gender,
+      required this.shouldNavigate});
 
   final String photoURL;
   final String phoneNumber;
   final String email;
   final String fullName;
   final String gender;
+  final bool shouldNavigate;
 
   @override
   State<ClientRegistrationPage> createState() => _ClientRegistrationPageState();
@@ -40,14 +44,14 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
   // LocalStorageModel? localStorageData;
 
   _loadData() async {
-    await Future.delayed(const Duration(seconds: 2));
+    // await Future.delayed(const Duration(seconds: 2));
 
     localData = await getDataFromLocalStorage();
 
     print('localData in registration page----> $localData');
 
     setState(() {
-      dropDownValue = localData['userData']['gender'];
+      // dropDownValue = localData['userData']['gender'];
       _isLoading = false;
     });
   }
@@ -62,8 +66,21 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
     _loadData();
   }
 
+  // String fullName = '';
+  // String nickName = '';
+  // String phoneNumber = '';
+  // String address = '';
+  // TextEditingController fullNameController = TextEditingController();
+  // TextEditingController nickNameController = TextEditingController();
+  // TextEditingController emailController = TextEditingController();
+  // TextEditingController phoneNumberController = TextEditingController();
+  // TextEditingController addressController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    SampleProvider sampleProvider =
+        Provider.of<SampleProvider>(context, listen: false);
+
     TextEditingController fullNameController =
         TextEditingController(text: widget.fullName);
     TextEditingController nickNameController = TextEditingController();
@@ -76,7 +93,6 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
     ;
 
     TextEditingController addressController = TextEditingController();
-
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -85,10 +101,9 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
             IconButton(
               onPressed: () async {
                 await signOut();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignIn()),
-                );
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => SignIn()),
+                    (Route route) => false);
               },
               icon: const Icon(Icons.logout),
             ),
@@ -145,25 +160,47 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                         labelText: 'Address',
                       ),
                     ),
-                    DropdownButton(
-                      // Initial Value
-                      value: dropDownValue,
 
-                      icon: const Icon(Icons.keyboard_arrow_down),
+                    Consumer<SampleProvider>(
+                      builder: (context, provider, child) {
+                        return DropdownButton(
+                          // Initial Value
+                          value: provider.clientGender,
 
-                      items: genders.map((String item) {
-                        return DropdownMenuItem(
-                          value: item,
-                          child: Text(item.toUpperCase()),
+                          icon: const Icon(Icons.keyboard_arrow_down),
+
+                          items: genders.map((String item) {
+                            return DropdownMenuItem(
+                              value: item,
+                              child: Text(item.toUpperCase()),
+                            );
+                          }).toList(),
+
+                          onChanged: (String? newValue) {
+                            provider.updateClientGEnder(newValue!);
+                          },
                         );
-                      }).toList(),
-
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropDownValue = newValue!;
-                        });
                       },
                     ),
+                    // DropdownButton(
+                    //   // Initial Value
+                    //   value: dropDownValue,
+
+                    //   icon: const Icon(Icons.keyboard_arrow_down),
+
+                    //   items: genders.map((String item) {
+                    //     return DropdownMenuItem(
+                    //       value: item,
+                    //       child: Text(item.toUpperCase()),
+                    //     );
+                    //   }).toList(),
+
+                    //   onChanged: (String? newValue) {
+                    //     setState(() {
+                    //       dropDownValue = newValue!;
+                    //     });
+                    //   },
+                    // ),
                     ElevatedButton(
                       onPressed: () async {
                         await updateUserRegistrationDataInFirestore(
@@ -175,20 +212,24 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                               'nickName': nickNameController.text,
                               'email': emailController.text,
                               'phoneNumber': phoneNumberController.text,
-                              'gender': dropDownValue.toLowerCase(),
+                              'gender':
+                                  sampleProvider.clientGender.toLowerCase(),
                               'address': addressController.text,
                             });
-
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
 
                         await updateUserDataInLocalStorage(
                             data: await getUserDataFromFirestore(
                                 localData['uid'], isClient));
+
+                        if (widget.shouldNavigate) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                          );
+                        }
                       },
-                      child: Text('Update Profile'),
+                      child: Text('Save Profile'),
                     ),
                   ],
                 ),

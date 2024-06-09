@@ -150,10 +150,10 @@ class _BarberListingState extends State<BarberListing> {
               itemBuilder: (context, index) {
                 final barber = currentListing[index];
 
-                print('Selected Index: $selectedIndex');
-                print('Barber: ${barber['name']}');
-                print('Barber isfavourite: ${barber['isFavourite']}');
-                print('\n');
+                // print('Selected Index: $selectedIndex');
+                // print('Barber: ${barber['name']}');
+                // print('Barber isfavourite: ${barber['isFavourite']}');
+                // print('\n');
 
                 return BarberCard(
                   barberId: barber['uid'],

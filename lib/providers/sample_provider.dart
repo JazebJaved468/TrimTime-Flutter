@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:trim_time/controller/local_storage.dart';
+import 'package:trim_time/utilities/constants/constants.dart';
 
 class SampleProvider with ChangeNotifier {
+  bool invalidateHomeDataInitializtion = false;
   late String uid;
   late Map<String, dynamic> userData;
   bool signInCIP = false;
@@ -23,11 +26,18 @@ class SampleProvider with ChangeNotifier {
   bool createBookingCIP = false;
 
   // Client side States
+  String clientGender = 'male';
   Map<String, dynamic> selectedBarber = {};
   String selectedService = '';
+  late String selectedServiceName = getSelectedServiceName();
   DateTime selectedDate = DateTime.now();
   Map selectedSlot = {};
   late List slotsToShow = getSlotsToShow();
+
+  updateClientGEnder(String value) {
+    clientGender = value;
+    notifyListeners();
+  }
 
   getBarberServicesForBarberProfile() {
     String serviceName = '';
@@ -58,6 +68,67 @@ class SampleProvider with ChangeNotifier {
     return tempList;
   }
 
+  createBooking() async {
+    int responseCode = -1; // 0 for success, -1 for failure
+
+    Map<String, dynamic> response = await createBookingInFirestore(
+      barberId: selectedBarber['uid'],
+      clientId: uid,
+      serviceId: selectedService,
+      slot: selectedSlot,
+      date: selectedDate.toIso8601String(),
+      amount: getTotalPrice(),
+    );
+
+    updateUserDataInLocalStorage(
+        data: await getUserDataFromFirestore(
+            userData['uid'], userData['isClient']));
+
+    if (response['status'] == 0) {
+      responseCode = 0;
+      userData['bookings'].add(response['bookingId']);
+
+      selectedBarber['availability'].forEach((date, info) {
+        var fomattedDate =
+            DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
+        var selectedDateFormatted =
+            DateFormat('dd-MM-yyyy').format(selectedDate);
+
+        if (selectedDateFormatted == fomattedDate) {
+          if (selectedBarber['availability'][date]['isAvailable']) {
+            {
+              selectedBarber['availability'][date]['slots'].forEach((slot) {
+                if (slot['slotId'] == selectedSlot['slotId']) {
+                  slot['isBooked'] = true;
+                }
+              });
+            }
+          }
+        }
+      });
+
+      selectedSlot = {};
+      selectedService = '';
+      updateSlotsToShow();
+      notifyListeners();
+    } else {
+      responseCode = -1;
+    }
+
+    return responseCode;
+  }
+
+  getTotalPrice() {
+    int totalPrice = 0;
+
+    if (selectedService != '') {
+      int servicePrice = selectedBarber['services'][selectedService]['price'];
+      totalPrice = (servicePrice + GST_PERCENTAGE * (servicePrice)).round();
+    }
+
+    return totalPrice;
+  }
+
   updateSelectedSlot(Map slot) {
     selectedSlot = slot;
     notifyListeners();
@@ -74,20 +145,39 @@ class SampleProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  getSelectedServicePrice() {
+    int price = 0;
+
+    if (selectedService != '') {
+      price = selectedBarber['services'][selectedService]['price'];
+    }
+
+    return price;
+  }
+
+  getSelectedServiceName() {
+    String serviceName = '';
+    if (selectedService == '1') {
+      serviceName = 'Haircut';
+    } else if (selectedService == '2') {
+      serviceName = 'Shave';
+    } else if (selectedService == '3') {
+      serviceName = 'Beard Trim';
+    } else if (selectedService == '4') {
+      serviceName = 'Massage';
+    }
+
+    return serviceName;
+  }
+
   getSlotsToShow() {
     List tempSlotsList = [];
 
-    print('in updaet slots to show func');
-
-    print('selected date ----> ${selectedDate.toIso8601String()}');
-
     selectedBarber['availability'].forEach((date, info) {
-      // print('date ----> $date');
       var fomattedDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
       var selectedDateFormatted = DateFormat('dd-MM-yyyy').format(selectedDate);
 
       if (selectedDateFormatted == fomattedDate) {
-        // print('date matched');
         if (selectedBarber['availability'][date]['isAvailable']) {
           {
             selectedBarber['availability'][date]['slots'].forEach((slot) {
@@ -95,43 +185,13 @@ class SampleProvider with ChangeNotifier {
                 tempSlotsList.add(slot);
               }
             });
-            // print('barber available on that day ----> $date');
-            // barberAvailability = info;
           }
-          // barberAvailability = info;
         } else {
           tempSlotsList = [];
         }
-        // if (slot['isAvailable'] && slot['isBooked'] == false) {
-        //   tempSlotsList.add(slot);
-        // }
-
-        //  slotsToShow = tempSlotsList;
-
-        // print('slots list length ----> ${tempSlotsList.length}');
       }
     });
 
-    // bool isAvailable = selectedBarber['availability']
-    //     [selectedDate.toIso8601String()]['isAvailable'];
-
-    // print('is available on taht day ----> $isAvailable');
-
-    // if (isAvailable) {
-    //   slotsToShow = [];
-    // } else {
-
-    //   for (var slot in selectedBarber['availability']
-    //       [selectedDate.toIso8601String()]['slots']) {
-    //     if (slot['isAvailable'] && slot['isBooked'] == false) {
-    //       tempSlotsList.add(slot);
-    //     }
-    //   }
-
-    //   slotsToShow = tempSlotsList;
-    // }
-    // slotsToShow = tempSlotsList;
-    // notifyListeners();
     return tempSlotsList;
   }
 
@@ -151,9 +211,9 @@ class SampleProvider with ChangeNotifier {
     print('favorites in fucntion -----> $allBarbers');
 
     for (var barber in allBarbers) {
-      print('user data favourites -----> ${userData['favourites']}');
+      // print('user data favourites -----> ${userData['favourites']}');
       if (userData['favourites'].contains(barber['uid'])) {
-        print('true');
+        // print('true');
         tempData.add(barber);
       }
     }
@@ -177,9 +237,70 @@ class SampleProvider with ChangeNotifier {
   late List shaveFilterBarbers = getShaveFilterBarbers();
   late List beardTrimFilterBarbers = getBeardTrimFilterBarbers();
   late List massageFilterBarbers = getMassageFilterBarbers();
+  late List<Map<String, dynamic>> allBookings = [];
+
+  late List cancelledBookingsClient = getCancelledBookingsClient();
+  late List upcomingBookingsClient = getUpcomingBookingsClient();
+  late List completedBookingsClient = getCompletedBookingsClient();
+
+  updateAllBookings() async {
+    allBookings = await getAllBookingsFromFireStore(clientId: userData['uid']);
+  }
+
+  List getCompletedBookingsClient() {
+    List tempData = [];
+
+    for (var booking in allBookings) {
+      if (booking['isCompleted']) {
+        tempData.add(booking);
+      }
+    }
+
+    return tempData;
+  }
+
+  List getUpcomingBookingsClient() {
+    print('gettin ucmoing bookings again');
+    List tempData = [];
+
+    for (var booking in allBookings) {
+      if (userData['bookings'].contains(booking['id'])) {
+        if (booking['isCancelled'] == false &&
+            booking['isCompleted'] == false) {
+          tempData.add(booking);
+        }
+        // print('true');
+      }
+    }
+
+    return tempData;
+  }
+
+  updateUpcomingBookingsClient() {
+    // updateAllBookings();
+    upcomingBookingsClient = getUpcomingBookingsClient();
+    notifyListeners();
+  }
+
+  List getCancelledBookingsClient() {
+    List tempData = [];
+
+    for (var booking in allBookings) {
+      if (booking['isCancelled']) {
+        tempData.add(booking);
+      }
+    }
+
+    return tempData;
+  }
 
   void setAllBarbers(List<Map<String, dynamic>> data) {
     allBarbers = data;
+    // notifyListeners();
+  }
+
+  setAllBookings(List<Map<String, dynamic>> data) {
+    allBookings = data;
     // notifyListeners();
   }
 
@@ -236,7 +357,7 @@ class SampleProvider with ChangeNotifier {
   removeBarberFromFavourites(String barberId) {
     int index = allBarbers.indexWhere((element) => element['uid'] == barberId);
     allBarbers[index]['isFavourite'] = false;
-    print("user data favourites -----> ${userData['favourites']}");
+    // print("user data favourites -----> ${userData['favourites']}");
 
     userData['favourites'].remove(barberId);
     notifyListeners();
@@ -247,7 +368,7 @@ class SampleProvider with ChangeNotifier {
     int index = allBarbers.indexWhere((element) => element['uid'] == barberId);
     allBarbers[index]['isFavourite'] = true;
 
-    print("user data favourites -----> ${userData['favourites']}");
+    // print("user data favourites -----> ${userData['favourites']}");
     userData['favourites'].add(barberId);
     notifyListeners();
   }
