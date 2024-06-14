@@ -9,35 +9,34 @@ import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/sign_in.dart';
 
 class HomeContent extends StatefulWidget {
-  HomeContent({Key? key, required this.allBarbers, required this.allBookings})
-      : super(key: key);
-  final List<Map<String, dynamic>> allBarbers;
-  final List<Map<String, dynamic>> allBookings;
+  HomeContent({Key? key}) : super(key: key);
+  // final List<Map<String, dynamic>> allBarbers;
+  // final List<Map<String, dynamic>> allBookings;
 
   @override
   State<HomeContent> createState() => _HomeContentState();
 }
 
 class _HomeContentState extends State<HomeContent> {
-  late Map<String, dynamic> localData;
+  // late Map<String, dynamic> localData;
 
   final isClient = true;
 
-  bool _isLoading = true;
+  bool _isLoading = false;
 
-  _loadData() async {
-    localData = await getDataFromLocalStorage();
+  // _loadData() async {
+  //   localData = await getDataFromLocalStorage();
 
-    setState(() {
-      _isLoading = false;
-    });
-  }
+  //   setState(() {
+  //     _isLoading = false;
+  //   });
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _loadData();
+    // _loadData();
   }
 
   @override
@@ -46,16 +45,24 @@ class _HomeContentState extends State<HomeContent> {
         Provider.of<SampleProvider>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Client Home Page'),
+          title: const Text(
+            'Trim Time',
+            style: TextStyle(color: CustomColors.white),
+          ),
+          backgroundColor: CustomColors.gunmetal,
+          elevation: 0,
           actions: [
             IconButton(
               onPressed: () async {
-                await signOut();
+                await sampleProvider.handleLogoutByProvider();
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => SignIn()),
                     (Route route) => false);
               },
-              icon: const Icon(Icons.logout),
+              icon: const Icon(
+                Icons.logout,
+                color: CustomColors.white,
+              ),
             ),
           ],
         ),
@@ -74,17 +81,11 @@ class _HomeContentState extends State<HomeContent> {
                     children: [
                       Consumer<SampleProvider>(
                         builder: (context, provider, child) {
-                          // remove if-block if issue creates
-                          // if (!provider.invalidateHomeDataInitializtion) {
-                          provider.setUserData(localData['userData']);
-                          provider.uid = localData['userData']['uid'];
-                          provider.invalidateHomeDataInitializtion = true;
-                          provider.setAllBarbers(widget.allBarbers);
-                          provider.setAllBookings(widget.allBookings);
-                          print('update user datafrom home ');
-                          // }
+                          print('----------------------in home screen');
+                          print(
+                              '----------------------local data in provider in  home screen ${sampleProvider.localDataInProvider}');
                           return Text(
-                            'Hello, ${provider.userData['name']} 👋',
+                            'Hello, ${provider.localDataInProvider['userData']['name']} 👋',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,

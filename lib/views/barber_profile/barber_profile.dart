@@ -148,14 +148,6 @@ class _BarberProfileState extends State<BarberProfile> {
                               sampleProvider
                                   .addBarberToFavourites(selectedBarberId);
                             }
-
-                            provider.updateInAppFavouriteList();
-                            updateClientFavoritesInFirestore(
-                                clientId: provider.uid,
-                                favouritesList:
-                                    provider.userData['favourites']);
-                            updateUserDataInLocalStorage(
-                                data: provider.userData);
                           },
                           child: Icon(
                             isFavourite

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/providers/sample_provider.dart';
+import 'package:intl/intl.dart';
 
 class BookingScreen extends StatefulWidget {
   @override
@@ -14,61 +16,10 @@ class _BookingScreenState extends State<BookingScreen> {
 
   late List currentListing;
 
-  final List<Map<String, String>> upcomingBookings = [
-    {
-      'barberName': 'Rajja Farhan',
-      'shopName': 'Belle Curls',
-      'dateTime': 'Mon, 14 Jun 2023, 2:00 PM',
-      'price': '\$30',
-      'bookingId': '12345',
-      'imageUrl': 'assets/images/testpic.jpg',
-    },
-    {
-      'barberName': 'John Loww',
-      'shopName': 'Belle Curls',
-      'dateTime': 'Mon, 14 Jun 2023, 2:00 PM',
-      'price': '\$30',
-      'bookingId': '12345',
-      'imageUrl': 'assets/images/testpic.jpg',
-    },
-    {
-      'barberName': 'John Poee',
-      'shopName': 'Belle Curls',
-      'dateTime': 'Mon, 14 Jun 2023, 2:00 PM',
-      'price': '\$30',
-      'bookingId': '12345',
-      'imageUrl': 'assets/images/testpic.jpg',
-    },
-  ];
-
-  final List<Map<String, String>> cancelledBookings = [
-    {
-      'barberName': 'Jane Smith',
-      'shopName': 'Pretty Parlor',
-      'dateTime': 'Tue, 15 Jun 2023, 4:00 PM',
-      'price': '\$40',
-      'bookingId': '67890',
-      'imageUrl': 'assets/images/testpic.jpg',
-    },
-  ];
-
-  final List<Map<String, String>> completedBookings = [
-    {
-      'barberName': 'Mike Johnson',
-      'shopName': 'Serenity Salon',
-      'dateTime': 'Wed, 16 Jun 2023, 10:00 AM',
-      'price': '\$50',
-      'bookingId': '11223',
-      'imageUrl': 'assets/images/testpic.jpg',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     SampleProvider sampleProvider =
         Provider.of<SampleProvider>(context, listen: false);
-    // List<Map<String, String>> currentListing;
-
     switch (selectedIndex) {
       case 1:
         currentListing = sampleProvider.cancelledBookingsClient;
@@ -84,15 +35,9 @@ class _BookingScreenState extends State<BookingScreen> {
       backgroundColor: CustomColors.gunmetal,
       appBar: AppBar(
         backgroundColor: CustomColors.gunmetal,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text(
+        title: const Text(
           'My Bookings',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: CustomColors.white),
         ),
         elevation: 0,
       ),
@@ -109,44 +54,45 @@ class _BookingScreenState extends State<BookingScreen> {
               ],
             ),
           ),
-
           Consumer<SampleProvider>(
             builder: (context, provider, child) {
               return Expanded(
-                child: ListView.builder(
-                  itemCount: currentListing.length,
-                  itemBuilder: (context, index) {
-                    final booking = currentListing[index];
-                    return BookingCard(
-                      barberName: booking['barberData']['name'],
-                      shopName: booking['barberData']['shopName'],
-                      dateTime: booking['startTime'],
-                      price: booking['totalAmount'],
-                      bookingId: booking['id'],
-                      imageUrl: booking['barberData']['photoURL'],
-                    );
-                  },
-                ),
+                child: selectedIndex == 0 &&
+                        provider.upcomingBookingsClient.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No upcoming bookings',
+                          style: TextStyle(color: CustomColors.white),
+                        ),
+                      )
+                    : selectedIndex == 1 &&
+                            provider.cancelledBookingsClient.isEmpty
+                        ? const Center(
+                            child: Text(
+                              'No Cancelled bookings',
+                              style: TextStyle(color: CustomColors.white),
+                            ),
+                          )
+                        : selectedIndex == 2 &&
+                                provider.completedBookingsClient.isEmpty
+                            ? const Center(
+                                child: Text(
+                                  'No Completed bookings',
+                                  style: TextStyle(color: CustomColors.white),
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: currentListing.length,
+                                itemBuilder: (context, index) {
+                                  final booking = currentListing[index];
+                                  return BookingCardClient(
+                                    booking: booking,
+                                  );
+                                },
+                              ),
               );
             },
           ),
-
-          // Expanded(
-          //   child: ListView.builder(
-          //     itemCount: currentListing.length,
-          //     itemBuilder: (context, index) {
-          //       final booking = currentListing[index];
-          //       return BookingCard(
-          //         barberName: booking['barberData']['name'],
-          //         shopName: booking['barberData']['shopName'],
-          //         dateTime: booking['startTime'],
-          //         price: booking['totalAmount'],
-          //         bookingId: booking['id'],
-          //         imageUrl: booking['barberData']['photoURL'],
-          //       );
-          //     },
-          //   ),
-          // ),
         ],
       ),
     );
@@ -161,9 +107,10 @@ class _BookingScreenState extends State<BookingScreen> {
         });
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
-          color: isSelected ? CustomColors.peelOrange : Colors.transparent,
+          color:
+              isSelected ? CustomColors.peelOrange : CustomColors.transparent,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: CustomColors.peelOrange,
@@ -172,7 +119,7 @@ class _BookingScreenState extends State<BookingScreen> {
         child: Text(
           label,
           style: TextStyle(
-            color: isSelected ? Colors.white : CustomColors.peelOrange,
+            color: isSelected ? CustomColors.white : CustomColors.peelOrange,
           ),
         ),
       ),
@@ -180,26 +127,71 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 }
 
-class BookingCard extends StatelessWidget {
-  final String barberName;
-  final String shopName;
-  final String dateTime;
-  final int price;
-  final String bookingId;
-  final String imageUrl;
-
-  const BookingCard({
-    required this.barberName,
-    required this.shopName,
-    required this.dateTime,
-    required this.price,
-    required this.bookingId,
-    required this.imageUrl,
-    Key? key,
-  }) : super(key: key);
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class BookingCardClient extends StatelessWidget {
+  BookingCardClient({Key? key, required this.booking}) : super(key: key);
+  final Map booking;
+
+  late String startTime = booking['startTime'];
+  late String endTime = booking['endTime'];
+  late bool isCancelled = booking['isCancelled'];
+  late bool isCompleted = booking['isCompleted'];
+  late bool isConfirmed = booking['isConfirmed'];
+  // late bool isCancelled = false;
+  // late bool isCompleted = true;
+  // late bool isConfirmed = true;
+  late String barberName = booking['barberData']['name'];
+  late String shopName = booking['barberData']['shopName'];
+  late String totalAmount = booking['totalAmount'].toString();
+  late String imageUrl = booking['barberData']['photoURL'];
+  late bool isRated = booking['isRated'];
+  late bool isPaid = booking['isPaid'];
+  late String slotId = booking['slotId'];
+  late String bookingId = booking['id'];
+  late String serviceId = booking['serviceId'];
+
+  late String dateTime =
+      DateFormat('EEE, d MMM yyyy, h:mm a').format(DateTime.parse(startTime));
+
+  late String day = DateFormat('EEEE').format(DateTime.parse(startTime));
+  late String date = DateFormat('d MMM yyyy').format(DateTime.parse(startTime));
+
+  late String startTimeFormatted =
+      DateFormat('h:mm a').format(DateTime.parse(startTime));
+
+  late String endTimeFormatted =
+      DateFormat('h:mm a').format(DateTime.parse(endTime));
+
+  late bool isPayButtonEnabled = !isPaid && isConfirmed;
+
+  shouldShowRateButton() {
+    return isCompleted && isConfirmed && !isRated && !isCancelled;
+  }
+
+  getServiceName() {
+    if (serviceId == '1') {
+      return 'Haircut';
+    } else if (serviceId == '2') {
+      return 'Shave';
+    } else if (serviceId == '3') {
+      return 'Beard Trim';
+    } else {
+      return 'Massage';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // String day = DateFormat('EEEE').format(DateTime.parse(dateTime));
+    // String date = DateFormat('d MMM').format(DateTime.parse(dateTime));
     return Card(
       color: Colors.grey[900],
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -226,13 +218,13 @@ class BookingCard extends StatelessWidget {
                     children: [
                       Text(
                         barberName,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: CustomColors.peelOrange,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        'Rs. ${price}',
-                        style: TextStyle(
+                        'Rs. ${totalAmount}',
+                        style: const TextStyle(
                             color: CustomColors.peelOrange,
                             fontWeight: FontWeight.bold),
                       ),
@@ -241,17 +233,74 @@ class BookingCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     shopName,
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: CustomColors.white),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    dateTime,
-                    style: TextStyle(color: Colors.white),
+                    'Booking Day: $day',
+                    style: const TextStyle(color: CustomColors.white),
+                  ),
+                  Text(
+                    'Booking Date: $date',
+                    style: const TextStyle(color: CustomColors.white),
+                  ),
+                  Text(
+                    'Booking Time: $startTimeFormatted - $endTimeFormatted',
+                    style: const TextStyle(color: CustomColors.white),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'Booking ID: $bookingId',
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: CustomColors.white),
+                  ),
+                  Text(
+                    'Service: ${getServiceName()}',
+                    style: const TextStyle(color: CustomColors.white),
+                  ),
+                  Container(
+                    child: Text(
+                      'Status: ${isConfirmed ? 'Confirmed By Barber, Pay to secure spot' : 'Pending'}',
+                      style: const TextStyle(color: CustomColors.white),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    child: Row(
+                      children: [
+                        // Expanded(
+                        //   flex: 2,
+                        Visibility(
+                          visible: shouldShowRateButton(),
+                          child: Expanded(
+                            flex: 2,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: CustomColors.peelOrange),
+                              child: const Text(
+                                'Rate BArber',
+                                style: TextStyle(color: CustomColors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // ),
+                        Expanded(
+                          child: Visibility(
+                            visible: isConfirmed && !isPaid,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: CustomColors.peelOrange),
+                              child: const Text(
+                                'Pay',
+                                style: TextStyle(color: CustomColors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

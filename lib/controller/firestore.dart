@@ -45,7 +45,7 @@ updateBarberAvailabilityInFirestore(
   await barbers.doc(barberId).update({'availability': data});
 }
 
-getAllBookingsFromFireStore({
+getAllClientBookingsFromFireStore({
   required String clientId,
 }) async {
   print(
@@ -82,7 +82,7 @@ getAllBarbersFromFireStore() async {
 
   Map<String, dynamic> localData = await getDataFromLocalStorage();
 
-  print('Local Data: ${localData}');
+  // print('Local Data: ${localData}');
 
   if (localData['userData'] != null) {
     for (var barber in allBarbers) {
@@ -257,7 +257,7 @@ createBookingInFirestore({
       'status': -1,
       'message': 'Booking failed, slot is not available',
       'bookingId': null,
-    }; // 1 means slot is not available, booking failed
+    }; // -1 means slot is not available, booking failed
   }
 
   // bookings.add({

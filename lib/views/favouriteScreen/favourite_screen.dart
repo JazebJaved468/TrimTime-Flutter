@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barber_listing/barber_listing.dart';
 
@@ -18,29 +19,36 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favourite Screen'),
+        title: const Text(
+          'Favourite Screen',
+          style: TextStyle(color: CustomColors.white),
+        ),
+        backgroundColor: CustomColors.gunmetal,
+        elevation: 0,
       ),
-      body: Consumer<SampleProvider>(
-        builder: (context, provider, child) {
-          print('length ---- ${provider.inAppfavouriteList}');
-          return sampleProvider.inAppfavouriteList.isEmpty
-              ? const Center(
-                  child: Text('No Favourite Barbers'),
-                )
-              : ListView.builder(
-                  itemCount: provider.inAppfavouriteList.length,
-                  itemBuilder: (context, index) {
-                    final barber = provider.inAppfavouriteList[index];
-                    return BarberCard(
-                      barberId: barber['uid'],
-                      barberName: barber['name'],
-                      shopName: barber['shopName'],
-                      stars: '5',
-                      imageUrl: barber['photoURL'],
-                    );
-                  },
-                );
-        },
+      body: Container(
+        color: CustomColors.gunmetal,
+        child: Consumer<SampleProvider>(
+          builder: (context, provider, child) {
+            return sampleProvider.inAppfavouriteList.isEmpty
+                ? const Center(
+                    child: Text('No Favourite Barbers'),
+                  )
+                : ListView.builder(
+                    itemCount: provider.inAppfavouriteList.length,
+                    itemBuilder: (context, index) {
+                      final barber = provider.inAppfavouriteList[index];
+                      return BarberCard(
+                        barberId: barber['uid'],
+                        barberName: barber['name'],
+                        shopName: barber['shopName'],
+                        stars: '5',
+                        imageUrl: barber['photoURL'],
+                      );
+                    },
+                  );
+          },
+        ),
       ),
     );
   }

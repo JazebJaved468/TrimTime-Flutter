@@ -8,9 +8,9 @@ import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barber_profile/barber_profile.dart';
 
 class BarberListing extends StatefulWidget {
-  const BarberListing({super.key, required this.allBarbers});
+  const BarberListing({super.key});
 
-  final List<Map<String, dynamic>> allBarbers;
+  // final List<Map<String, dynamic>> allBarbers;
 
   @override
   State<BarberListing> createState() => _BarberListingState();
@@ -20,23 +20,7 @@ class _BarberListingState extends State<BarberListing> {
   final isClient = true;
   int selectedIndex = 0;
 
-  // bool _isLoading = true;
-
   late List currentListing;
-
-  // _loadData() async {
-
-  //   setState(() {
-  //     _isLoading = false;
-  //   });
-  // }
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   // _loadData();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -76,16 +60,7 @@ class _BarberListingState extends State<BarberListing> {
         ),
         elevation: 0,
       ),
-      body:
-          // _isLoading
-          //     ? const Center(
-          //         child: const SpinKitFadingCircle(
-          //           color: CustomColors.peelOrange,
-          //           size: 50.0,
-          //         ),
-          //       )
-          //     :
-          Column(
+      body: Column(
         children: [
           Container(
             padding: const EdgeInsets.all(5),
@@ -149,11 +124,6 @@ class _BarberListingState extends State<BarberListing> {
               itemCount: currentListing.length,
               itemBuilder: (context, index) {
                 final barber = currentListing[index];
-
-                // print('Selected Index: $selectedIndex');
-                // print('Barber: ${barber['name']}');
-                // print('Barber isfavourite: ${barber['isFavourite']}');
-                // print('\n');
 
                 return BarberCard(
                   barberId: barber['uid'],
@@ -293,14 +263,6 @@ class _BarberCardState extends State<BarberCard> {
                                 sampleProvider
                                     .addBarberToFavourites(widget.barberId);
                               }
-
-                              provider.updateInAppFavouriteList();
-                              updateClientFavoritesInFirestore(
-                                  clientId: provider.uid,
-                                  favouritesList:
-                                      provider.userData['favourites']);
-                              updateUserDataInLocalStorage(
-                                  data: provider.userData);
                             },
                             child: Icon(
                               isFavourite

@@ -388,9 +388,11 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                       );
                       Navigator.pop(context);
                     } else {
+                      await provider.updateAllClientBookings();
+                      await provider.updateUpcomingBookingsClient();
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Booking is successful'),
+                          content: Text('Booking is successfuly made'),
                         ),
                       );
                       Navigator.pushReplacement(
@@ -447,8 +449,8 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                     // }
                     // }
 
-                    await provider.updateAllBookings();
-                    await provider.updateUpcomingBookingsClient();
+                    // await provider.updateAllClientBookings();
+                    // await provider.updateUpcomingBookingsClient();
                     provider.setCreateBookingCIP(false);
                   },
                   child: Container(

@@ -21,36 +21,7 @@ class NavigationExample extends StatefulWidget {
 class _NavigationExampleState extends State<NavigationExample> {
   int currentPageIndex = 0;
 
-  late List<Map<String, dynamic>> allBarbers;
-  late List<Map<String, dynamic>> allBookings;
-  late Map<String, dynamic> localData;
-
   final isClient = true;
-
-  bool _isLoading = true;
-
-  _loadData() async {
-    localData = await getDataFromLocalStorage();
-    allBarbers = await getAllBarbersFromFireStore();
-    allBookings = await getAllBookingsFromFireStore(clientId: localData['uid']);
-
-    print('localData in ----> $localData');
-
-    // print('BArber Listing: ${barbers}');
-
-    // currentListing = allBarbers;
-
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _loadData();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,97 +42,42 @@ class _NavigationExampleState extends State<NavigationExample> {
         selectedIndex: currentPageIndex,
         destinations: [
           NavigationDestination(
-            selectedIcon: Icon(Icons.home, color: CustomColors.peelOrange),
-            icon: Icon(Icons.home_outlined, color: Colors.white),
+            selectedIcon:
+                const Icon(Icons.home, color: CustomColors.peelOrange),
+            icon: const Icon(Icons.home_outlined, color: Colors.white),
             label: 'Home',
           ),
           NavigationDestination(
             selectedIcon:
-                Icon(Icons.content_cut, color: CustomColors.peelOrange),
-            icon: Icon(Icons.content_cut, color: Colors.white),
+                const Icon(Icons.content_cut, color: CustomColors.peelOrange),
+            icon: const Icon(Icons.content_cut, color: Colors.white),
             label: 'Barber',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.favorite, color: CustomColors.peelOrange),
-            icon: Icon(Icons.favorite_border, color: Colors.white),
-            label: 'Favorites',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.book, color: CustomColors.peelOrange),
-            icon: Icon(Icons.book_outlined, color: Colors.white),
+            selectedIcon:
+                const Icon(Icons.book, color: CustomColors.peelOrange),
+            icon: const Icon(Icons.book_outlined, color: Colors.white),
             label: 'My Booking',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.person, color: CustomColors.peelOrange),
-            icon: Icon(Icons.person_outline, color: Colors.white),
-            label: 'Profile',
+            selectedIcon:
+                const Icon(Icons.favorite, color: CustomColors.peelOrange),
+            icon: const Icon(Icons.favorite_border, color: Colors.white),
+            label: 'Favorites',
           ),
+          // NavigationDestination(
+          //   selectedIcon: Icon(Icons.person, color: CustomColors.peelOrange),
+          //   icon: Icon(Icons.person_outline, color: Colors.white),
+          //   label: 'Profile',
+          // ),
         ],
       ),
-      body: _isLoading
-          ? const Center(
-              child: const SpinKitFadingCircle(
-              color: CustomColors.peelOrange,
-              size: 50.0,
-            ))
-          : [
-              /// Home page
-              HomeContent(
-                allBarbers: allBarbers,
-                allBookings: allBookings,
-              ), // Call the HomeContent widget here
-
-              /// Barber page (Placeholder)
-              BarberListing(
-                allBarbers: allBarbers,
-              ),
-
-              FavouriteScreen(),
-
-              /// Favorite page (Placeholder)
-              // const Center(
-              //   child: Text(
-              //     'Favorite Page',
-              //     style: TextStyle(
-              //         fontSize: 24,
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.white),
-              //   ),
-              // ),
-
-              BookingScreen(),
-
-              /// My Booking page (Placeholder)
-              // const Center(
-              //   child: Text(
-              //     'My Booking Page',
-              //     style: TextStyle(
-              //         fontSize: 24,
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.white),
-              //   ),
-              // ),
-
-              ClientRegistrationPage(
-                photoURL: localData['userData']['photoURL'],
-                fullName: localData['userData']['name'],
-                email: localData['userData']['email'],
-                phoneNumber: localData['userData']['phoneNumber'],
-                gender: localData['userData']['gender'],
-                shouldNavigate: false,
-              ),
-
-              /// Profile page (Placeholder)
-              // const Center(
-              //   child: Text(
-              //     'Profile Page',
-              //     style: TextStyle(
-              //         fontSize: 24,
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.white),
-              //   ),
-              // ),
-            ][currentPageIndex],
+      body: [
+        HomeContent(),
+        BarberListing(),
+        BookingScreen(),
+        const FavouriteScreen(),
+      ][currentPageIndex],
     );
   }
 }
@@ -175,14 +91,14 @@ class NavigationBar extends StatelessWidget {
   final List<NavigationDestination> destinations;
 
   const NavigationBar({
-    Key? key,
+    super.key,
     required this.type,
     required this.selectedIndex,
     required this.onDestinationSelected,
     required this.backgroundColor,
     this.indicatorColor,
     required this.destinations,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
