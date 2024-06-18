@@ -584,6 +584,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "workmanager",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/workmanager-0.5.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "xdg_directories",
       "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.0.4",
       "packageUri": "lib/",
@@ -596,7 +602,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-18T15:03:15.375514Z",
+  "generated": "2024-06-18T22:20:58.679544Z",
   "generator": "pub",
   "generatorVersion": "3.3.0"
 }
