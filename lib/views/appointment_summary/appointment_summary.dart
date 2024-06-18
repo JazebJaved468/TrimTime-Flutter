@@ -280,7 +280,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             ),
                           ),
                           Text(
-                            'Rs. ${servicePrice * GST_PERCENTAGE}',
+                            'Rs. ${(servicePrice * GST_PERCENTAGE).toInt()}',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -386,7 +386,11 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                           ),
                         ),
                       );
-                      Navigator.pop(context);
+
+                      // remove if-condition if creates issue
+                      if (mounted) {
+                        Navigator.pop(context);
+                      }
                     } else {
                       await provider.updateAllClientBookings();
                       await provider.updateUpcomingBookingsClient();
@@ -395,10 +399,13 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                           content: Text('Booking is successfuly made'),
                         ),
                       );
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      );
+                      // remove if-condition if creates issue
+                      if (mounted) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      }
                     }
                     // bool isSlotAvailable =
                     //     await checkBookingSlotIsAvailableInFirestore(

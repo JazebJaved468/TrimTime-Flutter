@@ -2,17 +2,21 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/providers/sample_provider.dart';
 
 class ReviewsAndRating extends StatefulWidget {
-  const ReviewsAndRating({super.key});
+  const ReviewsAndRating({super.key, required this.bookingData});
+  final Map bookingData;
 
   @override
   State<ReviewsAndRating> createState() => _ReviewsAndRatingState();
 }
 
 class _ReviewsAndRatingState extends State<ReviewsAndRating> {
-  double rating = 0;
+  int rating = 4;
   final myController = TextEditingController();
   @override
   void dispose() {
@@ -23,11 +27,13 @@ class _ReviewsAndRatingState extends State<ReviewsAndRating> {
 
   @override
   Widget build(BuildContext context) {
+    SampleProvider sampleProvider =
+        Provider.of<SampleProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,67 +44,66 @@ class _ReviewsAndRatingState extends State<ReviewsAndRating> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Container(
                         child: Image.asset('assets/images/review1.png'),
                         height: 200,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
                       Container(
                         // color: Colors.brown,
-                        child: Text(
+                        child: const Text(
                           'Your Opinion Matters!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: 'Raleway',
+                            // fontFamily: 'Raleway',
                             fontSize: 30,
                             color: Colors.white,
                           ),
                         ),
                       ),
                       Container(
-                        child: Text(
+                        child: const Text(
                           'We hope you loved your new look. We’d love to hear your thoughts!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: 'Raleway',
+                            // fontFamily: 'Raleway',
                             fontSize: 15,
                             fontWeight: FontWeight.w100,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
                         child: RatingBar.builder(
-                          initialRating: 0,
+                          initialRating: rating.toDouble(),
                           minRating: 1,
                           unratedColor: Colors.grey,
                           itemCount: 5,
                           itemSize: 50,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 3),
+                          itemPadding:
+                              const EdgeInsets.symmetric(horizontal: 3),
                           updateOnDrag: true,
                           itemBuilder: (context, index) {
-                            return Icon(
+                            return const Icon(
                               Icons.star,
                               color: CustomColors.peelOrange,
                             );
                           },
                           onRatingUpdate: (value) {
-                            rating = value;
-                            log('star: $rating');
-                            log(myController.text);
+                            rating = value.toInt();
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Padding(
@@ -108,60 +113,85 @@ class _ReviewsAndRatingState extends State<ReviewsAndRating> {
                             hintText: 'Share your experience',
                             hintStyle:
                                 TextStyle(color: Colors.grey.withOpacity(0.5)),
-                            focusedBorder: UnderlineInputBorder(
+                            focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: CustomColors.peelOrange),
                             ),
-                            enabledBorder: UnderlineInputBorder(
+                            enabledBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: CustomColors.peelOrange),
                             ),
                           ),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                           controller: myController,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.all(30), // Margin around the button
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      height: 50,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        // color: CustomColors.peelOrange,
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border(
-                          top: BorderSide(
-                            color: CustomColors.peelOrange,
-                          ), // Top border
-                          bottom: BorderSide(
-                            color: CustomColors.peelOrange,
-                          ), // Bottom border
-                          left: BorderSide(
-                            color: CustomColors.peelOrange,
-                          ), // Left border
-                          right: BorderSide(
-                            color: CustomColors.peelOrange,
-                          ), // Right border
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Submit',
-                          style: TextStyle(
-                            color: CustomColors.peelOrange,
-                            fontFamily: 'Poppins',
-                            fontSize: 15,
+                Consumer<SampleProvider>(builder: (context, provider, child) {
+                  return Container(
+                    margin:
+                        const EdgeInsets.all(30), // Margin around the button
+                    child: InkWell(
+                      onTap: () async {
+                        provider.setRateBarberCIP(true);
+
+                        // Add your logic here
+                        // log('star: $rating');
+                        // log(myController.text);
+                        await provider.rateBarberByProvider(
+                            rating: rating,
+                            review: myController.text,
+                            barberId: widget.bookingData['barberId'],
+                            bookingId: widget.bookingData['id']);
+
+                        provider.setRateBarberCIP(false);
+
+                        if (mounted) {
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Container(
+                        height: 50,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          // color: CustomColors.peelOrange,
+                          borderRadius: BorderRadius.circular(50),
+                          border: const Border(
+                            top: BorderSide(
+                              color: CustomColors.peelOrange,
+                            ), // Top border
+                            bottom: BorderSide(
+                              color: CustomColors.peelOrange,
+                            ), // Bottom border
+                            left: BorderSide(
+                              color: CustomColors.peelOrange,
+                            ), // Left border
+                            right: BorderSide(
+                              color: CustomColors.peelOrange,
+                            ), // Right border
                           ),
+                        ),
+                        child: Center(
+                          child: provider.rateBarberCIP
+                              ? const SpinKitFadingCircle(
+                                  color: CustomColors.peelOrange,
+                                  size: 30,
+                                )
+                              : Text(
+                                  'Submit',
+                                  style: TextStyle(
+                                    color: CustomColors.peelOrange,
+                                    // fontFamily: 'Poppins',
+                                    fontSize: 15,
+                                  ),
+                                ),
                         ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                }),
               ],
             ),
           ),

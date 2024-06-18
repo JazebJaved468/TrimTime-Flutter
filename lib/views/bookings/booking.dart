@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:trim_time/views/reviewsAndRating/reviews.dart';
 
 class BookingScreen extends StatefulWidget {
   @override
@@ -263,6 +264,12 @@ class BookingCardClient extends StatelessWidget {
                       style: const TextStyle(color: CustomColors.white),
                     ),
                   ),
+                  Visibility(
+                      child: Text(
+                        'rated ✨',
+                        style: TextStyle(color: CustomColors.white),
+                      ),
+                      visible: isRated),
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 16),
                     child: Row(
@@ -274,7 +281,16 @@ class BookingCardClient extends StatelessWidget {
                           child: Expanded(
                             flex: 2,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ReviewsAndRating(
+                                      bookingData: booking,
+                                    ),
+                                  ),
+                                );
+                              },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: CustomColors.peelOrange),
                               child: const Text(

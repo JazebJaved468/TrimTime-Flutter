@@ -28,7 +28,7 @@ class _BarberProfileState extends State<BarberProfile> {
   var selectedService = null; //req for make an appointment
   var selectedDate = null; //req for make an appointment
   var selectedDay = null;
-  bool customIcon = false;
+  // bool customIcon = false;
   int selectedIndex = -1;
   var selectedtime = null; //req for make an appointment
   List<String> selectedServices = [];
@@ -48,13 +48,13 @@ class _BarberProfileState extends State<BarberProfile> {
   //   'Face Treatment',
   // ];
 
-  void onTimeSlotTap(int index, String time) {
-    setState(() {
-      selectedtime = time;
-      selectedIndex = index; //tapped index
-      print(time);
-    });
-  }
+  // void onTimeSlotTap(int index, String time) {
+  //   setState(() {
+  //     selectedtime = time;
+  //     selectedIndex = index; //tapped index
+  //     print(time);
+  //   });
+  // }
 
   // void onServiceTap(String service) {
   //   setState(() {
@@ -67,25 +67,25 @@ class _BarberProfileState extends State<BarberProfile> {
   //   });
   // }
 
-  Future<void> selectDate() async {
-    DateTime? selected = await showDatePicker(
-      context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(
-        Duration(days: 7),
-      ),
-      initialDate: DateTime.now(),
-    );
+  // Future<void> selectDate() async {
+  //   DateTime? selected = await showDatePicker(
+  //     context: context,
+  //     firstDate: DateTime.now(),
+  //     lastDate: DateTime.now().add(
+  //       Duration(days: 7),
+  //     ),
+  //     initialDate: DateTime.now(),
+  //   );
 
-    if (selected != null) {
-      print(selected);
-      setState(() {
-        // selectedDate = selected.toString();
-        selectedDate = DateFormat('EEEE, dd-MM-yyyy').format(selected);
-        selectedDay = DateFormat('EEEE').format(selected);
-      });
-    }
-  }
+  //   if (selected != null) {
+  //     print(selected);
+  //     setState(() {
+  //       // selectedDate = selected.toString();
+  //       selectedDate = DateFormat('EEEE, dd-MM-yyyy').format(selected);
+  //       selectedDay = DateFormat('EEEE').format(selected);
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +94,7 @@ class _BarberProfileState extends State<BarberProfile> {
 
     String selectedBarberId = sampleProvider.selectedBarber['uid'];
     List services = sampleProvider.getBarberServicesForBarberProfile();
+    sampleProvider.resetIsSlotTileExpanded();
 
     print('services in widgett ----> $services');
 
@@ -514,7 +515,8 @@ class _BarberProfileState extends State<BarberProfile> {
                     builder: (context, provider, child) {
                   var day = DateFormat('EEEE').format(provider.selectedDate);
 
-                  List slots = provider.slotsToShow;
+                  // List slots = provider.slotsToShow;
+                  List slots = provider.getSlotsToShow();
 
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -557,44 +559,46 @@ class _BarberProfileState extends State<BarberProfile> {
 
                             // Text('have slots'),
 
-                            ExpansionTile(
-                                shape:
-                                    const Border(), //to remove divider lines when expanded
-                                title: Text(
-                                  day,
-                                  style: TextStyle(
-                                    color: CustomColors.white,
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15,
+                            Consumer<SampleProvider>(
+                                builder: (context, provider, child) {
+                                return ExpansionTile(
+                                  shape:
+                                      const Border(), //to remove divider lines when expanded
+                                  title: Text(
+                                    day,
+                                    style: TextStyle(
+                                      color: CustomColors.white,
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15,
+                                    ),
                                   ),
-                                ),
-                                trailing: Icon(
-                                  customIcon
-                                      ? Icons.keyboard_arrow_up
-                                      : Icons.keyboard_arrow_down,
-                                  color: customIcon
-                                      ? CustomColors.peelOrange
-                                      : CustomColors.peelOrange,
-                                ),
-                                children: [
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                          child: Wrap(
-                                        spacing: 10,
-                                        runSpacing: 20,
-                                        // children: [
-                                        //   TimeSlot(),
-                                        //   TimeSlot(),
-                                        //   TimeSlot(),
-                                        //   TimeSlot(),
-                                        //   TimeSlot(),
-                                        // ],
-                                        children: List.generate(slots.length,
-                                            (index) {
-                                          return Consumer<SampleProvider>(
-                                              builder:
-                                                  (context, provider, child) {
+                                  trailing: Icon(
+                                    provider.isSlotTileExpanded
+                                        ? Icons.keyboard_arrow_up
+                                        : Icons.keyboard_arrow_down,
+                                    color: provider.isSlotTileExpanded
+                                        ? CustomColors.peelOrange
+                                        : CustomColors.peelOrange,
+                                  ),
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                            child: Wrap(
+                                          spacing: 10,
+                                          runSpacing: 20,
+                                          // children: [
+                                          //   TimeSlot(),
+                                          //   TimeSlot(),
+                                          //   TimeSlot(),
+                                          //   TimeSlot(),
+                                          //   TimeSlot(),
+                                          // ],
+                                          children: List.generate(slots.length,
+                                              (index) {
+                                            // return Consumer<SampleProvider>(
+                                            //     builder:
+                                            //         (context, provider, child) {
                                             return TimeSlot(
                                               slot: slots[index],
                                               isSelected: provider
@@ -605,18 +609,20 @@ class _BarberProfileState extends State<BarberProfile> {
                                               // onTap: () => onTimeSlotTap(
                                               //     index, times[index]),
                                             );
-                                          });
-                                        }),
-                                      )),
-                                    ],
-                                  )
-                                ],
-                                onExpansionChanged: (bool expanded) {
-                                  setState(() {
-                                    customIcon = expanded;
-                                  });
-                                },
-                              ),
+                                            // });
+                                          }),
+                                        )),
+                                      ],
+                                    )
+                                  ],
+                                  onExpansionChanged: (bool expanded) {
+                                    provider.setIsSlotTileExpanded(expanded);
+                                    // setState(() {
+                                    //   customIcon = expanded;
+                                    // });
+                                  },
+                                );
+                              }),
                   );
                 }),
               ),

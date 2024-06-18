@@ -38,6 +38,8 @@ class SampleProvider with ChangeNotifier {
 
   // Client side States
   String clientGender = 'male'; // used in client registeration screen
+  bool rateBarberCIP = false;
+  bool isSlotTileExpanded = false;
 
   // Client : CLient Booking Flow States
   Map<String, dynamic> selectedBarber = {};
@@ -211,6 +213,29 @@ class SampleProvider with ChangeNotifier {
     resetAllBarbers();
   }
 
+  rateBarberByProvider(
+      {required String barberId,
+      required int rating,
+      required String review,
+      required String bookingId}) async {
+    // int responseCode = -1; // 0 for success, -1 for failure
+
+    await rateBarberInFirestore(
+        barberId: barberId,
+        clientId: uid,
+        bookingId: bookingId,
+        rating: rating,
+        review: review);
+
+    completedBookingsClient.forEach((booking) {
+      if (booking['id'] == bookingId) {
+        booking['isRated'] = true;
+        // print(booking);
+      }
+      notifyListeners();
+    });
+  }
+
   createBooking() async {
     int responseCode = -1; // 0 for success, -1 for failure
 
@@ -289,6 +314,7 @@ class SampleProvider with ChangeNotifier {
   }
 
   // -------------------------------------------------- Updaters  --------------------------------------------------
+
   updateSelectedService(String serviceId) {
     if (selectedService == serviceId) {
       selectedService = '';
@@ -387,12 +413,12 @@ class SampleProvider with ChangeNotifier {
 
   // -------------------------------------------------- Getters  --------------------------------------------------
 
-  getTotalPrice() {
+  int getTotalPrice() {
     int totalPrice = 0;
 
     if (selectedService != '') {
       int servicePrice = selectedBarber['services'][selectedService]['price'];
-      totalPrice = (servicePrice + GST_PERCENTAGE * (servicePrice)).round();
+      totalPrice = (servicePrice + GST_PERCENTAGE * (servicePrice)).toInt();
     }
 
     return totalPrice;
@@ -577,6 +603,11 @@ class SampleProvider with ChangeNotifier {
   }
 
   // --------------------------------------------------Setters  --------------------------------------------------
+  setIsSlotTileExpanded(bool value) {
+    isSlotTileExpanded = value;
+    notifyListeners();
+  }
+
   setLocalDataInProvider(Map data) {
     print(
         '-----------------> Provider : Setting Local Data <-----------------');
@@ -618,6 +649,11 @@ class SampleProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  setRateBarberCIP(bool value) {
+    rateBarberCIP = value;
+    notifyListeners();
+  }
+
   void setIsProvidingHaircut(bool value) {
     isProvidingHaircut = value;
     notifyListeners();
@@ -652,6 +688,14 @@ class SampleProvider with ChangeNotifier {
   }
 
   // --------------------------------------------------Resetters  --------------------------------------------------
+
+  resetSelectedSlot() {
+    selectedSlot = {};
+  }
+
+  resetIsSlotTileExpanded() {
+    isSlotTileExpanded = false;
+  }
 
   resetAllClientBookings() {
     allClientBookings = [];

@@ -6,6 +6,48 @@ import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:uuid/uuid.dart';
 
+rateBarberInFirestore({
+  required String barberId,
+  required String clientId,
+  required String bookingId,
+  required int rating,
+  required String review,
+}) async {
+  print('-----------------> Rating Barber In FireStore <-----------------');
+  var ratingId = const Uuid().v4();
+
+  CollectionReference ratings =
+      FirebaseFirestore.instance.collection('ratings');
+  CollectionReference barbers =
+      FirebaseFirestore.instance.collection('barbers');
+
+  CollectionReference clients =
+      FirebaseFirestore.instance.collection('clients');
+  CollectionReference bookings =
+      FirebaseFirestore.instance.collection('bookings');
+  await ratings.doc(ratingId).set({
+    'id': ratingId,
+    'barberId': barberId,
+    'clientId': clientId,
+    'bookingId': bookingId,
+    'rating': rating,
+    'review': review,
+    'createdAt': DateTime.now().toIso8601String(),
+  });
+
+  await barbers.doc(barberId).update({
+    'ratings': FieldValue.arrayUnion([ratingId])
+  });
+
+  await clients.doc(clientId).update({
+    'ratings': FieldValue.arrayUnion([ratingId])
+  });
+
+  await bookings.doc(bookingId).update({
+    'isRated': true,
+  });
+}
+
 getUserDataFromFirestore(String userId, bool isClient) async {
   print(
       '-----------------> Getting User Data From FireStore <-----------------');
@@ -186,11 +228,11 @@ createBookingInFirestore({
   CollectionReference bookings =
       FirebaseFirestore.instance.collection('bookings');
 
-  var uuid = Uuid().v4();
+  var bookingId = Uuid().v4();
 
   if (isSlotAvailable) {
-    bookings.add({
-      'id': uuid,
+    bookings.doc(bookingId).set({
+      'id': bookingId,
       'barberId': barberId,
       'clientId': clientId,
       'serviceId': serviceId,
@@ -217,11 +259,11 @@ createBookingInFirestore({
         FirebaseFirestore.instance.collection('clients');
 
     await barbers.doc(barberId).update({
-      'bookings': FieldValue.arrayUnion([uuid])
+      'bookings': FieldValue.arrayUnion([bookingId])
     });
 
     await clients.doc(clientId).update({
-      'bookings': FieldValue.arrayUnion([uuid])
+      'bookings': FieldValue.arrayUnion([bookingId])
     });
 
     Map<String, dynamic> barberData =
@@ -250,7 +292,7 @@ createBookingInFirestore({
     return {
       'status': 0,
       'message': 'Booking is successful',
-      'bookingId': uuid,
+      'bookingId': bookingId,
     }; // 0 means booking is successful
   } else {
     return {
@@ -259,21 +301,6 @@ createBookingInFirestore({
       'bookingId': null,
     }; // -1 means slot is not available, booking failed
   }
-
-  // bookings.add({
-  //   'id': '',
-  //   'barberId': '',
-  //   'clientId': '',
-  //   'serviceId': '',
-  //   'slotId': '',
-  //   'isCompleted': false,
-  //   'isCancelled': false,
-  //   'isConfirmed': false,
-  //   'isPaid': false,
-  //   'isRated': false,
-  //   'rating': 0,
-  //   'review': ''
-  // });
 }
 
 storeUserDataInFirestore(

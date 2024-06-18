@@ -210,6 +210,7 @@ class _BarberCardState extends State<BarberCard> {
     return GestureDetector(
       onTap: () {
         sampleProvider.setSelectedBarber(widget.barberId);
+        sampleProvider.resetSelectedSlot();
         print('Selected Barber: ${sampleProvider.selectedBarber}}');
         Navigator.push(
           context,
