@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:trim_time/views/appointment_summary/appointment_summary.dart';
 import 'package:trim_time/views/barber_listing/barber_listing.dart';
 import 'package:trim_time/views/barber_profile/barber_profile.dart';
+import 'package:trim_time/views/reviewsAndRating/reviews.dart';
 import 'firebase/config/firebase_options.dart';
 import 'providers/sample_provider.dart';
 import 'views/home/home.dart';
@@ -37,12 +38,13 @@ class MyApp extends StatelessWidget {
         ),
         // home: BarberProfile(),
         // home: BarberListing(),
-        home: AppointmentSummary(),
+        // home: AppointmentSummary(),
+        home: ReviewsAndRating(),
 
         debugShowCheckedModeBanner: false,
-  //        routes: {
-  //   '/barberProfile': (context) => BarberProfile(),
-  // },
+        //        routes: {
+        //   '/barberProfile': (context) => BarberProfile(),
+        // },
       ),
     );
   }

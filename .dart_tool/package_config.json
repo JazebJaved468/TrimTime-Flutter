@@ -80,6 +80,12 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "flutter_rating_bar",
+      "rootUri": "file:///C:/Users/Mahnoor/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_rating_bar-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///C:/src/flutter/packages/flutter_test",
       "packageUri": "lib/",
@@ -236,7 +242,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-06T18:59:57.320411Z",
+  "generated": "2024-06-10T19:19:23.779977Z",
   "generator": "pub",
   "generatorVersion": "3.3.1"
 }
