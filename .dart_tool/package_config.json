@@ -74,6 +74,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "cron",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/cron-0.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "cross_file",
       "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/cross_file-0.3.4+1",
       "packageUri": "lib/",
@@ -584,7 +590,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-09T10:35:43.772993Z",
+  "generated": "2024-06-18T14:22:49.742319Z",
   "generator": "pub",
   "generatorVersion": "3.3.0"
 }
