@@ -6,6 +6,18 @@ import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:uuid/uuid.dart';
 
+getPopularBarbersFromFireStore() async {
+  print(
+      '-----------------> Getting Popular Barbers Listing from Firestore <-----------------');
+
+  List allBarbers = await getAllBarbersFromFireStore();
+
+  // Sort barbers by average rating in descending order
+  allBarbers.sort((a, b) => b['averageRating'].compareTo(a['averageRating']));
+
+  return allBarbers.take(4).toList();
+}
+
 rateBarberInFirestore({
   required String barberId,
   required String clientId,
@@ -122,9 +134,15 @@ getAllBarbersFromFireStore() async {
     return e.data() as Map<String, dynamic>;
   }).toList();
 
-  Map<String, dynamic> localData = await getDataFromLocalStorage();
+  CollectionReference ratings =
+      FirebaseFirestore.instance.collection('ratings');
 
-  // print('Local Data: ${localData}');
+  QuerySnapshot ratingsSnapshot = await ratings.get();
+  List? allRatings = ratingsSnapshot.docs.map((e) {
+    return e.data() as Map<String, dynamic>;
+  }).toList();
+
+  Map<String, dynamic> localData = await getDataFromLocalStorage();
 
   if (localData['userData'] != null) {
     for (var barber in allBarbers) {
@@ -134,6 +152,18 @@ getAllBarbersFromFireStore() async {
         barber['isFavourite'] = false;
       }
     }
+  }
+
+  for (var barber in allBarbers) {
+    var barberId = barber['uid'];
+    var ratings =
+        allRatings.where((element) => element['barberId'] == barberId).toList();
+    double averageRating = ratings.isNotEmpty
+        ? ratings.map((e) => e['rating']).reduce((a, b) => a + b) /
+            ratings.length
+        : 0.0;
+
+    barber['averageRating'] = averageRating.toStringAsFixed(1);
   }
 
   return allBarbers;
@@ -149,9 +179,6 @@ updateClientFavoritesInFirestore(
   print('updateing client favourites with this data $favouritesList');
 
   await clients.doc(clientId).update({'favourites': favouritesList});
-
-  //  await updateUserDataInLocalStorage(
-  // data: await getUserDataFromFirestore(uid, isClient));
 }
 
 checkBookingSlotIsAvailableInFirestore(
@@ -169,13 +196,11 @@ checkBookingSlotIsAvailableInFirestore(
   Map<String, dynamic> barberData = _barber.data() as Map<String, dynamic>;
 
   barberData['availability'].forEach((date, info) {
-    // print('date ----> $date');
     var fomattedDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
     var selectedDateFormatted =
         DateFormat('dd-MM-yyyy').format(DateTime.parse(selectedDate));
 
     if (selectedDateFormatted == fomattedDate) {
-      // print('date matched');
       if (barberData['availability'][date]['isAvailable']) {
         {
           barberData['availability'][date]['slots'].forEach((slot) {
@@ -185,30 +210,13 @@ checkBookingSlotIsAvailableInFirestore(
               }
             }
           });
-          // print('barber available on that day ----> $date');
-          // barberAvailability = info;
         }
-        // barberAvailability = info;
       } else {
         isAvailable = false;
       }
-      // if (slot['isAvailable'] && slot['isBooked'] == false) {
-      //   tempSlotsList.add(slot);
-      // }
-
-      //  slotsToShow = tempSlotsList;
-
-      // print('slots list length ----> ${tempSlotsList.length}');
     }
   });
 
-  // bookings.where('slotId', isEqualTo: 'slotId').get().then((value) {
-  //   if (value.docs.isEmpty) {
-  //     print('Slot is available');
-  //   } else {
-  //     print('Slot is not available');
-  //   }
-  // });
   return isAvailable;
 }
 
@@ -373,22 +381,3 @@ storeUserDataInFirestore(
     });
   }
 }
-
-
-
-
-// getHaircutBarbersFromFirestore() async {
-//   print(
-//       '-----------------> Getting Haircut Barbers Listng from Firestore <-----------------');
-//   CollectionReference barbers =
-//       FirebaseFirestore.instance.collection('barbers');
-
-//   var haircutFilterBarbersList =
-//       await barbers.where('services.1.isProviding', isEqualTo: true).get();
-
-//   var tempList = haircutFilterBarbersList.docs.map((e) {
-//     return e.data() as Map<String, dynamic>;
-//   }).toList();
-
-//   print(tempList);
-// }

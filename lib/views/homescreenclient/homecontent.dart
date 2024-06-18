@@ -6,6 +6,7 @@ import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/views/barber_listing/barber_listing.dart';
 import 'package:trim_time/views/sign_in.dart';
 
 class HomeContent extends StatefulWidget {
@@ -280,66 +281,121 @@ class LocationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SampleProvider sampleProvider =
+        Provider.of<SampleProvider>(context, listen: false);
+    // return Consumer<SampleProvider>(builder: (context, provider, child) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            const Text(
-              'See All',
-              style: TextStyle(
-                color: Colors.orange,
-              ),
-            ),
-          ],
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
-        const SizedBox(height: 8),
-        const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            LocationCard(
-              title: 'Belle Curls',
-              address: '0996 Novick Parkway',
-              rating: '4.8',
-            ),
-            LocationCard(
-              title: 'Pretty Parlor',
-              address: '42 Fardom Avenue',
-              rating: '4.9',
-            ),
-            LocationCard(
-              title: 'Mia Bella',
-              address: '87 Superior Trail',
-              rating: '4.7',
-            ),
-            LocationCard(
-              title: 'Hair Force',
-              address: '80 Village Drive',
-              rating: '4.6',
-            ),
-            LocationCard(
-              title: 'Serenity Salon',
-              address: '88 Commercial Place',
-              rating: '4.8',
-            ),
-            LocationCard(
-              title: 'The Razor\'s Edge',
-              address: '56 Artisan Avenue',
-              rating: '4.6',
-            ),
-          ],
-        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: sampleProvider.popularBarbers.length,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return BarberCard(
+                barberName: sampleProvider.popularBarbers[index]['name'],
+                shopName: sampleProvider.popularBarbers[index]['shopName'],
+                stars: sampleProvider.popularBarbers[index]['averageRating'],
+                imageUrl: sampleProvider.popularBarbers[index]['photoURL'],
+                barberId: sampleProvider.popularBarbers[index]['uid']);
+
+            // Text(
+            //   sampleProvider.popularBarbers[index]['name'],
+            //   style: TextStyle(color: CustomColors.white),
+            // );
+          },
+        )
       ],
     );
+
+    // });
+    ListView.builder(
+      shrinkWrap: true,
+      itemCount: sampleProvider.popularBarbers.length,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        return Text(
+          sampleProvider.popularBarbers[index]['name'],
+          style: TextStyle(color: CustomColors.white),
+        );
+
+        //  BarberCard(
+        //     barberName: 'barberName',
+        //     shopName: 'shopName',
+        //     stars: 'stars',
+        //     imageUrl:
+        //         'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixlr.com%2Fimage-generator%2F&psig=AOvVaw1OcskarNNDOdfLJbvDRRhB&ust=1718831879725000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNiH3u6J5oYDFQAAAAAdAAAAABAE',
+        //     barberId: 'barberId');
+      },
+    );
+    // return Column(
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: [
+    //     Row(
+    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //       children: [
+    //         Text(
+    //           title,
+    //           style: const TextStyle(
+    //             fontSize: 18,
+    //             fontWeight: FontWeight.bold,
+    //             color: Colors.white,
+    //           ),
+    //         ),
+    //         const Text(
+    //           'See All',
+    //           style: TextStyle(
+    //             color: Colors.orange,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     const SizedBox(height: 8),
+    //     const Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         LocationCard(
+    //           title: 'Belle Curls',
+    //           address: '0996 Novick Parkway',
+    //           rating: '4.8',
+    //         ),
+    //         LocationCard(
+    //           title: 'Pretty Parlor',
+    //           address: '42 Fardom Avenue',
+    //           rating: '4.9',
+    //         ),
+    //         LocationCard(
+    //           title: 'Mia Bella',
+    //           address: '87 Superior Trail',
+    //           rating: '4.7',
+    //         ),
+    //         LocationCard(
+    //           title: 'Hair Force',
+    //           address: '80 Village Drive',
+    //           rating: '4.6',
+    //         ),
+    //         LocationCard(
+    //           title: 'Serenity Salon',
+    //           address: '88 Commercial Place',
+    //           rating: '4.8',
+    //         ),
+    //         LocationCard(
+    //           title: 'The Razor\'s Edge',
+    //           address: '56 Artisan Avenue',
+    //           rating: '4.6',
+    //         ),
+    //       ],
+    //     ),
+    //   ],
+    // );
   }
 }
 

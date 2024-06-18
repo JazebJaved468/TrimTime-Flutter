@@ -61,6 +61,7 @@ class SampleProvider with ChangeNotifier {
   late List cancelledBookingsClient = getCancelledBookingsClient();
   late List upcomingBookingsClient = getUpcomingBookingsClient();
   late List completedBookingsClient = getCompletedBookingsClient();
+  late List popularBarbers = [];
 
   // Client : Favourites
   late List inAppfavouriteList = getInAppFavouriteList();
@@ -72,7 +73,7 @@ class SampleProvider with ChangeNotifier {
         '-----------------> Provider : App Initialization <-----------------');
     await initializeApp();
     localDataInProvider = await getDataFromLocalStorage();
-    setIsAppInitialLoading(false);
+    // setIsAppInitialLoading(false);
 
     uid = localDataInProvider['uid'] ?? '';
     userData = localDataInProvider['userData'];
@@ -83,13 +84,14 @@ class SampleProvider with ChangeNotifier {
         setAllBarbers(await getAllBarbersFromFireStore());
         setAllClientlBookings(
             await getAllClientBookingsFromFireStore(clientId: uid));
+        setPopularBarbers(await getPopularBarbersFromFireStore());
         updateInAppFavouriteList();
         updateUpcomingBookingsClient();
         updateCompletedBookingsClient();
         updateCancelledBookingsClient();
       }
     }
-
+    setIsAppInitialLoading(false);
     print('local data in provider ----> $localDataInProvider');
   }
 
@@ -315,6 +317,12 @@ class SampleProvider with ChangeNotifier {
 
   // -------------------------------------------------- Updaters  --------------------------------------------------
 
+  updatePopularBarbers() {
+    popularBarbers = getPopularBarbers();
+
+    notifyListeners();
+  }
+
   updateSelectedService(String serviceId) {
     if (selectedService == serviceId) {
       selectedService = '';
@@ -412,6 +420,18 @@ class SampleProvider with ChangeNotifier {
   }
 
   // -------------------------------------------------- Getters  --------------------------------------------------
+
+  getPopularBarbers() async {
+    // List tempData = [];
+    return await getPopularBarbersFromFireStore();
+    // for (var barber in allBarbers) {
+    //   if (barber['isPopular']) {
+    //     tempData.add(barber);
+    //   }
+    // }
+
+    // return tempData;
+  }
 
   int getTotalPrice() {
     int totalPrice = 0;
@@ -616,6 +636,12 @@ class SampleProvider with ChangeNotifier {
 
   void setAllBarbers(List<Map<String, dynamic>> data) {
     allBarbers = data;
+  }
+
+  setPopularBarbers(List data) async {
+    popularBarbers = data;
+    print('popuplar barbers in provider --------------> $popularBarbers');
+    // notifyListeners();
   }
 
   setAllClientlBookings(List<Map<String, dynamic>> data) {
