@@ -224,6 +224,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "flutter_rating_bar",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_rating_bar-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "flutter_shaders",
       "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_shaders-0.1.2",
       "packageUri": "lib/",
@@ -590,7 +596,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-18T14:22:49.742319Z",
+  "generated": "2024-06-18T15:03:15.375514Z",
   "generator": "pub",
   "generatorVersion": "3.3.0"
 }

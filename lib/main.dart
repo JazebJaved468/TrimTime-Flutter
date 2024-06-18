@@ -8,6 +8,7 @@ import 'package:trim_time/views/bookings/booking.dart';
 import 'package:trim_time/views/appointment_summary/appointment_summary.dart';
 import 'package:trim_time/views/barber_listing/barber_listing.dart';
 import 'package:trim_time/views/barber_profile/barber_profile.dart';
+import 'package:trim_time/views/reviewsAndRating/reviews.dart';
 import 'firebase/config/firebase_options.dart';
 import 'providers/sample_provider.dart';
 
