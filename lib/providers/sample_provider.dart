@@ -40,6 +40,7 @@ class SampleProvider with ChangeNotifier {
   String clientGender = 'male'; // used in client registeration screen
   bool rateBarberCIP = false;
   bool isSlotTileExpanded = false;
+  bool saveClientProfileCIP = false;
 
   // Client : CLient Booking Flow States
   Map<String, dynamic> selectedBarber = {};
@@ -637,6 +638,11 @@ class SampleProvider with ChangeNotifier {
   }
 
   // --------------------------------------------------Setters  --------------------------------------------------
+  setSaveClientProfileCIP(bool value) {
+    saveClientProfileCIP = value;
+    notifyListeners();
+  }
+
   setIsSlotTileExpanded(bool value) {
     isSlotTileExpanded = value;
     notifyListeners();
