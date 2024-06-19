@@ -62,6 +62,7 @@ class SampleProvider with ChangeNotifier {
   late List upcomingBookingsClient = getUpcomingBookingsClient();
   late List completedBookingsClient = getCompletedBookingsClient();
   late List popularBarbers = [];
+  late List searchedBarbers = [];
 
   // Client : Favourites
   late List inAppfavouriteList = getInAppFavouriteList();
@@ -316,6 +317,19 @@ class SampleProvider with ChangeNotifier {
   }
 
   // -------------------------------------------------- Updaters  --------------------------------------------------
+
+  updateSearchedBarbers(String query) {
+    if (query == '') {
+      searchedBarbers = [];
+      notifyListeners();
+      return;
+    }
+    searchedBarbers = allBarbers
+        .where((element) =>
+            element['name'].toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    notifyListeners();
+  }
 
   updatePopularBarbers() {
     popularBarbers = getPopularBarbers();
@@ -714,6 +728,10 @@ class SampleProvider with ChangeNotifier {
   }
 
   // --------------------------------------------------Resetters  --------------------------------------------------
+
+  resetSearchedBarbers() {
+    searchedBarbers = [];
+  }
 
   resetSelectedSlot() {
     selectedSlot = {};

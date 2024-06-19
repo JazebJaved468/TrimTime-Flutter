@@ -48,12 +48,12 @@ class _BarberListingState extends State<BarberListing> {
       backgroundColor: CustomColors.gunmetal,
       appBar: AppBar(
         backgroundColor: CustomColors.gunmetal,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            // Navigator.pop(context);
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.white),
+        //   onPressed: () {
+        //     // Navigator.pop(context);
+        //   },
+        // ),
         title: const Text(
           'Barbers',
           style: TextStyle(color: Colors.white),
@@ -62,35 +62,35 @@ class _BarberListingState extends State<BarberListing> {
       ),
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            child: TextFormField(
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                  hintText: 'Search',
-                  hintStyle: const TextStyle(
-                      color: Colors.grey, fontFamily: 'Raleway'),
-                  fillColor: CustomColors.charcoal,
-                  filled: true,
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                  ),
-                  // suffixIcon: const Icon(
-                  //   Icons.visibility_off_outlined,
-                  // ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    // borderSide: const BorderSide(color: Color(0xffE4E7EB)),
-                    borderRadius: BorderRadius.circular(15),
-                  )),
-            ),
-          ),
-          const SizedBox(height: 5),
+          // Container(
+          //   padding: const EdgeInsets.all(5),
+          //   margin: const EdgeInsets.symmetric(horizontal: 10),
+          //   child: TextFormField(
+          //     style: const TextStyle(color: Colors.white),
+          //     decoration: InputDecoration(
+          //         hintText: 'Search',
+          //         hintStyle: const TextStyle(
+          //             color: Colors.grey, fontFamily: 'Raleway'),
+          //         fillColor: CustomColors.charcoal,
+          //         filled: true,
+          //         prefixIcon: const Icon(
+          //           Icons.search,
+          //           color: Colors.grey,
+          //         ),
+          //         // suffixIcon: const Icon(
+          //         //   Icons.visibility_off_outlined,
+          //         // ),
+          //         focusedBorder: OutlineInputBorder(
+          //           borderSide: const BorderSide(color: Colors.white),
+          //           borderRadius: BorderRadius.circular(10),
+          //         ),
+          //         enabledBorder: OutlineInputBorder(
+          //           // borderSide: const BorderSide(color: Color(0xffE4E7EB)),
+          //           borderRadius: BorderRadius.circular(15),
+          //         )),
+          //   ),
+          // ),
+          // const SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
@@ -129,7 +129,7 @@ class _BarberListingState extends State<BarberListing> {
                   barberId: barber['uid'],
                   barberName: barber['name'],
                   shopName: barber['shopName'],
-                  stars: '5',
+                  stars: barber['averageRating'],
                   imageUrl: barber['photoURL'],
                   // isFavourite: barber['isFavourite'],
                 );

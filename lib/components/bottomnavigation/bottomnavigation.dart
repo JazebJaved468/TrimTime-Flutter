@@ -8,6 +8,7 @@ import 'package:trim_time/views/barber_listing/barber_listing.dart';
 import 'package:trim_time/views/bookings/booking.dart';
 import 'package:trim_time/views/clientScreens/registration_client.dart';
 import 'package:trim_time/views/favouriteScreen/favourite_screen.dart';
+import 'package:trim_time/views/searchPage/search_page.dart';
 import '../../views/homescreenclient/homecontent.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 
@@ -65,18 +66,20 @@ class _NavigationExampleState extends State<NavigationExample> {
             icon: const Icon(Icons.favorite_border, color: Colors.white),
             label: 'Favorites',
           ),
-          // NavigationDestination(
-          //   selectedIcon: Icon(Icons.person, color: CustomColors.peelOrange),
-          //   icon: Icon(Icons.person_outline, color: Colors.white),
-          //   label: 'Profile',
-          // ),
+          NavigationDestination(
+            selectedIcon:
+                Icon(Icons.search_rounded, color: CustomColors.peelOrange),
+            icon: Icon(Icons.search_rounded, color: Colors.white),
+            label: 'Search',
+          ),
         ],
       ),
       body: [
         HomeContent(),
-        BarberListing(),
+        const BarberListing(),
         BookingScreen(),
         const FavouriteScreen(),
+        SearchPage(),
       ][currentPageIndex],
     );
   }
