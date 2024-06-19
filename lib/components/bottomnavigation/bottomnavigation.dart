@@ -24,56 +24,78 @@ class _NavigationExampleState extends State<NavigationExample> {
 
   final isClient = true;
 
+  List destinations = [
+    NavigationDestination(
+      selectedIcon:
+          const Icon(Icons.home_rounded, color: CustomColors.peelOrange),
+      icon: const Icon(Icons.home_rounded, color: Colors.white),
+      label: 'Home',
+    ),
+    NavigationDestination(
+      selectedIcon:
+          const Icon(Icons.content_cut_rounded, color: CustomColors.peelOrange),
+      icon: const Icon(Icons.content_cut_rounded, color: Colors.white),
+      label: 'Barbers',
+    ),
+    NavigationDestination(
+      selectedIcon:
+          const Icon(Icons.book_rounded, color: CustomColors.peelOrange),
+      icon: const Icon(Icons.book_rounded, color: Colors.white),
+      label: 'My Bookings',
+    ),
+    NavigationDestination(
+      selectedIcon:
+          const Icon(Icons.favorite_rounded, color: CustomColors.peelOrange),
+      icon: const Icon(Icons.favorite_rounded, color: Colors.white),
+      label: 'Favorites',
+    ),
+    NavigationDestination(
+      selectedIcon: Icon(
+        Icons.person_search_rounded,
+        color: CustomColors.peelOrange,
+      ),
+      icon: Icon(Icons.person_search_rounded, color: Colors.white),
+      label: 'Search',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     SampleProvider sampleProvider =
         Provider.of<SampleProvider>(context, listen: false);
 
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType
             .fixed, // Ensure no background circle for selected icon
-        onDestinationSelected: (int index) {
+
+        currentIndex: currentPageIndex,
+        onTap: (int index) {
           setState(() {
             currentPageIndex = index;
           });
         },
         backgroundColor: CustomColors.gunmetal,
-        indicatorColor: Colors.amber, // Not necessary since type is fixed
-        selectedIndex: currentPageIndex,
-        destinations: [
-          NavigationDestination(
-            selectedIcon:
-                const Icon(Icons.home, color: CustomColors.peelOrange),
-            icon: const Icon(Icons.home_outlined, color: Colors.white),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            selectedIcon:
-                const Icon(Icons.content_cut, color: CustomColors.peelOrange),
-            icon: const Icon(Icons.content_cut, color: Colors.white),
-            label: 'Barber',
-          ),
-          NavigationDestination(
-            selectedIcon:
-                const Icon(Icons.book, color: CustomColors.peelOrange),
-            icon: const Icon(Icons.book_outlined, color: Colors.white),
-            label: 'My Booking',
-          ),
-          NavigationDestination(
-            selectedIcon:
-                const Icon(Icons.favorite, color: CustomColors.peelOrange),
-            icon: const Icon(Icons.favorite_border, color: Colors.white),
-            label: 'Favorites',
-          ),
-          NavigationDestination(
-            selectedIcon:
-                Icon(Icons.search_rounded, color: CustomColors.peelOrange),
-            icon: Icon(Icons.search_rounded, color: Colors.white),
-            label: 'Search',
-          ),
-        ],
+        selectedItemColor: CustomColors.peelOrange,
+        iconSize: 20,
+
+        unselectedItemColor: Colors.white,
+
+        unselectedLabelStyle:
+            const TextStyle(fontSize: 10, fontWeight: FontWeight.w300),
+        selectedLabelStyle:
+            const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+        items: destinations
+            .map((destination) => BottomNavigationBarItem(
+                  icon: destination.icon,
+                  activeIcon: destination.selectedIcon,
+                  label: destination.label,
+                ))
+            .toList(),
       ),
+
+      /// undo from here
+
       body: [
         HomeContent(),
         const BarberListing(),
@@ -85,43 +107,48 @@ class _NavigationExampleState extends State<NavigationExample> {
   }
 }
 
-class NavigationBar extends StatelessWidget {
-  final BottomNavigationBarType type;
-  final int selectedIndex;
-  final ValueChanged<int> onDestinationSelected;
-  final Color backgroundColor;
-  final Color? indicatorColor;
-  final List<NavigationDestination> destinations;
+// class NavigationBar extends StatelessWidget {
+//   final BottomNavigationBarType type;
+//   final int selectedIndex;
+//   final ValueChanged<int> onDestinationSelected;
+//   final Color backgroundColor;
+//   final Color? indicatorColor;
+//   final List<NavigationDestination> destinations;
 
-  const NavigationBar({
-    super.key,
-    required this.type,
-    required this.selectedIndex,
-    required this.onDestinationSelected,
-    required this.backgroundColor,
-    this.indicatorColor,
-    required this.destinations,
-  });
+//   const NavigationBar({
+//     super.key,
+//     required this.type,
+//     required this.selectedIndex,
+//     required this.onDestinationSelected,
+//     required this.backgroundColor,
+//     this.indicatorColor,
+//     required this.destinations,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: type,
-      currentIndex: selectedIndex,
-      onTap: onDestinationSelected,
-      backgroundColor: backgroundColor,
-      selectedItemColor: CustomColors.peelOrange,
-      unselectedItemColor: Colors.white,
-      items: destinations
-          .map((destination) => BottomNavigationBarItem(
-                icon: destination.icon,
-                activeIcon: destination.selectedIcon,
-                label: destination.label,
-              ))
-          .toList(),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return BottomNavigationBar(
+//       type: type,
+//       currentIndex: selectedIndex,
+//       onTap: onDestinationSelected,
+//       backgroundColor: backgroundColor,
+//       selectedItemColor: CustomColors.peelOrange,
+//       iconSize: 20,
+//       unselectedItemColor: Colors.white,
+//       unselectedLabelStyle:
+//           const TextStyle(fontSize: 10, fontWeight: FontWeight.w300),
+//       selectedLabelStyle:
+//           const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+//       items: destinations
+//           .map((destination) => BottomNavigationBarItem(
+//                 icon: destination.icon,
+//                 activeIcon: destination.selectedIcon,
+//                 label: destination.label,
+//               ))
+//           .toList(),
+//     );
+//   }
+// }
 
 class NavigationDestination {
   final Icon icon;

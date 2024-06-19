@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
@@ -8,10 +7,7 @@ import 'package:trim_time/components/carousel.dart';
 import 'package:trim_time/components/reviewBox.dart';
 import 'package:trim_time/components/servicesContainer.dart';
 import 'package:trim_time/components/timeSlotBox.dart';
-import 'package:trim_time/controller/firestore.dart';
-import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/providers/sample_provider.dart';
-import 'package:trim_time/views/clientScreens/summary.dart';
 import 'package:trim_time/views/appointment_summary/appointment_summary.dart';
 
 class BarberProfile extends StatefulWidget {
@@ -28,64 +24,10 @@ class _BarberProfileState extends State<BarberProfile> {
   var selectedService = null; //req for make an appointment
   var selectedDate = null; //req for make an appointment
   var selectedDay = null;
-  // bool customIcon = false;
+
   int selectedIndex = -1;
   var selectedtime = null; //req for make an appointment
   List<String> selectedServices = [];
-  // List of time slots
-  List<String> times = [
-    '1:00 PM - 1:30 PM',
-    '1:30 PM - 2:00 PM',
-    '2:00 PM - 2:30 PM',
-    '2:30 PM - 3:00 PM',
-    '3:00 PM - 3:30 PM'
-  ];
-
-  // List<String> services = [
-  //   'Hair Cut',
-  //   'Beard Trim',
-  //   'Hair Coloring',
-  //   'Face Treatment',
-  // ];
-
-  // void onTimeSlotTap(int index, String time) {
-  //   setState(() {
-  //     selectedtime = time;
-  //     selectedIndex = index; //tapped index
-  //     print(time);
-  //   });
-  // }
-
-  // void onServiceTap(String service) {
-  //   setState(() {
-  //     if (selectedServices.contains(service)) {
-  //       selectedServices.remove(service);
-  //     } else {
-  //       selectedServices.add(service);
-  //     }
-  //     print(selectedServices); // For debugging purposes
-  //   });
-  // }
-
-  // Future<void> selectDate() async {
-  //   DateTime? selected = await showDatePicker(
-  //     context: context,
-  //     firstDate: DateTime.now(),
-  //     lastDate: DateTime.now().add(
-  //       Duration(days: 7),
-  //     ),
-  //     initialDate: DateTime.now(),
-  //   );
-
-  //   if (selected != null) {
-  //     print(selected);
-  //     setState(() {
-  //       // selectedDate = selected.toString();
-  //       selectedDate = DateFormat('EEEE, dd-MM-yyyy').format(selected);
-  //       selectedDay = DateFormat('EEEE').format(selected);
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +54,7 @@ class _BarberProfileState extends State<BarberProfile> {
               ImageCarousel(),
 
               const SizedBox(
-                height: 25,
+                height: 24,
               ),
 
               //2. Name
@@ -123,12 +65,13 @@ class _BarberProfileState extends State<BarberProfile> {
                   children: [
                     Text(
                       sampleProvider.selectedBarber['name'],
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: CustomColors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1,
-                          fontFamily: 'Raleway'),
+                      style: const TextStyle(
+                        fontSize: 24,
+                        color: CustomColors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                        // fontFamily: 'Raleway'
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
@@ -172,7 +115,7 @@ class _BarberProfileState extends State<BarberProfile> {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.store_mall_directory,
                       color: CustomColors.peelOrange,
                     ),
@@ -181,10 +124,10 @@ class _BarberProfileState extends State<BarberProfile> {
                     ),
                     Text(
                       sampleProvider.selectedBarber['shopName'],
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: CustomColors.white,
-                          fontSize: 15,
-                          fontFamily: 'Raleway',
+                          fontSize: 14,
+                          // fontFamily: 'Raleway',
                           letterSpacing: 1),
                     )
                   ],
@@ -200,7 +143,7 @@ class _BarberProfileState extends State<BarberProfile> {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.pin,
                       color: CustomColors.peelOrange,
                     ),
@@ -210,10 +153,10 @@ class _BarberProfileState extends State<BarberProfile> {
                     Flexible(
                       child: Text(
                         sampleProvider.selectedBarber['shopAddress'],
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: CustomColors.white,
-                          fontSize: 15,
-                          fontFamily: 'Raleway',
+                          fontSize: 14,
+                          // fontFamily: 'Raleway',
                           letterSpacing: 1,
                         ),
                         softWrap: true,
@@ -233,7 +176,7 @@ class _BarberProfileState extends State<BarberProfile> {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.phone,
                       color: CustomColors.peelOrange,
                     ),
@@ -242,10 +185,10 @@ class _BarberProfileState extends State<BarberProfile> {
                     ),
                     Text(
                       sampleProvider.selectedBarber['phoneNumber'],
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: CustomColors.white,
-                          fontSize: 15,
-                          fontFamily: 'Raleway',
+                          fontSize: 14,
+                          // fontFamily: 'Raleway',
                           letterSpacing: 1),
                     ),
                   ],
@@ -261,7 +204,7 @@ class _BarberProfileState extends State<BarberProfile> {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.star_half_outlined,
                       color: CustomColors.peelOrange,
                     ),
@@ -269,11 +212,19 @@ class _BarberProfileState extends State<BarberProfile> {
                       width: 10,
                     ),
                     Text(
-                      '4.8 (3279 reviews)',
-                      style: TextStyle(
+                      sampleProvider.selectedBarber['averageRating'],
+                      style: const TextStyle(
                           color: CustomColors.white,
-                          fontSize: 15,
-                          fontFamily: 'Raleway',
+                          fontSize: 14,
+                          // fontFamily: 'Raleway',
+                          letterSpacing: 1),
+                    ),
+                    Text(
+                      ' (${sampleProvider.selectedBarber['ratings'].length} reviews)',
+                      style: const TextStyle(
+                          color: CustomColors.white,
+                          fontSize: 14,
+                          // fontFamily: 'Raleway',
                           letterSpacing: 1),
                     )
                   ],
@@ -281,20 +232,20 @@ class _BarberProfileState extends State<BarberProfile> {
               ),
               //7. Services
               const SizedBox(
-                height: 5,
+                height: 24,
               ),
 
-              Divider(
-                color: CustomColors.charcoal,
-              ),
+              // const Divider(
+              //   color: CustomColors.charcoal,
+              // ),
 
               Container(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
+                padding: const EdgeInsets.only(left: 16),
+                child: const Text(
                   'Select Service',
                   style: TextStyle(
-                      fontFamily: 'Raleway',
-                      fontSize: 22,
+                      // fontFamily: 'Raleway',
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: CustomColors.white),
                 ),
@@ -302,11 +253,9 @@ class _BarberProfileState extends State<BarberProfile> {
 
               //services boxes
               const SizedBox(
-                height: 15,
+                height: 12,
               ),
 
-              // Consumer<SampleProvider>(builder: (context, provider, child) {
-              //   return
               SizedBox(
                 height: 160,
                 child: ListView.builder(
@@ -314,6 +263,7 @@ class _BarberProfileState extends State<BarberProfile> {
                     return Consumer<SampleProvider>(
                         builder: (context, provider, child) {
                       return Services(
+                        isFirstCard: index == 0,
                         service: services[index],
                         isSelected: provider.selectedService ==
                             services[index]['serviceId'],
@@ -326,74 +276,23 @@ class _BarberProfileState extends State<BarberProfile> {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                 ),
-              )
-              // })
-              ,
-
-              // SizedBox(
-              //   height: 160,
-              //   child: ListView.builder(
-              //     itemBuilder: (context, index) {
-              //       return Services(
-              //         service: services[index],
-              //         clicked: selectedServices.contains(services[index]),
-              //         onTap: ,
-              //       );
-              //     },
-              //     itemCount: services.length,
-              //     shrinkWrap: true,
-              //     scrollDirection: Axis.horizontal,
-              //   ),
-              // ),
-              // Container(
-              //   padding: const EdgeInsets.only(left: 15),
-              //   child: SingleChildScrollView(
-              //     scrollDirection: Axis.horizontal,
-              //     child: Row(
-              //       children: [
-              //         // Services(),
-              //         // SizedBox(
-              //         //   width: 10,
-              //         // ),
-              //         // Services(),
-              //         // SizedBox(
-              //         //   width: 10,
-              //         // ),
-              //         // Services(),
-              //         // SizedBox(
-              //         //   width: 10,
-              //         // ),
-              //         // Services(),
-
-              //         ///he spread operator ... takes each Services from the generated list and inserts it into the  list of row children.
-
-              //         ...List.generate(services.length, (index) {
-              //           return Services(
-              //             service: services[index],
-              //             clicked: selectedServices.contains(services[index]),
-              //             onTap: () => onServiceTap(services[index]),
-              //           );
-              //         }),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+              ),
 
               const SizedBox(
-                height: 20,
+                height: 24,
               ),
               //8. date
 
               Container(
-                padding: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Select Date',
                       style: TextStyle(
-                          fontFamily: 'Raleway',
-                          fontSize: 22,
+                          // fontFamily: 'Raleway',
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: CustomColors.white),
                     ),
@@ -405,7 +304,7 @@ class _BarberProfileState extends State<BarberProfile> {
                             context: context,
                             firstDate: DateTime.now(),
                             lastDate: DateTime.now().add(
-                              Duration(days: 6),
+                              const Duration(days: 6),
                             ),
                             initialDate:
                                 sampleProvider.selectedDate ?? DateTime.now(),
@@ -419,11 +318,9 @@ class _BarberProfileState extends State<BarberProfile> {
                           }
                           print(
                               'DAte selected in provider ----> ${sampleProvider.selectedDate}');
-
-                          // selectDate();
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 20),
+                        child: const Padding(
+                          padding: EdgeInsets.only(right: 20),
                           child: Icon(
                             Icons.calendar_month_outlined,
                             color: CustomColors.white,
@@ -436,18 +333,17 @@ class _BarberProfileState extends State<BarberProfile> {
               ),
 
               const SizedBox(
-                height: 15,
+                height: 12,
               ),
 
               Center(
                 child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     width: double.infinity,
                     // height: 70,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: CustomColors.charcoal,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10))),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Consumer<SampleProvider>(
@@ -458,59 +354,47 @@ class _BarberProfileState extends State<BarberProfile> {
                             provider.selectedDate == null
                                 ? 'No Day Selected'
                                 : 'Schedule Booking on $date',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: CustomColors.white,
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
+                              // fontFamily: 'Poppins',
+                              fontSize: 14,
                             ),
                             textAlign: TextAlign.center,
                           );
                         },
                       ),
-
-                      // Text(
-                      //   selectedDate == null
-                      //       ? 'No Day Selected'
-                      //       : 'Schedule Booking on $selectedDate',
-                      //   style: TextStyle(
-                      //     color: CustomColors.white,
-                      //     fontFamily: 'Poppins',
-                      //     fontSize: 15,
-                      //   ),
-                      //   textAlign: TextAlign.center,
-                      // ),
                     )),
               ),
 
               //9. Time
 
               const SizedBox(
-                height: 20,
+                height: 24,
               ),
 
               Container(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
+                padding: const EdgeInsets.only(left: 16),
+                child: const Text(
                   'Select Time',
                   style: TextStyle(
-                      fontFamily: 'Raleway',
-                      fontSize: 22,
+                      // fontFamily: 'Raleway',
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: CustomColors.white),
                 ),
               ),
 
               const SizedBox(
-                height: 10,
+                height: 12,
               ),
 
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 12),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
                 width: double.infinity,
                 // height: 70,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: CustomColors.charcoal,
-                    borderRadius: const BorderRadius.all(Radius.circular(10))),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Consumer<SampleProvider>(
                     builder: (context, provider, child) {
                   var day = DateFormat('EEEE').format(provider.selectedDate);
@@ -521,13 +405,13 @@ class _BarberProfileState extends State<BarberProfile> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: provider.selectedDate == null
-                        ? Center(
+                        ? const Center(
                             child: Text(
                               'No Day Selected',
                               style: TextStyle(
                                 color: CustomColors.white,
-                                fontFamily: 'Poppins',
-                                fontSize: 15,
+                                // fontFamily: 'Poppins',
+                                fontSize: 14,
                               ),
                             ),
                           )
@@ -535,41 +419,24 @@ class _BarberProfileState extends State<BarberProfile> {
                             ? Center(
                                 child: Text(
                                   'Barber is not Available on $day',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: CustomColors.white,
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15,
+                                    // fontFamily: 'Poppins',
+                                    fontSize: 14,
                                   ),
                                 ),
                               )
-                            :
-
-                            // Wrap(
-                            //   spacing: 10,
-                            //   runSpacing: 20,
-                            //   children: List.generate(slots.length, (index) {
-                            //     return TimeSlot(
-                            //       time: slots[index]['time'],
-                            //       isSelected: selectedIndex == index,
-                            //       onTap: () => onTimeSlotTap(
-                            //           index, slots[index]['time']),
-                            //     );
-                            //   }),
-                            // )
-
-                            // Text('have slots'),
-
-                            Consumer<SampleProvider>(
+                            : Consumer<SampleProvider>(
                                 builder: (context, provider, child) {
                                 return ExpansionTile(
                                   shape:
                                       const Border(), //to remove divider lines when expanded
                                   title: Text(
                                     day,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: CustomColors.white,
-                                      fontFamily: 'Poppins',
-                                      fontSize: 15,
+                                      // fontFamily: 'Poppins',
+                                      fontSize: 14,
                                     ),
                                   ),
                                   trailing: Icon(
@@ -586,30 +453,15 @@ class _BarberProfileState extends State<BarberProfile> {
                                         Flexible(
                                             child: Wrap(
                                           spacing: 10,
-                                          runSpacing: 20,
-                                          // children: [
-                                          //   TimeSlot(),
-                                          //   TimeSlot(),
-                                          //   TimeSlot(),
-                                          //   TimeSlot(),
-                                          //   TimeSlot(),
-                                          // ],
+                                          runSpacing: 10,
                                           children: List.generate(slots.length,
                                               (index) {
-                                            // return Consumer<SampleProvider>(
-                                            //     builder:
-                                            //         (context, provider, child) {
                                             return TimeSlot(
                                               slot: slots[index],
                                               isSelected: provider
                                                       .selectedSlot['slotId'] ==
                                                   slots[index]['slotId'],
-
-                                              ///We set the isSelected property of each TimeSlot widget to true if its index matches the selectedIndex, indicating that it is currently selected. Everyime when the slot is pressed , only that slots isSelected proprty will bocome true and other remains false. bcz selectedIndex== tappedIndex
-                                              // onTap: () => onTimeSlotTap(
-                                              //     index, times[index]),
                                             );
-                                            // });
                                           }),
                                         )),
                                       ],
@@ -617,9 +469,6 @@ class _BarberProfileState extends State<BarberProfile> {
                                   ],
                                   onExpansionChanged: (bool expanded) {
                                     provider.setIsSlotTileExpanded(expanded);
-                                    // setState(() {
-                                    //   customIcon = expanded;
-                                    // });
                                   },
                                 );
                               }),
@@ -628,16 +477,16 @@ class _BarberProfileState extends State<BarberProfile> {
               ),
 
               const SizedBox(
-                height: 20,
+                height: 24,
               ),
 
               Container(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
+                padding: const EdgeInsets.only(left: 16),
+                child: const Text(
                   'Reviews',
                   style: TextStyle(
-                      fontFamily: 'Raleway',
-                      fontSize: 25,
+                      // fontFamily: 'Raleway',
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: CustomColors.white),
                 ),
@@ -647,18 +496,18 @@ class _BarberProfileState extends State<BarberProfile> {
 
               const Review(),
 
-              Divider(
+              const Divider(
                 color: CustomColors.charcoal,
               ),
 
               const Review(),
 
-              Divider(
+              const Divider(
                 color: CustomColors.charcoal,
               ),
               const Review(),
 
-              Divider(
+              const Divider(
                 color: CustomColors.charcoal,
               ),
               //for space
@@ -682,13 +531,6 @@ class _BarberProfileState extends State<BarberProfile> {
                 height: 70,
                 child: InkWell(
                   onTap: () async {
-                    // Check if all three fields are null
-                    // if (provider.selectedSlot == {} ||
-
-                    //     selectedDate == null ||
-                    //     selectedtime == null) {
-                    // Show alert box: Kindly provide complete info
-
                     print('\n Booking Data ---------->');
                     print(
                         '\n Booking Date ----------> ${provider.selectedDate.toIso8601String()}');
@@ -725,111 +567,31 @@ class _BarberProfileState extends State<BarberProfile> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AppointmentSummary()),
+                            builder: (context) => const AppointmentSummary()),
                       );
-
-                      // provider.setCreateBookingCIP(true);
-
-                      //  bool isSlotAvailable =  await checkBookingSlotIsAvailableInFirestore(
-                      //       barberId: provider.selectedBarber['uid'],
-                      //       slotId: provider.selectedSlot['slotId'],
-                      //       selectedDate:
-                      //           provider.selectedDate.toIso8601String()
-                      //   );
-
-                      // await createBookingInFirestore(
-                      //     barberId: provider.selectedBarber['uid'],
-                      //     clientId: provider.userData['uid'],
-                      //     serviceId: provider.selectedService,
-                      //     slot: provider.selectedSlot,
-                      //     selectedDate:
-                      //         provider.selectedDate.toIso8601String());
-
-                      // provider.createBooking(
-                      //     barberId: provider.selectedBarber['uid'],
-                      //     serviceId: provider.selectedService,
-                      //     slotId: provider.selectedSlot['slotId'],
-                      //     date: provider.selectedDate);
-
-                      // provider.setCreateBookingCIP(false);
-
-                      // showDialog(
-                      //   context: context,
-                      //   builder: (BuildContext context) {
-                      //     return AlertDialog(
-                      //       title: const Text('Alert'),
-                      //       content: Text(
-                      //           'successful booking made on ${provider.selectedSlot}.'),
-                      //       actions: <Widget>[
-                      //         TextButton(
-                      //           child: const Text('OK'),
-                      //           onPressed: () {
-                      //             Navigator.of(context).pop();
-                      //           },
-                      //         ),
-                      //       ],
-                      //     );
-                      //   },
-                      // );
                     }
-                    // } else {
-                    // Show alert box: Successful booking
-                    // showDialog(
-                    //   context: context,
-                    //   builder: (BuildContext context) {
-                    //     return AlertDialog(
-                    //       title: const Text('Success'),
-                    //       content: Text(
-                    //           'Successful booking made on $selectedDate between $selectedtime.'),
-                    //       actions: <Widget>[
-                    //         TextButton(
-                    //           child: const Text('Next'),
-                    //           onPressed: () {
-                    //             // Redirect to next screen
-                    //             Navigator.of(context).pop();
-                    //             Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (context) => const NextScreen()),
-                    //             );
-                    //           },
-                    //         ),
-                    //       ],
-                    //     );
-                    //   },
-                    // );
-                    // }
                   },
                   child: Container(
                     margin: const EdgeInsets.only(
-                        top: 10, bottom: 10, left: 30, right: 30),
+                        top: 10, bottom: 10, left: 16, right: 16),
                     height: 50,
                     width: 100,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: CustomColors.peelOrange,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(50))),
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
                     child: Center(
                       child: provider.createBookingCIP
                           ? const SpinKitFadingCircle(
                               color: CustomColors.charcoal,
                               size: 30.0,
                             )
-                          : Text(
+                          : const Text(
                               'Book Now',
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 15,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold),
                             ),
-
-                      // Text(
-                      //   'Book Now',
-                      //   style: TextStyle(
-                      //       color: Colors.white,
-                      //       fontSize: 15,
-                      //       fontWeight: FontWeight.bold),
-                      // ),
                     ),
                   ),
                 ),

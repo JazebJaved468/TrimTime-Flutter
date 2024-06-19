@@ -120,20 +120,24 @@ class _BarberListingState extends State<BarberListing> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: currentListing.length,
-              itemBuilder: (context, index) {
-                final barber = currentListing[index];
+            child: Container(
+              // color: Colors.pink,
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: ListView.builder(
+                itemCount: currentListing.length,
+                itemBuilder: (context, index) {
+                  final barber = currentListing[index];
 
-                return BarberCard(
-                  barberId: barber['uid'],
-                  barberName: barber['name'],
-                  shopName: barber['shopName'],
-                  stars: barber['averageRating'],
-                  imageUrl: barber['photoURL'],
-                  // isFavourite: barber['isFavourite'],
-                );
-              },
+                  return BarberCard(
+                    barberId: barber['uid'],
+                    barberName: barber['name'],
+                    shopName: barber['shopName'],
+                    stars: barber['averageRating'],
+                    imageUrl: barber['photoURL'],
+                    // isFavourite: barber['isFavourite'],
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -219,7 +223,7 @@ class _BarberCardState extends State<BarberCard> {
       },
       child: Card(
         color: Colors.grey[900],
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(

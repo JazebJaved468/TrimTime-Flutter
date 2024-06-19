@@ -65,7 +65,8 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
               children: [
                 Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.all(10),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   padding: const EdgeInsets.only(
                     top: 10,
                     bottom: 10,
@@ -232,7 +233,8 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                 ),
                 Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.all(10),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   padding: const EdgeInsets.only(
                     top: 10,
                     bottom: 10,
@@ -365,15 +367,10 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
             return Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                margin: const EdgeInsets.all(30), // Margin around the button
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 10), // Margin around the button
                 child: GestureDetector(
                   onTap: () async {
-                    // Navigator.of(context).pop();
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => const ()),
-                    // );
-
                     provider.setCreateBookingCIP(true);
 
                     int responseCode = await provider.createBooking();
@@ -407,57 +404,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                         );
                       }
                     }
-                    // bool isSlotAvailable =
-                    //     await checkBookingSlotIsAvailableInFirestore(
-                    //         barberId: provider.selectedBarber['uid'],
-                    //         slotId: provider.selectedSlot['slotId'],
-                    //         selectedDate:
-                    // provider.selectedDate.toIso8601String());
 
-                    // int response = await createBookingInFirestore(
-                    //   barberId: provider.selectedBarber['uid'],
-                    //   clientId: provider.userData['uid'],
-                    //   serviceId: provider.selectedService,
-                    //   slot: provider.selectedSlot,
-                    //   selectedDate: provider.selectedDate.toIso8601String(),
-                    // );
-
-                    // if (response == -1) {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       content: Text(
-                    //         'Sorry, Someone booked that slot in mean time, booking failed',
-                    //       ),
-                    //     ),
-                    //   );
-                    //   Navigator.pop(context);
-                    // } else {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       content: Text('Booking is successful'),
-                    //     ),
-                    //   );
-
-                    // if (result == 0) {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       content: Text('Booking is successful'),
-                    //     ),
-                    //   );
-                    //   Navigator.pop(context);
-                    // }
-
-                    //  else {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       content: Text('Booking failed'),
-                    //     ),
-                    //   );
-                    // }
-                    // }
-
-                    // await provider.updateAllClientBookings();
-                    // await provider.updateUpcomingBookingsClient();
                     provider.setCreateBookingCIP(false);
                   },
                   child: Container(

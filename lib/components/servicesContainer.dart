@@ -8,12 +8,14 @@ class Services extends StatelessWidget {
   // final VoidCallback onTap;
   final bool isSelected;
   final Map service;
+  final bool isFirstCard;
 
   const Services({
     Key? key,
     // required this.onTap,
     required this.service,
     required this.isSelected,
+    required this.isFirstCard,
     // required this.onTap,
     // required this.clicked,
   }) : super(key: key);
@@ -34,7 +36,7 @@ class Services extends StatelessWidget {
       child: Container(
         height: 160,
         width: 120,
-        margin: const EdgeInsets.only(right: 10),
+        margin: EdgeInsets.only(right: 10, left: isFirstCard ? 16 : 0),
         decoration: BoxDecoration(
           color: isSelected ? CustomColors.peelOrange : CustomColors.charcoal,
           border: Border.all(color: CustomColors.peelOrange),

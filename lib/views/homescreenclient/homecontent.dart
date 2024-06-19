@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
@@ -42,6 +43,8 @@ class _HomeContentState extends State<HomeContent> {
 
   @override
   Widget build(BuildContext context) {
+    //  var mediaWidth = MediaQuery.of(context).size.width;
+    // var mediaHeight = MediaQuery.of(context).size.height;
     SampleProvider sampleProvider =
         Provider.of<SampleProvider>(context, listen: false);
     return Scaffold(
@@ -53,16 +56,20 @@ class _HomeContentState extends State<HomeContent> {
           backgroundColor: CustomColors.gunmetal,
           elevation: 0,
           actions: [
-            IconButton(
-              onPressed: () async {
-                await sampleProvider.handleLogoutByProvider();
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => SignIn()),
-                    (Route route) => false);
-              },
-              icon: const Icon(
-                Icons.logout,
-                color: CustomColors.white,
+            Container(
+              margin: EdgeInsets.only(right: 10),
+              child: IconButton(
+                onPressed: () async {
+                  await sampleProvider.handleLogoutByProvider();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const SignIn()),
+                      (Route route) => false);
+                },
+                icon: const Icon(
+                  Icons.logout,
+                  color: CustomColors.white,
+                  size: 22,
+                ),
               ),
             ),
           ],
@@ -76,7 +83,8 @@ class _HomeContentState extends State<HomeContent> {
             : Container(
                 color: CustomColors.gunmetal,
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -87,111 +95,113 @@ class _HomeContentState extends State<HomeContent> {
                               '----------------------local data in provider in  home screen ${sampleProvider.localDataInProvider}');
                           return Text(
                             'Hello, ${provider.localDataInProvider['userData']['name']} 👋',
-                            style: TextStyle(
-                              fontSize: 24,
+                            style: const TextStyle(
+                              fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: CustomColors.white,
                             ),
                           );
                         },
                       ),
-                      const SizedBox(height: 16),
-                      TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          hintStyle: TextStyle(
-                              color: CustomColors.white.withOpacity(0.6)),
-                          prefixIcon:
-                              Icon(Icons.search, color: CustomColors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
+                      const SizedBox(height: 24),
+                      // TextField(
+                      //   decoration: InputDecoration(
+                      //     hintText: 'Search',
+                      //     hintStyle: TextStyle(
+                      //         color: CustomColors.white.withOpacity(0.6)),
+                      //     prefixIcon:
+                      //         Icon(Icons.search, color: CustomColors.white),
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(16),
+                      //       borderSide: BorderSide.none,
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: CustomColors.charcoal,
+                      //   ),
+                      //   style: TextStyle(color: CustomColors.white),
+                      // ),
+                      // const SizedBox(height: 16),
+                      Container(
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            height: 150.0,
+                            enlargeCenterPage: true,
+                            autoPlay: true,
+                            aspectRatio: 16 / 9,
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enableInfiniteScroll: true,
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 800),
+                            viewportFraction: 0.8,
                           ),
-                          filled: true,
-                          fillColor: CustomColors.charcoal,
+                          items: [
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: CustomColors.peelOrange,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '30% OFF\nToday\'s Special',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: CustomColors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Get a discount for every service order!\nOnly valid for today!',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: CustomColors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: CustomColors.peelOrange,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Special Offer!',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: CustomColors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Enjoy exclusive discounts and deals!',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: CustomColors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Add more slides as needed
+                          ],
                         ),
-                        style: TextStyle(color: CustomColors.white),
                       ),
-                      const SizedBox(height: 16),
-                      CarouselSlider(
-                        options: CarouselOptions(
-                          height: 150.0,
-                          enlargeCenterPage: true,
-                          autoPlay: true,
-                          aspectRatio: 16 / 9,
-                          autoPlayCurve: Curves.fastOutSlowIn,
-                          enableInfiniteScroll: true,
-                          autoPlayAnimationDuration:
-                              Duration(milliseconds: 800),
-                          viewportFraction: 0.8,
-                        ),
-                        items: [
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: CustomColors.peelOrange,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '30% OFF\nToday\'s Special',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: CustomColors.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  'Get a discount for every service order!\nOnly valid for today!',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: CustomColors.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: CustomColors.peelOrange,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Special Offer!',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: CustomColors.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  'Enjoy exclusive discounts and deals!',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: CustomColors.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          // Add more slides as needed
-                        ],
-                      ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 24),
                       const CategorySection(),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 24),
                       const LocationSection(title: 'Most Popular'),
                     ],
                   ),
@@ -205,39 +215,41 @@ class CategorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Categories',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: CustomColors.white,
+    return Container(
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Categories',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: CustomColors.white,
+                ),
               ),
-            ),
-            Text(
-              'See All',
-              style: TextStyle(
-                color: CustomColors.peelOrange,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            CategoryChip(label: 'Haircuts', icon: Icons.content_cut),
-            CategoryChip(label: 'Make up', icon: Icons.brush),
-            CategoryChip(label: 'Manicure', icon: Icons.handyman),
-            CategoryChip(label: 'Massage', icon: Icons.spa),
-          ],
-        ),
-      ],
+              // Text(
+              //   'See All',
+              //   style: TextStyle(
+              //     color: CustomColors.peelOrange,
+              //   ),
+              // ),
+            ],
+          ),
+          SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CategoryChip(label: 'Haircut', icon: Icons.content_cut),
+              CategoryChip(label: 'Shave', icon: Icons.brush_rounded),
+              CategoryChip(label: 'Beard Trim', icon: Icons.handyman_rounded),
+              CategoryChip(label: 'Massage', icon: Icons.spa),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -255,13 +267,13 @@ class CategoryChip extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 30,
-          backgroundColor: Color.fromRGBO(51, 41, 28, 1),
+          backgroundColor: const Color.fromRGBO(51, 41, 28, 1),
           child: Icon(icon, color: CustomColors.peelOrange),
         ),
         const SizedBox(height: 4),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             color: CustomColors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -295,10 +307,11 @@ class LocationSection extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        const SizedBox(height: 12),
         ListView.builder(
           shrinkWrap: true,
           itemCount: sampleProvider.popularBarbers.length,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return BarberCard(
                 barberName: sampleProvider.popularBarbers[index]['name'],
@@ -320,11 +333,11 @@ class LocationSection extends StatelessWidget {
     ListView.builder(
       shrinkWrap: true,
       itemCount: sampleProvider.popularBarbers.length,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Text(
           sampleProvider.popularBarbers[index]['name'],
-          style: TextStyle(color: CustomColors.white),
+          style: const TextStyle(color: CustomColors.white),
         );
 
         //  BarberCard(
@@ -449,15 +462,15 @@ class _LocationCardState extends State<LocationCard> {
                 ),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.star,
                       color: Colors.orange,
                       size: 18,
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       widget.rating,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),
