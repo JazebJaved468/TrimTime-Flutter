@@ -3,8 +3,14 @@ import 'package:flutter/widgets.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 
 PreferredSizeWidget CustomAppBar(
-    {String title = '', Widget? rightIcon, bool showYellowBg = true}) {
+    {String title = '',
+    Widget? rightIcon,
+    bool showYellowBg = true,
+    Widget? leftIcon}) {
   return AppBar(
+    leadingWidth: 80,
+    leading: leftIcon ?? Container(),
+    elevation: 0,
     // toolbarHeight: 50,
     centerTitle: true,
     titleTextStyle: TextStyle(

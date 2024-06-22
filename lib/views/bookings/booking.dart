@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/components/CustomAppBar.dart';
+import 'package:trim_time/components/EmptyList.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:trim_time/views/reviewsAndRating/reviews.dart';
@@ -56,28 +58,13 @@ class _BookingScreenState extends State<BookingScreen> {
               return Expanded(
                 child: selectedIndex == 0 &&
                         provider.upcomingBookingsClient.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'No upcoming bookings',
-                          style: TextStyle(color: CustomColors.white),
-                        ),
-                      )
+                    ? EmptyList(message: 'No Upcoming Bookings')
                     : selectedIndex == 1 &&
                             provider.cancelledBookingsClient.isEmpty
-                        ? const Center(
-                            child: Text(
-                              'No Cancelled bookings',
-                              style: TextStyle(color: CustomColors.white),
-                            ),
-                          )
+                        ? EmptyList(message: 'No Cancelled Bookings')
                         : selectedIndex == 2 &&
                                 provider.completedBookingsClient.isEmpty
-                            ? const Center(
-                                child: Text(
-                                  'No Completed bookings',
-                                  style: TextStyle(color: CustomColors.white),
-                                ),
-                              )
+                            ? EmptyList(message: 'No Completed Bookings')
                             : ListView.builder(
                                 itemCount: currentListing.length,
                                 itemBuilder: (context, index) {

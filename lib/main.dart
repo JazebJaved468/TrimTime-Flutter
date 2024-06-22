@@ -2,13 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/views/splashSreen/splash_screen.dart';
-import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
-import 'package:trim_time/views/bookings/booking.dart';
 
-import 'package:trim_time/views/appointment_summary/appointment_summary.dart';
-import 'package:trim_time/views/barber_listing/barber_listing.dart';
-import 'package:trim_time/views/barber_profile/barber_profile.dart';
-import 'package:trim_time/views/reviewsAndRating/reviews.dart';
 import 'firebase/config/firebase_options.dart';
 import 'providers/sample_provider.dart';
 
@@ -38,7 +32,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           fontFamily: 'Urbanist',
         ),
-        home: SplashScreen(),
+        home: const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

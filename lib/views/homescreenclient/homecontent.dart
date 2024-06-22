@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/components/CustomAppBar.dart';
@@ -50,6 +51,21 @@ class _HomeContentState extends State<HomeContent> {
         Provider.of<SampleProvider>(context, listen: false);
     return Scaffold(
         appBar: CustomAppBar(
+          leftIcon: Container(
+            // width: 100,
+            // height: 10,
+            // color: CustomColors.peelOrange,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(vertical: 4),
+
+            child:
+
+                // Image.asset('assets/images/logo.png')
+
+                SvgPicture.asset(
+              'assets/images/svgs/logo2.svg',
+            ),
+          ),
           showYellowBg: false,
           title: 'Trim Time',
           rightIcon: IconButton(
@@ -235,10 +251,10 @@ class CategorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
@@ -251,14 +267,51 @@ class CategorySection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CategoryChip(label: 'Haircut', icon: Icons.content_cut),
-              CategoryChip(label: 'Shave', icon: Icons.brush_rounded),
-              CategoryChip(label: 'Beard Trim', icon: Icons.handyman_rounded),
-              CategoryChip(label: 'Massage', icon: Icons.spa),
+              CategoryChip(
+                  label: 'Haircut',
+                  icon: Container(
+                    child: SvgPicture.asset(
+                      'assets/images/svgs/shave.svg',
+                      height: 25,
+                      color: CustomColors.peelOrange,
+                    ),
+                  )),
+              CategoryChip(
+                  label: 'Shave',
+                  icon: Container(
+                    child: SvgPicture.asset(
+                      'assets/images/svgs/razor1.svg',
+                      height: 25,
+                      color: CustomColors.peelOrange,
+                    ),
+                  )),
+
+              CategoryChip(
+                  label: 'Beard Trim',
+                  icon: Container(
+                    child: SvgPicture.asset(
+                      'assets/images/svgs/beard1.svg',
+                      height: 25,
+                      color: CustomColors.peelOrange,
+                    ),
+                  )),
+
+              const CategoryChip(
+                  label: 'Massage',
+                  icon: Icon(
+                    Icons.spa,
+                    color: CustomColors.peelOrange,
+                    size: 25,
+                  )),
+
+              // CategoryChip(label: 'Haircut', icon: Icons.content_cut),
+              // CategoryChip(label: 'Shave', icon: Icons.brush_rounded),
+              // CategoryChip(label: 'Beard Trim', icon: Icons.handyman_rounded),
+              // CategoryChip(label: 'Massage', icon: Icons.spa),
             ],
           ),
         ],
@@ -269,7 +322,7 @@ class CategorySection extends StatelessWidget {
 
 class CategoryChip extends StatelessWidget {
   final String label;
-  final IconData icon;
+  final Widget icon;
 
   const CategoryChip({required this.label, required this.icon, Key? key})
       : super(key: key);
@@ -281,14 +334,19 @@ class CategoryChip extends StatelessWidget {
         CircleAvatar(
           radius: 30,
           backgroundColor: const Color.fromRGBO(51, 41, 28, 1),
-          child: Icon(icon, color: CustomColors.peelOrange),
+          child: Container(
+            // padding: const EdgeInsets.all(8),
+            child: icon,
+          ),
+
+          // Icon(icon, color: CustomColors.peelOrange),
         ),
         const SizedBox(height: 4),
         Text(
           label,
           style: const TextStyle(
             color: CustomColors.white,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],

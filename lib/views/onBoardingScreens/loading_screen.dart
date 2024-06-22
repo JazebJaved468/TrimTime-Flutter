@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
@@ -19,22 +20,23 @@ class LoadingScreen extends StatelessWidget {
     // });
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
-      body: Container(
-        margin: EdgeInsets.only(top: screenHeight * .25),
-        child: Center(
+      body: Center(
+        child: Container(
+          // color: Colors.pink,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               // Logo
-              Image.asset(
-                'assets/images/logo.png', // Update with your logo asset path
-                height: screenHeight * .3,
-                width: screenWidth * .3, // Adjust size as needed
-              ),
-              // const SizedBox(height: 100.0),
+              SvgPicture.asset('assets/images/svgs/logo1.svg',
+                  // Update with your logo asset path
+                  height: screenHeight * .3,
+                  width: screenWidth * .3),
+              // Adjust size as needed
+
               // Loading Indicator
               Container(
-                  margin: const EdgeInsets.only(top: 200),
+                  margin: EdgeInsets.only(top: screenHeight * 0.1),
                   child: const SpinKitFadingCircle(
                     color: CustomColors.peelOrange,
                     size: 50.0,
