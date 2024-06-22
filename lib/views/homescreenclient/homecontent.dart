@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
@@ -48,32 +49,50 @@ class _HomeContentState extends State<HomeContent> {
     SampleProvider sampleProvider =
         Provider.of<SampleProvider>(context, listen: false);
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Trim Time',
-            style: TextStyle(color: CustomColors.white),
-          ),
-          backgroundColor: CustomColors.gunmetal,
-          elevation: 0,
-          actions: [
-            Container(
-              margin: EdgeInsets.only(right: 10),
-              child: IconButton(
-                onPressed: () async {
-                  await sampleProvider.handleLogoutByProvider();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const SignIn()),
-                      (Route route) => false);
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: CustomColors.white,
-                  size: 22,
-                ),
-              ),
+        appBar: CustomAppBar(
+          showYellowBg: false,
+          title: 'Trim Time',
+          rightIcon: IconButton(
+            onPressed: () async {
+              await sampleProvider.handleLogoutByProvider();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const SignIn()),
+                  (Route route) => false);
+            },
+            icon: const Icon(
+              Icons.logout,
+              color: CustomColors.white,
+              size: 22,
             ),
-          ],
+          ),
         ),
+
+        //     AppBar(
+        //   title: const Text(
+        //     'Trim Time',
+        //     style: TextStyle(color: CustomColors.white),
+        //   ),
+        //   backgroundColor: CustomColors.gunmetal,
+        //   elevation: 0,
+        //   actions: [
+        //     // Container(
+        //     //   margin: EdgeInsets.only(right: 10),
+        //     //   child: IconButton(
+        //     //     onPressed: () async {
+        //     //       await sampleProvider.handleLogoutByProvider();
+        //     //       Navigator.of(context).pushAndRemoveUntil(
+        //     //           MaterialPageRoute(builder: (context) => const SignIn()),
+        //     //           (Route route) => false);
+        //     //     },
+        //     //     icon: const Icon(
+        //     //       Icons.logout,
+        //     //       color: CustomColors.white,
+        //     //       size: 22,
+        //     //     ),
+        //     //   ),
+        //     // ),
+        //   ],
+        // ),
         body: _isLoading
             ? const Center(
                 child: SpinKitFadingCircle(
@@ -230,12 +249,6 @@ class CategorySection extends StatelessWidget {
                   color: CustomColors.white,
                 ),
               ),
-              // Text(
-              //   'See All',
-              //   style: TextStyle(
-              //     color: CustomColors.peelOrange,
-              //   ),
-              // ),
             ],
           ),
           SizedBox(height: 12),
@@ -328,87 +341,6 @@ class LocationSection extends StatelessWidget {
         )
       ],
     );
-
-    // });
-    // ListView.builder(
-    //   shrinkWrap: true,
-    //   itemCount: sampleProvider.popularBarbers.length,
-    //   physics: const NeverScrollableScrollPhysics(),
-    //   itemBuilder: (context, index) {
-    //     return Text(
-    //       sampleProvider.popularBarbers[index]['name'],
-    //       style: const TextStyle(color: CustomColors.white),
-    //     );
-
-    //     //  BarberCard(
-    //     //     barberName: 'barberName',
-    //     //     shopName: 'shopName',
-    //     //     stars: 'stars',
-    //     //     imageUrl:
-    //     //         'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixlr.com%2Fimage-generator%2F&psig=AOvVaw1OcskarNNDOdfLJbvDRRhB&ust=1718831879725000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNiH3u6J5oYDFQAAAAAdAAAAABAE',
-    //     //     barberId: 'barberId');
-    //   },
-    // );
-    // return Column(
-    //   crossAxisAlignment: CrossAxisAlignment.start,
-    //   children: [
-    //     Row(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: [
-    //         Text(
-    //           title,
-    //           style: const TextStyle(
-    //             fontSize: 18,
-    //             fontWeight: FontWeight.bold,
-    //             color: Colors.white,
-    //           ),
-    //         ),
-    //         const Text(
-    //           'See All',
-    //           style: TextStyle(
-    //             color: Colors.orange,
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //     const SizedBox(height: 8),
-    //     const Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         LocationCard(
-    //           title: 'Belle Curls',
-    //           address: '0996 Novick Parkway',
-    //           rating: '4.8',
-    //         ),
-    //         LocationCard(
-    //           title: 'Pretty Parlor',
-    //           address: '42 Fardom Avenue',
-    //           rating: '4.9',
-    //         ),
-    //         LocationCard(
-    //           title: 'Mia Bella',
-    //           address: '87 Superior Trail',
-    //           rating: '4.7',
-    //         ),
-    //         LocationCard(
-    //           title: 'Hair Force',
-    //           address: '80 Village Drive',
-    //           rating: '4.6',
-    //         ),
-    //         LocationCard(
-    //           title: 'Serenity Salon',
-    //           address: '88 Commercial Place',
-    //           rating: '4.8',
-    //         ),
-    //         LocationCard(
-    //           title: 'The Razor\'s Edge',
-    //           address: '56 Artisan Avenue',
-    //           rating: '4.6',
-    //         ),
-    //       ],
-    //     ),
-    //   ],
-    // );
   }
 }
 
