@@ -131,7 +131,7 @@ class _ReviewsAndRatingState extends State<ReviewsAndRating> {
                   return Container(
                     margin:
                         const EdgeInsets.all(30), // Margin around the button
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: () async {
                         provider.setRateBarberCIP(true);
 

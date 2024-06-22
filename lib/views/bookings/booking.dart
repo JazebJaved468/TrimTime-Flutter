@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -58,13 +59,13 @@ class _BookingScreenState extends State<BookingScreen> {
               return Expanded(
                 child: selectedIndex == 0 &&
                         provider.upcomingBookingsClient.isEmpty
-                    ? EmptyList(message: 'No Upcoming Bookings')
+                    ? const EmptyList(message: 'No Upcoming Bookings')
                     : selectedIndex == 1 &&
                             provider.cancelledBookingsClient.isEmpty
-                        ? EmptyList(message: 'No Cancelled Bookings')
+                        ? const EmptyList(message: 'No Cancelled Bookings')
                         : selectedIndex == 2 &&
                                 provider.completedBookingsClient.isEmpty
-                            ? EmptyList(message: 'No Completed Bookings')
+                            ? const EmptyList(message: 'No Completed Bookings')
                             : ListView.builder(
                                 itemCount: currentListing.length,
                                 itemBuilder: (context, index) {
@@ -111,15 +112,6 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 }
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
 class BookingCardClient extends StatelessWidget {
   BookingCardClient({Key? key, required this.booking}) : super(key: key);
   final Map booking;
@@ -129,11 +121,10 @@ class BookingCardClient extends StatelessWidget {
   late bool isCancelled = booking['isCancelled'];
   late bool isCompleted = booking['isCompleted'];
   late bool isConfirmed = booking['isConfirmed'];
-  // late bool isCancelled = false;
-  // late bool isCompleted = true;
-  // late bool isConfirmed = true;
   late String barberName = booking['barberData']['name'];
   late String shopName = booking['barberData']['shopName'];
+  late String shopAddress = booking['barberData']['shopAddress'];
+  late String phoneNumber = booking['barberData']['phoneNumber'];
   late String totalAmount = booking['totalAmount'].toString();
   late String imageUrl = booking['barberData']['photoURL'];
   late bool isRated = booking['isRated'];
@@ -141,6 +132,13 @@ class BookingCardClient extends StatelessWidget {
   late String slotId = booking['slotId'];
   late String bookingId = booking['id'];
   late String serviceId = booking['serviceId'];
+
+// Just for testing
+  // late bool isCancelled = false;
+  // late bool isCompleted = false;
+  // late bool isConfirmed = true;
+  // late bool isRated = false;
+  // late bool isPaid = false;
 
   late String dateTime =
       DateFormat('EEE, d MMM yyyy, h:mm a').format(DateTime.parse(startTime));
@@ -154,12 +152,6 @@ class BookingCardClient extends StatelessWidget {
   late String endTimeFormatted =
       DateFormat('h:mm a').format(DateTime.parse(endTime));
 
-  late bool isPayButtonEnabled = !isPaid && isConfirmed;
-
-  shouldShowRateButton() {
-    return isCompleted && isConfirmed && !isRated && !isCancelled;
-  }
-
   getServiceName() {
     if (serviceId == '1') {
       return 'Haircut';
@@ -172,135 +164,238 @@ class BookingCardClient extends StatelessWidget {
     }
   }
 
+  Widget getCustomButton({required BuildContext context}) {
+    if (!isCancelled &&
+        (!isConfirmed || isConfirmed) &&
+        !isPaid &&
+        !isRated &&
+        !isCompleted) {
+      return Container(
+        child: ElevatedButton(
+          onPressed: () {
+            if (!isConfirmed) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                      'Please wait for the barber to confirm your booking'),
+                ),
+              );
+            } else {
+              //  paymentFunction();
+            }
+          },
+          style: ElevatedButton.styleFrom(
+              backgroundColor: CustomColors.peelOrange),
+          child: const Text(
+            'Pay',
+            style: TextStyle(color: CustomColors.white),
+          ),
+        ),
+      );
+    } else if (!isCancelled && !isRated && isCompleted && isPaid) {
+      return Container(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ReviewsAndRating(
+                  bookingData: booking,
+                ),
+              ),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+              backgroundColor: CustomColors.peelOrange),
+          child: const Text(
+            'Rate',
+            style: TextStyle(color: CustomColors.white),
+          ),
+        ),
+      );
+    } else if (!isCancelled && isCompleted && isPaid && isRated) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        decoration: BoxDecoration(
+          border: Border.all(color: CustomColors.peelOrange),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: const Text(
+          'Rated',
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+    }
+
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     // String day = DateFormat('EEEE').format(DateTime.parse(dateTime));
     // String date = DateFormat('d MMM').format(DateTime.parse(dateTime));
     return Card(
-      color: Colors.grey[900],
+      color: CustomColors.charcoal,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                imageUrl,
-                width: 80,
-                height: 80,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.network(
+                    imageUrl,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        barberName,
-                        style: const TextStyle(
-                            color: CustomColors.peelOrange,
-                            fontWeight: FontWeight.bold),
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 10,
+                        children: [
+                          const Icon(Icons.calendar_month,
+                              size: 18, color: CustomColors.white),
+                          Text(
+                            '$day',
+                            style: const TextStyle(color: CustomColors.white),
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Rs. ${totalAmount}',
-                        style: const TextStyle(
-                            color: CustomColors.peelOrange,
-                            fontWeight: FontWeight.bold),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 10,
+                        children: [
+                          const Icon(Icons.edit_calendar_outlined,
+                              size: 18, color: CustomColors.white),
+                          Text(
+                            '$date',
+                            style: const TextStyle(color: CustomColors.white),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 10,
+                        children: [
+                          const Icon(Icons.timer_outlined,
+                              size: 18, color: CustomColors.white),
+                          Text(
+                            '$startTimeFormatted - $endTimeFormatted',
+                            style: const TextStyle(color: CustomColors.white),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    shopName,
-                    style: const TextStyle(color: CustomColors.white),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Booking Day: $day',
-                    style: const TextStyle(color: CustomColors.white),
-                  ),
-                  Text(
-                    'Booking Date: $date',
-                    style: const TextStyle(color: CustomColors.white),
-                  ),
-                  Text(
-                    'Booking Time: $startTimeFormatted - $endTimeFormatted',
-                    style: const TextStyle(color: CustomColors.white),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Booking ID: $bookingId',
-                    style: const TextStyle(color: CustomColors.white),
-                  ),
-                  Text(
-                    'Service: ${getServiceName()}',
-                    style: const TextStyle(color: CustomColors.white),
-                  ),
-                  Container(
-                    child: Text(
-                      'Status: ${isConfirmed ? 'Confirmed By Barber, Pay to secure spot' : 'Pending'}',
-                      style: const TextStyle(color: CustomColors.white),
-                    ),
-                  ),
-                  Visibility(
-                      child: Text(
-                        'rated ✨',
-                        style: TextStyle(color: CustomColors.white),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 10,
+              children: [
+                const Icon(
+                  Icons.person_outline_rounded,
+                  color: CustomColors.peelOrange,
+                  size: 18,
+                ),
+                Text(
+                  '$barberName',
+                  style: const TextStyle(
+                      color: CustomColors.peelOrange,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 10,
+              children: [
+                const Icon(Icons.store_mall_directory,
+                    size: 18, color: CustomColors.white),
+                Text(
+                  '$shopName',
+                  style: const TextStyle(color: CustomColors.white),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 10,
+              children: [
+                const Icon(Icons.phone, size: 18, color: CustomColors.white),
+                Text(
+                  '$phoneNumber',
+                  style: const TextStyle(color: CustomColors.white),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 10,
+              children: [
+                const Icon(Icons.shortcut_sharp,
+                    size: 18, color: CustomColors.white),
+                Text(
+                  '$shopAddress',
+                  style: const TextStyle(color: CustomColors.white),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 36,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 10,
+                    children: [
+                      const Icon(Icons.monetization_on_outlined,
+                          size: 18, color: CustomColors.peelOrange),
+                      Text(
+                        'Rs. $totalAmount',
+                        style: const TextStyle(
+                          color: CustomColors.peelOrange,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      visible: isRated),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: Row(
-                      children: [
-                        // Expanded(
-                        //   flex: 2,
-                        Visibility(
-                          visible: shouldShowRateButton(),
-                          child: Expanded(
-                            flex: 2,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ReviewsAndRating(
-                                      bookingData: booking,
-                                    ),
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: CustomColors.peelOrange),
-                              child: const Text(
-                                'Rate BArber',
-                                style: TextStyle(color: CustomColors.white),
-                              ),
-                            ),
-                          ),
-                        ),
-                        // ),
-                        Expanded(
-                          child: Visibility(
-                            visible: isConfirmed && !isPaid,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: CustomColors.peelOrange),
-                              child: const Text(
-                                'Pay',
-                                style: TextStyle(color: CustomColors.white),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
+                  getCustomButton(context: context),
                 ],
               ),
             ),
