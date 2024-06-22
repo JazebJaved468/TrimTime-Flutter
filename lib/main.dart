@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
 import 'package:trim_time/views/splashSreen/splash_screen.dart';
 
 import 'firebase/config/firebase_options.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           fontFamily: 'Urbanist',
         ),
-        home: const SplashScreen(),
+        home: const WelcomeScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

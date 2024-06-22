@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/components/CustomAppBar.dart';
+import 'package:trim_time/components/EmptyList.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barber_listing/barber_listing.dart';
 
@@ -19,27 +20,17 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         Provider.of<SampleProvider>(context, listen: false);
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(
-      //     'Favourite Screen',
-      //     style: TextStyle(color: CustomColors.white),
-      //   ),
-      //   backgroundColor: CustomColors.gunmetal,
-      //   elevation: 0,
-      // ),
       appBar: CustomAppBar(
         title: 'Your Favourite Barbers',
       ),
       body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16),
         color: CustomColors.gunmetal,
         child: Consumer<SampleProvider>(
           builder: (context, provider, child) {
             return sampleProvider.inAppfavouriteList.isEmpty
-                ? const Center(
-                    child: Text(
-                      'You have not Favorited any Barber yet.',
-                      style: TextStyle(color: CustomColors.white),
-                    ),
+                ? EmptyList(
+                    message: 'You have not Favourited any Barber yet.',
                   )
                 : ListView.builder(
                     itemCount: provider.inAppfavouriteList.length,

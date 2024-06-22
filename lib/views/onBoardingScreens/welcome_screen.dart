@@ -57,7 +57,6 @@ class WelcomeScreen extends StatelessWidget {
                   height: 18,
                 ),
                 Container(
-
                   child: DefaultTextStyle(
                     style: const TextStyle(
                       fontSize: 53,
@@ -80,15 +79,14 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 Animate(
                   effects: [
-                        FadeEffect(
-                          delay: 1500.ms,
-                        ),
-                        const ScaleEffect(alignment: Alignment.centerLeft)
-                      ],
-                  child: const  Text(
+                    FadeEffect(
+                      delay: 1500.ms,
+                    ),
+                    const ScaleEffect(alignment: Alignment.centerLeft)
+                  ],
+                  child: const Text(
                     "The best barber & salon app in the \ncountry for your good looks and beauty.",
-                    style: TextStyle(
-                        color: CustomColors.white, fontSize:14),
+                    style: TextStyle(color: CustomColors.white, fontSize: 14),
                   ),
                 )
               ],

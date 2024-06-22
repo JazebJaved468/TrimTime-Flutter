@@ -213,7 +213,7 @@ class _BarberCardState extends State<BarberCard> {
       },
       child: Card(
         color: Colors.grey[900],
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(

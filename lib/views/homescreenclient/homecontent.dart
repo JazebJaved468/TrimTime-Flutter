@@ -45,8 +45,8 @@ class _HomeContentState extends State<HomeContent> {
 
   @override
   Widget build(BuildContext context) {
-    //  var mediaWidth = MediaQuery.of(context).size.width;
-    // var mediaHeight = MediaQuery.of(context).size.height;
+    double mediaWidth = MediaQuery.of(context).size.width;
+    double mediaHeight = MediaQuery.of(context).size.height;
     SampleProvider sampleProvider =
         Provider.of<SampleProvider>(context, listen: false);
     return Scaffold(
@@ -128,34 +128,31 @@ class _HomeContentState extends State<HomeContent> {
                           print('----------------------in home screen');
                           print(
                               '----------------------local data in provider in  home screen ${sampleProvider.localDataInProvider}');
-                          return Text(
-                            'Hello, ${provider.localDataInProvider['userData']['name']} 👋',
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: CustomColors.white,
-                            ),
+                          return Wrap(
+                            direction: Axis.horizontal,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Text(
+                                'Hello, ${provider.localDataInProvider['userData']['name']}',
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: CustomColors.white,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              SvgPicture.asset(
+                                'assets/images/svgs/waveHand.svg',
+                                color: CustomColors.peelOrange,
+                                width: 20,
+                              ),
+                            ],
                           );
                         },
                       ),
                       const SizedBox(height: 24),
-                      // TextField(
-                      //   decoration: InputDecoration(
-                      //     hintText: 'Search',
-                      //     hintStyle: TextStyle(
-                      //         color: CustomColors.white.withOpacity(0.6)),
-                      //     prefixIcon:
-                      //         Icon(Icons.search, color: CustomColors.white),
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(16),
-                      //       borderSide: BorderSide.none,
-                      //     ),
-                      //     filled: true,
-                      //     fillColor: CustomColors.charcoal,
-                      //   ),
-                      //   style: TextStyle(color: CustomColors.white),
-                      // ),
-                      // const SizedBox(height: 16),
                       Container(
                         child: CarouselSlider(
                           options: CarouselOptions(
@@ -171,6 +168,7 @@ class _HomeContentState extends State<HomeContent> {
                           ),
                           items: [
                             Container(
+                              width: mediaWidth * 0.8,
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 color: CustomColors.peelOrange,
@@ -180,7 +178,7 @@ class _HomeContentState extends State<HomeContent> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '30% OFF\nToday\'s Special',
+                                    '30% OFF\nToday\'s Special ',
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -201,6 +199,7 @@ class _HomeContentState extends State<HomeContent> {
                               ),
                             ),
                             Container(
+                              width: mediaWidth * 0.8,
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 color: CustomColors.peelOrange,
