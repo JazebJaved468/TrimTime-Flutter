@@ -15,7 +15,7 @@ getPopularBarbersFromFireStore() async {
   // Sort barbers by average rating in descending order
   allBarbers.sort((a, b) => b['averageRating'].compareTo(a['averageRating']));
 
-  return allBarbers.take(4).toList();
+  return allBarbers.take(3).toList();
 }
 
 rateBarberInFirestore({
