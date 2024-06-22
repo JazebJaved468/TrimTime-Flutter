@@ -230,7 +230,7 @@ class SampleProvider with ChangeNotifier {
       bookingId: bookingId,
       rating: rating,
       review: review,
-      clientName: userData['name'],
+      clientName: localDataInProvider['userData']['name'],
     );
 
     completedBookingsClient.forEach((booking) {
