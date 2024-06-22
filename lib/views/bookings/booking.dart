@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:trim_time/views/reviewsAndRating/reviews.dart';
@@ -34,13 +35,8 @@ class _BookingScreenState extends State<BookingScreen> {
 
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
-      appBar: AppBar(
-        backgroundColor: CustomColors.gunmetal,
-        title: const Text(
-          'My Bookings',
-          style: TextStyle(color: CustomColors.white),
-        ),
-        elevation: 0,
+      appBar: CustomAppBar(
+        title: 'My Bookings',
       ),
       body: Column(
         children: [

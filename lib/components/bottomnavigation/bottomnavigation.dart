@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:trim_time/controller/firestore.dart';
-import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barber_listing/barber_listing.dart';
 import 'package:trim_time/views/bookings/booking.dart';
-import 'package:trim_time/views/clientScreens/registration_client.dart';
 import 'package:trim_time/views/favouriteScreen/favourite_screen.dart';
 import 'package:trim_time/views/searchPage/search_page.dart';
 import '../../views/homescreenclient/homecontent.dart';
@@ -26,35 +22,56 @@ class _NavigationExampleState extends State<NavigationExample> {
 
   List destinations = [
     NavigationDestination(
-      selectedIcon:
-          const Icon(Icons.home_rounded, color: CustomColors.peelOrange),
-      icon: const Icon(Icons.home_rounded, color: Colors.white),
+      selectedIcon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child:
+              const Icon(Icons.home_rounded, color: CustomColors.peelOrange)),
+      icon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.home_rounded, color: Colors.white)),
       label: 'Home',
     ),
     NavigationDestination(
-      selectedIcon:
-          const Icon(Icons.content_cut_rounded, color: CustomColors.peelOrange),
-      icon: const Icon(Icons.content_cut_rounded, color: Colors.white),
+      selectedIcon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.content_cut_rounded,
+              color: CustomColors.peelOrange)),
+      icon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.content_cut_rounded, color: Colors.white)),
       label: 'Barbers',
     ),
     NavigationDestination(
-      selectedIcon:
-          const Icon(Icons.book_rounded, color: CustomColors.peelOrange),
-      icon: const Icon(Icons.book_rounded, color: Colors.white),
+      selectedIcon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child:
+              const Icon(Icons.book_rounded, color: CustomColors.peelOrange)),
+      icon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.book_rounded, color: Colors.white)),
       label: 'My Bookings',
     ),
     NavigationDestination(
-      selectedIcon:
-          const Icon(Icons.favorite_rounded, color: CustomColors.peelOrange),
-      icon: const Icon(Icons.favorite_rounded, color: Colors.white),
+      selectedIcon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.favorite_rounded,
+              color: CustomColors.peelOrange)),
+      icon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.favorite_rounded, color: Colors.white)),
       label: 'Favorites',
     ),
     NavigationDestination(
-      selectedIcon: Icon(
-        Icons.person_search_rounded,
-        color: CustomColors.peelOrange,
+      selectedIcon: Container(
+        margin: const EdgeInsets.only(bottom: 2),
+        child: const Icon(
+          Icons.person_search_rounded,
+          color: CustomColors.peelOrange,
+        ),
       ),
-      icon: Icon(Icons.person_search_rounded, color: Colors.white),
+      icon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.person_search_rounded, color: Colors.white)),
       label: 'Search',
     ),
   ];
@@ -65,33 +82,41 @@ class _NavigationExampleState extends State<NavigationExample> {
         Provider.of<SampleProvider>(context, listen: false);
 
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType
-            .fixed, // Ensure no background circle for selected icon
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: CustomColors.transparent,
+          highlightColor: CustomColors.transparent,
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType
+              .fixed, // Ensure no background circle for selected icon
 
-        currentIndex: currentPageIndex,
-        onTap: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        backgroundColor: CustomColors.gunmetal,
-        selectedItemColor: CustomColors.peelOrange,
-        iconSize: 20,
+          currentIndex: currentPageIndex,
+          onTap: (int index) {
+            setState(() {
+              currentPageIndex = index;
+            });
+          },
+          backgroundColor: CustomColors.gunmetal,
+          selectedItemColor: CustomColors.peelOrange,
+          iconSize: 22,
 
-        unselectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white,
 
-        unselectedLabelStyle:
-            const TextStyle(fontSize: 10, fontWeight: FontWeight.w300),
-        selectedLabelStyle:
-            const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-        items: destinations
-            .map((destination) => BottomNavigationBarItem(
-                  icon: destination.icon,
-                  activeIcon: destination.selectedIcon,
-                  label: destination.label,
-                ))
-            .toList(),
+          unselectedLabelStyle: const TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w300,
+          ),
+          selectedLabelStyle:
+              const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+          items: destinations
+              .map((destination) => BottomNavigationBarItem(
+                    icon: destination.icon,
+                    activeIcon: destination.selectedIcon,
+                    label: destination.label,
+                  ))
+              .toList(),
+        ),
       ),
 
       /// undo from here
@@ -151,8 +176,8 @@ class _NavigationExampleState extends State<NavigationExample> {
 // }
 
 class NavigationDestination {
-  final Icon icon;
-  final Icon selectedIcon;
+  final Widget icon;
+  final Widget selectedIcon;
   final String label;
 
   NavigationDestination({

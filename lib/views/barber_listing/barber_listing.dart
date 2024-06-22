@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/providers/sample_provider.dart';
@@ -46,19 +47,8 @@ class _BarberListingState extends State<BarberListing> {
 
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
-      appBar: AppBar(
-        backgroundColor: CustomColors.gunmetal,
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: Colors.white),
-        //   onPressed: () {
-        //     // Navigator.pop(context);
-        //   },
-        // ),
-        title: const Text(
-          'Barbers',
-          style: TextStyle(color: Colors.white),
-        ),
-        elevation: 0,
+      appBar: CustomAppBar(
+        title: 'Barbers',
       ),
       body: Column(
         children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barber_listing/barber_listing.dart';
 
@@ -15,10 +16,8 @@ class SearchPage extends StatelessWidget {
         Provider.of<SampleProvider>(context, listen: false);
     sampleProvider.resetSearchedBarbers();
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: CustomColors.gunmetal,
-          title: Text('Search Barbers',
-              style: TextStyle(color: CustomColors.white)),
+        appBar: CustomAppBar(
+          title: 'Search Barbers',
         ),
         body: ColoredBox(
           color: CustomColors.gunmetal,
@@ -34,9 +33,11 @@ class SearchPage extends StatelessWidget {
                   },
                   controller: searchFieldController,
                   decoration: InputDecoration(
-                    hintText: 'Search',
-                    hintStyle:
-                        TextStyle(color: CustomColors.white.withOpacity(0.6)),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                    hintText: 'Search By Name...',
+                    hintStyle: TextStyle(
+                        color: CustomColors.white.withOpacity(0.6),
+                        fontSize: 14),
                     prefixIcon: Icon(Icons.search, color: CustomColors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
