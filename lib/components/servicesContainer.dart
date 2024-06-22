@@ -39,7 +39,7 @@ class Services extends StatelessWidget {
         margin: EdgeInsets.only(right: 10, left: isFirstCard ? 16 : 0),
         decoration: BoxDecoration(
           color: isSelected ? CustomColors.peelOrange : CustomColors.charcoal,
-          border: Border.all(color: CustomColors.peelOrange),
+          border: Border.all(color: CustomColors.peelOrange.withOpacity(0.5)),
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),

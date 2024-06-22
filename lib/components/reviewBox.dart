@@ -2,70 +2,97 @@ import 'package:flutter/material.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 
 class Review extends StatelessWidget {
-  const Review({super.key});
+  const Review(
+      {super.key,
+      required this.ClientName,
+      required this.review,
+      required this.rating,
+      required this.isLastReview});
+
+  final String ClientName;
+  final String review;
+  final int rating;
+  final bool isLastReview;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(top: 10, right: 10, left: 10),
-        padding: EdgeInsets.all(8),
-        width: double.infinity,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      children: [
+        Container(
+            margin: const EdgeInsets.only(right: 16, left: 16),
+            padding:
+                const EdgeInsets.only(right: 8, left: 8, top: 8, bottom: 8),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                    // color: Colors.red,
-                    child: Text(
-                  'Marielle Wigington',
-                  style: TextStyle(
-                      fontFamily: 'Raleway',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      // fontWeight: FontWeight.bold,
-                      color: CustomColors.white),
-                )),
-                Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                    border: Border.all(color: CustomColors.peelOrange),
-                  ),
-                  width: 60,
-                  height: 30,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.star,
-                        color: CustomColors.peelOrange,
-                        size: 15,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        // color: Colors.red,
+                        child: Text(
+                      '$ClientName',
+                      style: TextStyle(
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+
+                          // fontWeight: FontWeight.bold,
+                          color: CustomColors.white),
+                    )),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50)),
+                        border: Border.all(color: CustomColors.peelOrange),
                       ),
-                      Text(
-                        '5',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 12,
-                            color: CustomColors.peelOrange),
+                      width: 60,
+                      height: 30,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: CustomColors.peelOrange,
+                            size: 15,
+                          ),
+                          Text(
+                            '$rating',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 12,
+                                color: CustomColors.peelOrange),
+                          ),
+                        ],
                       ),
-                    ],
+                    )
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
+                    '$review',
+                    style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontSize: 14,
+                        color: CustomColors.white),
                   ),
-                )
+                ),
               ],
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Text(
-                'This is my first time trying tthe service, but the results are very satisfying!!! 👍👍',
-                style: TextStyle(
-                    fontFamily: 'Raleway',
-                    fontSize: 14,
-                    color: CustomColors.white),
-              ),
-            )
-          ],
-        ));
+            )),
+        !isLastReview
+            ? Container(
+                margin: const EdgeInsets.only(left: 16, right: 16),
+                child: const Divider(
+                  height: 0,
+                  color: CustomColors.charcoal,
+                ),
+              )
+            : Container(),
+      ],
+    );
   }
 }

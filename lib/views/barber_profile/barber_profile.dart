@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +60,10 @@ class _BarberProfileState extends State<BarberProfile> {
 
               //2. Name
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                margin: EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -70,6 +74,7 @@ class _BarberProfileState extends State<BarberProfile> {
                         color: CustomColors.white,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
+
                         // fontFamily: 'Raleway'
                       ),
                     ),
@@ -220,7 +225,7 @@ class _BarberProfileState extends State<BarberProfile> {
                           letterSpacing: 1),
                     ),
                     Text(
-                      ' (${sampleProvider.selectedBarber['ratings'].length} reviews)',
+                      ' (${sampleProvider.selectedBarber['reviews'].length} reviews)',
                       style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
@@ -345,7 +350,8 @@ class _BarberProfileState extends State<BarberProfile> {
                         color: CustomColors.charcoal,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 12),
                       child: Consumer<SampleProvider>(
                         builder: (context, provider, child) {
                           var date = DateFormat('EEEE, dd-MM-yyyy')
@@ -481,7 +487,7 @@ class _BarberProfileState extends State<BarberProfile> {
               ),
 
               Container(
-                padding: const EdgeInsets.only(left: 16),
+                margin: const EdgeInsets.only(left: 16),
                 child: const Text(
                   'Reviews',
                   style: TextStyle(
@@ -492,24 +498,43 @@ class _BarberProfileState extends State<BarberProfile> {
                 ),
               ),
 
+              const SizedBox(
+                height: 12,
+              ),
+
               //Reviews
 
-              const Review(),
+              sampleProvider.selectedBarber['reviews'].length == 0
+                  ? const Center(
+                      child: Text(
+                        'No Reviews Yet',
+                        style: TextStyle(
+                          color: CustomColors.white,
+                          fontSize: 14,
+                        ),
+                      ),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.all(0),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Review(
+                          ClientName: sampleProvider.selectedBarber['reviews']
+                              [index]['clientName'],
+                          review: sampleProvider.selectedBarber['reviews']
+                              [index]['review'],
+                          rating: sampleProvider.selectedBarber['reviews']
+                              [index]['rating'],
+                          isLastReview: index ==
+                              sampleProvider.selectedBarber['reviews'].length -
+                                  1,
+                        );
+                      },
+                      itemCount:
+                          sampleProvider.selectedBarber['reviews'].length,
+                    ),
 
-              const Divider(
-                color: CustomColors.charcoal,
-              ),
-
-              const Review(),
-
-              const Divider(
-                color: CustomColors.charcoal,
-              ),
-              const Review(),
-
-              const Divider(
-                color: CustomColors.charcoal,
-              ),
               //for space
 
               Container(

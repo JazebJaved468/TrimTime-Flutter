@@ -225,11 +225,13 @@ class SampleProvider with ChangeNotifier {
     // int responseCode = -1; // 0 for success, -1 for failure
 
     await rateBarberInFirestore(
-        barberId: barberId,
-        clientId: uid,
-        bookingId: bookingId,
-        rating: rating,
-        review: review);
+      barberId: barberId,
+      clientId: uid,
+      bookingId: bookingId,
+      rating: rating,
+      review: review,
+      clientName: userData['name'],
+    );
 
     completedBookingsClient.forEach((booking) {
       if (booking['id'] == bookingId) {
@@ -315,6 +317,21 @@ class SampleProvider with ChangeNotifier {
         favouritesList: localDataInProvider['userData']['favourites']);
 
     await updateUserDataInLocalStorageByProvider();
+  }
+
+  isPastSlot({required Map slot}) {
+    bool isPast = false;
+    DateTime currentTime = DateTime.now();
+    DateTime slotStartTime = DateTime.parse(slot['start']);
+
+    if (slotStartTime.isBefore(currentTime) ||
+        slotStartTime
+            .subtract(const Duration(minutes: 5))
+            .isBefore(currentTime)) {
+      isPast = true;
+    }
+
+    return isPast;
   }
 
   // -------------------------------------------------- Updaters  --------------------------------------------------
@@ -437,15 +454,7 @@ class SampleProvider with ChangeNotifier {
   // -------------------------------------------------- Getters  --------------------------------------------------
 
   getPopularBarbers() async {
-    // List tempData = [];
     return await getPopularBarbersFromFireStore();
-    // for (var barber in allBarbers) {
-    //   if (barber['isPopular']) {
-    //     tempData.add(barber);
-    //   }
-    // }
-
-    // return tempData;
   }
 
   int getTotalPrice() {
@@ -582,7 +591,10 @@ class SampleProvider with ChangeNotifier {
         if (selectedBarber['availability'][date]['isAvailable']) {
           {
             selectedBarber['availability'][date]['slots'].forEach((slot) {
-              if (slot['isAvailable'] && slot['isBooked'] == false) {
+              // isPastSlot(slot: slot);
+              if (slot['isAvailable'] &&
+                  slot['isBooked'] == false &&
+                  !isPastSlot(slot: slot)) {
                 tempSlotsList.add(slot);
               }
             });
@@ -660,8 +672,6 @@ class SampleProvider with ChangeNotifier {
 
   setPopularBarbers(List data) async {
     popularBarbers = data;
-    print('popuplar barbers in provider --------------> $popularBarbers');
-    // notifyListeners();
   }
 
   setAllClientlBookings(List<Map<String, dynamic>> data) {

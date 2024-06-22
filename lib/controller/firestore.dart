@@ -24,6 +24,7 @@ rateBarberInFirestore({
   required String bookingId,
   required int rating,
   required String review,
+  required String clientName,
 }) async {
   print('-----------------> Rating Barber In FireStore <-----------------');
   var ratingId = const Uuid().v4();
@@ -45,6 +46,7 @@ rateBarberInFirestore({
     'rating': rating,
     'review': review,
     'createdAt': DateTime.now().toIso8601String(),
+    'clientName': clientName,
   });
 
   await barbers.doc(barberId).update({
@@ -156,8 +158,11 @@ getAllBarbersFromFireStore() async {
 
   for (var barber in allBarbers) {
     var barberId = barber['uid'];
+
     var ratings =
         allRatings.where((element) => element['barberId'] == barberId).toList();
+
+    barber['reviews'] = ratings;
     double averageRating = ratings.isNotEmpty
         ? ratings.map((e) => e['rating']).reduce((a, b) => a + b) /
             ratings.length

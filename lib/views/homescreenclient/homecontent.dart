@@ -330,25 +330,25 @@ class LocationSection extends StatelessWidget {
     );
 
     // });
-    ListView.builder(
-      shrinkWrap: true,
-      itemCount: sampleProvider.popularBarbers.length,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return Text(
-          sampleProvider.popularBarbers[index]['name'],
-          style: const TextStyle(color: CustomColors.white),
-        );
+    // ListView.builder(
+    //   shrinkWrap: true,
+    //   itemCount: sampleProvider.popularBarbers.length,
+    //   physics: const NeverScrollableScrollPhysics(),
+    //   itemBuilder: (context, index) {
+    //     return Text(
+    //       sampleProvider.popularBarbers[index]['name'],
+    //       style: const TextStyle(color: CustomColors.white),
+    //     );
 
-        //  BarberCard(
-        //     barberName: 'barberName',
-        //     shopName: 'shopName',
-        //     stars: 'stars',
-        //     imageUrl:
-        //         'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixlr.com%2Fimage-generator%2F&psig=AOvVaw1OcskarNNDOdfLJbvDRRhB&ust=1718831879725000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNiH3u6J5oYDFQAAAAAdAAAAABAE',
-        //     barberId: 'barberId');
-      },
-    );
+    //     //  BarberCard(
+    //     //     barberName: 'barberName',
+    //     //     shopName: 'shopName',
+    //     //     stars: 'stars',
+    //     //     imageUrl:
+    //     //         'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixlr.com%2Fimage-generator%2F&psig=AOvVaw1OcskarNNDOdfLJbvDRRhB&ust=1718831879725000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNiH3u6J5oYDFQAAAAAdAAAAABAE',
+    //     //     barberId: 'barberId');
+    //   },
+    // );
     // return Column(
     //   crossAxisAlignment: CrossAxisAlignment.start,
     //   children: [
