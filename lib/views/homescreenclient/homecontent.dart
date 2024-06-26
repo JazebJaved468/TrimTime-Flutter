@@ -118,8 +118,8 @@ class _HomeContentState extends State<HomeContent> {
             : Container(
                 color: CustomColors.gunmetal,
                 child: SingleChildScrollView(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  // padding:
+                  //     const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -128,27 +128,31 @@ class _HomeContentState extends State<HomeContent> {
                           print('----------------------in home screen');
                           print(
                               '----------------------local data in provider in  home screen ${sampleProvider.localDataInProvider}');
-                          return Wrap(
-                            direction: Axis.horizontal,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              Text(
-                                'Hello, ${provider.localDataInProvider['userData']['name']}',
-                                style: const TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: CustomColors.white,
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10),
+                            child: Wrap(
+                              direction: Axis.horizontal,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                Text(
+                                  'Hello, ${provider.localDataInProvider['userData']['name']}',
+                                  style: const TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: CustomColors.white,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              SvgPicture.asset(
-                                'assets/images/svgs/waveHand.svg',
-                                color: CustomColors.peelOrange,
-                                width: 20,
-                              ),
-                            ],
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                SvgPicture.asset(
+                                  'assets/images/svgs/waveHand.svg',
+                                  color: CustomColors.peelOrange,
+                                  width: 20,
+                                ),
+                              ],
+                            ),
                           );
                         },
                       ),
@@ -234,9 +238,13 @@ class _HomeContentState extends State<HomeContent> {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const CategorySection(),
+                      Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: const CategorySection()),
                       const SizedBox(height: 24),
-                      const LocationSection(title: 'Most Popular'),
+                      Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: const LocationSection(title: 'Most Popular')),
                     ],
                   ),
                 ),
