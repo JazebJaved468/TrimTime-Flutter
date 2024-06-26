@@ -217,6 +217,23 @@ class SampleProvider with ChangeNotifier {
     resetAllBarbers();
   }
 
+  rateAppByProvider(
+      {required String userId,
+      required int rating,
+      required String review,
+      required bool isClient}) async {
+    // int responseCode = -1; // 0 for success, -1 for failure
+
+    await rateAppInFirestore(
+      userId: userId,
+      isClient: isClient,
+      rating: rating,
+      review: review,
+    );
+
+    notifyListeners();
+  }
+
   rateBarberByProvider(
       {required String barberId,
       required int rating,

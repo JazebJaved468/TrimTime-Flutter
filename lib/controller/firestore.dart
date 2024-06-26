@@ -62,6 +62,28 @@ rateBarberInFirestore({
   });
 }
 
+rateAppInFirestore({
+  required String userId,
+  required bool isClient,
+  required int rating,
+  required String review,
+}) async {
+  print('-----------------> Rating App In FireStore <-----------------');
+  var ratingId = const Uuid().v4();
+
+  CollectionReference appRatings =
+      FirebaseFirestore.instance.collection('appRatings');
+
+  await appRatings.doc(ratingId).set({
+    'id': ratingId,
+    'rating': rating,
+    'review': review,
+    'createdAt': DateTime.now().toIso8601String(),
+    'userId': userId,
+    'isClient': isClient,
+  });
+}
+
 getUserDataFromFirestore(String userId, bool isClient) async {
   print(
       '-----------------> Getting User Data From FireStore <-----------------');

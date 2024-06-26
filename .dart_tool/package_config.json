@@ -578,6 +578,54 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "url_launcher",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher-6.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "url_launcher_android",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_android-6.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "url_launcher_ios",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_ios-6.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "url_launcher_linux",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_linux-3.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "url_launcher_macos",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_macos-3.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
+      "name": "url_launcher_platform_interface",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_platform_interface-2.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
+      "name": "url_launcher_web",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_web-2.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "url_launcher_windows",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_windows-3.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "uuid",
       "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/uuid-4.4.0",
       "packageUri": "lib/",
@@ -620,6 +668,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "whatsapp_unilink",
+      "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/whatsapp_unilink-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "win32",
       "rootUri": "file:///C:/Users/Xmart/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.5.0",
       "packageUri": "lib/",
@@ -650,7 +704,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-22T18:22:17.656611Z",
+  "generated": "2024-06-26T20:43:48.910755Z",
   "generator": "pub",
   "generatorVersion": "3.3.0"
 }

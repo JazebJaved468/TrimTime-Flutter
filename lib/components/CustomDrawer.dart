@@ -4,7 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/views/rateApp/rate_app.dart';
 import 'package:trim_time/views/sign_in.dart';
+import 'package:trim_time/views/supportAndFeedback/support_and_feedback.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -21,7 +23,7 @@ class CustomDrawer extends StatelessWidget {
         padding: const EdgeInsets.all(0),
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 10),
+            margin: EdgeInsets.only(bottom: 16),
             padding: EdgeInsets.only(top: 100, bottom: 10),
             decoration: BoxDecoration(
               color: CustomColors.peelOrange,
@@ -41,11 +43,9 @@ class CustomDrawer extends StatelessWidget {
                   "${sampleProvider.localDataInProvider['userData']['name']}",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
-                SizedBox(
-                  height: 0,
-                ),
                 Text(
-                  " ${sampleProvider.localDataInProvider['userData']['email']}",
+                  "${sampleProvider.localDataInProvider['userData']['email']}",
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                 ),
               ],
             ),
@@ -56,21 +56,46 @@ class CustomDrawer extends StatelessWidget {
               // mainAxisSize: MainAxisSize.max,
               children: [
                 DrawerItem(
-                    icon: Icon(Icons.person, color: CustomColors.white),
-                    title: 'My Profile',
-                    onTap: () {
-                      print('go to profile');
-                    }),
+                  icon: Icon(Icons.person, color: CustomColors.white),
+                  title: 'My Profile',
+                  onTap: () {
+                    print('go to profile');
+                  },
+                ),
+
                 DrawerItem(
-                    icon: Icon(Icons.logout, color: CustomColors.white),
-                    title: 'Logout',
-                    onTap: () async {
-                      await sampleProvider.handleLogoutByProvider();
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => const SignIn()),
-                          (Route route) => false);
-                    }),
+                  icon: Icon(Icons.support_agent_outlined,
+                      color: CustomColors.white),
+                  title: 'Customer Support',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SupportAndFeedback()),
+                    );
+                  },
+                ),
+                DrawerItem(
+                  icon:
+                      Icon(Icons.star_rate_rounded, color: CustomColors.white),
+                  title: 'Rate App',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RateApp()),
+                    );
+                  },
+                ),
+                DrawerItem(
+                  icon: Icon(Icons.logout, color: CustomColors.white),
+                  title: 'Logout',
+                  onTap: () async {
+                    await sampleProvider.handleLogoutByProvider();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => const SignIn()),
+                        (Route route) => false);
+                  },
+                ),
 
                 // ListTile(
                 //   leading: const Icon(Icons.book),
@@ -135,7 +160,7 @@ class DrawerItem extends StatelessWidget {
         onTap();
       },
       child: Container(
-        height: 50,
+        height: 54,
         padding: EdgeInsets.only(left: 20),
         child: Row(
           children: [
