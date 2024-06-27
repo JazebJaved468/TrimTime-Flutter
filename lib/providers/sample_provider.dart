@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/date_time.dart';
 import 'package:trim_time/controller/firestore.dart';
@@ -353,6 +355,25 @@ class SampleProvider with ChangeNotifier {
   }
 
   // -------------------------------------------------- Updaters  --------------------------------------------------
+
+  updateUserProflileImage({
+    required String userId,
+    required bool isClient,
+    required Uint8List? file,
+  }) async {
+    final photoURL = await updateUserProfileImageInFirestore(
+      userId: userId,
+      isClient: isClient,
+      file: file,
+    );
+
+    if (photoURL != '') {
+      localDataInProvider['userData']['photoURL'] = photoURL;
+      notifyListeners();
+    }
+
+    return photoURL;
+  }
 
   updateSearchedBarbers(String query) {
     if (query == '') {

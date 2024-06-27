@@ -112,9 +112,9 @@ class _HomeContentState extends State<HomeContent> {
                       children: [
                         Consumer<SampleProvider>(
                           builder: (context, provider, child) {
-                            print('----------------------in home screen');
-                            print(
-                                '----------------------local data in provider in  home screen ${sampleProvider.localDataInProvider}');
+                            // print('----------------------in home screen');
+                            // print(
+                            //     '----------------------local data in provider in  home screen ${sampleProvider.localDataInProvider}');
                             return Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 10),

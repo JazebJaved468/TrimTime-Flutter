@@ -1,5 +1,10 @@
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:trim_time/controller/date_time.dart';
 import 'package:trim_time/controller/local_storage.dart';
@@ -93,6 +98,45 @@ getUserDataFromFirestore(String userId, bool isClient) async {
 
   return _user.data() as Map<String, dynamic>;
 }
+
+updateUserProfileImageInFirestore({
+  required String userId,
+  required bool isClient,
+  required Uint8List? file,
+}) async {
+  print(
+      '-----------------> Updating User Profile Image In FireStore <-----------------');
+
+  String photoURL = '';
+  final storageRef = FirebaseStorage.instance.ref();
+  Reference? userImgRef = storageRef.child('profile_images/$userId.jpg');
+
+  print('Image reference: $userImgRef');
+
+  try {
+    // Upload raw data.
+    await userImgRef.putData(file!);
+    photoURL = await userImgRef.getDownloadURL();
+
+    print('download url: $photoURL');
+
+    if (photoURL != null) {
+      // final collection = isClient ? 'clients' : 'barbers';
+      // CollectionReference users =
+      //     FirebaseFirestore.instance.collection(collection);
+      // await users.doc(userId).update({'photoURL': photoURL});
+    }
+  } on FirebaseException catch (e) {
+    print('Error uploading image: $e');
+  }
+
+  return photoURL;
+}
+
+// final collection = isClient ? 'clients' : 'barbers';
+// CollectionReference users = FirebaseFirestore.instance.collection(collection);
+// await users.doc(userId).update({'photoURL': photoURL});
+// }
 
 updateUserRegistrationDataInFirestore(
     {required String userId,

@@ -1,10 +1,15 @@
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/controller/firestore.dart';
+import 'package:trim_time/controller/upload_image.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/utilities/constants/constants.dart';
 
@@ -39,7 +44,15 @@ class _EditProfileState extends State<EditProfileClient> {
     );
   }
 
-  @override
+  Uint8List? _image;
+
+  selectImage() async {
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SampleProvider sampleProvider =
@@ -108,11 +121,86 @@ class _EditProfileState extends State<EditProfileClient> {
               // mainAxisSize: MainAxisSize.min,
               children: [
                 // const Text('Register Yourself Here!'),
-                CircleAvatar(
-                  radius: 60,
-                  backgroundImage: NetworkImage(sampleProvider
-                      .localDataInProvider['userData']['photoURL']),
-                ),
+                _image != null
+                    ? Stack(children: [
+                        Container(
+                          // color: Colors.pink,
+                          width: 126,
+                          height: 126,
+                        ),
+                        CircleAvatar(
+                          radius: 60,
+                          backgroundImage: MemoryImage(_image!),
+                        ),
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: IconButton(
+                            onPressed: () {
+                              // setState(() {
+                              //   _image = null;
+                              // });
+                            },
+                            icon: GestureDetector(
+                              onTap: () {
+                                selectImage();
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: CustomColors.peelOrange,
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Icon(
+                                  Icons.camera_alt_rounded,
+                                  color: CustomColors.black,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ])
+                    : Stack(children: [
+                        Container(
+                          width: 126,
+                          height: 126,
+                        ),
+                        CircleAvatar(
+                          radius: 60,
+                          backgroundImage: NetworkImage(sampleProvider
+                              .localDataInProvider['userData']['photoURL']),
+                        ),
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: IconButton(
+                            onPressed: () {
+                              // setState(() {
+                              //   _image = null;
+                              // });
+                            },
+                            icon: GestureDetector(
+                              onTap: () {
+                                selectImage();
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: CustomColors.peelOrange,
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Icon(
+                                  Icons.camera_alt_rounded,
+                                  color: CustomColors.black,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+
                 const SizedBox(
                   height: 30,
                 ),
@@ -259,7 +347,7 @@ class _EditProfileState extends State<EditProfileClient> {
                     margin: const EdgeInsets.only(top: 30.0),
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 0),
+                          // minimumSize: const Size(double.infinity, 0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
@@ -275,21 +363,73 @@ class _EditProfileState extends State<EditProfileClient> {
                               phoneNumberController.text.trim().isNotEmpty &&
                               addressController.text.trim().isNotEmpty) {
                             provider.setEditClientProfileCIP(true);
-                            await updateUserRegistrationDataInFirestore(
-                                userId: sampleProvider
-                                    .localDataInProvider['userData']['uid'],
-                                isClient: sampleProvider
+                            // await updateUserRegistrationDataInFirestore(
+                            //     userId: sampleProvider
+                            //         .localDataInProvider['userData']['uid'],
+                            //     isClient: sampleProvider
+                            //             .localDataInProvider['userData']
+                            //         ['isClient'],
+                            //     data: {
+                            //       'name': fullNameController.text,
+                            //       'nickName': nickNameController.text,
+                            //       'phoneNumber': phoneNumberController.text,
+                            //       'gender': sampleProvider
+                            //           .localDataInProvider['userData']['gender']
+                            //           .toLowerCase(),
+                            //       'address': addressController.text,
+
+                            //     });
+
+                            if (_image != null) {
+                              final photo =
+                                  await sampleProvider.updateUserProflileImage(
+                                      userId: sampleProvider
+                                              .localDataInProvider['userData']
+                                          ['uid'],
+                                      isClient: sampleProvider
+                                              .localDataInProvider['userData']
+                                          ['isClient'],
+                                      file: _image);
+
+                              await updateUserRegistrationDataInFirestore(
+                                  userId: sampleProvider
+                                      .localDataInProvider['userData']['uid'],
+                                  isClient: sampleProvider
+                                          .localDataInProvider['userData']
+                                      ['isClient'],
+                                  data: {
+                                    'name': fullNameController.text,
+                                    'nickName': nickNameController.text,
+                                    'phoneNumber': phoneNumberController.text,
+                                    'gender': sampleProvider
                                         .localDataInProvider['userData']
-                                    ['isClient'],
-                                data: {
-                                  'name': fullNameController.text,
-                                  'nickName': nickNameController.text,
-                                  'phoneNumber': phoneNumberController.text,
-                                  'gender': sampleProvider
-                                      .localDataInProvider['userData']['gender']
-                                      .toLowerCase(),
-                                  'address': addressController.text,
-                                });
+                                            ['gender']
+                                        .toLowerCase(),
+                                    'address': addressController.text,
+                                    'photoURL': photo == ''
+                                        ? sampleProvider
+                                                .localDataInProvider['userData']
+                                            ['photoURL']
+                                        : photo,
+                                  });
+                            } else {
+                              await updateUserRegistrationDataInFirestore(
+                                  userId: sampleProvider
+                                      .localDataInProvider['userData']['uid'],
+                                  isClient: sampleProvider
+                                          .localDataInProvider['userData']
+                                      ['isClient'],
+                                  data: {
+                                    'name': fullNameController.text,
+                                    'nickName': nickNameController.text,
+                                    'phoneNumber': phoneNumberController.text,
+                                    'gender': sampleProvider
+                                        .localDataInProvider['userData']
+                                            ['gender']
+                                        .toLowerCase(),
+                                    'address': addressController.text,
+                                  });
+                            }
 
                             sampleProvider
                                 .updateUserDataInLocalStorageByProvider();
@@ -297,12 +437,7 @@ class _EditProfileState extends State<EditProfileClient> {
                             provider.setEditClientProfileCIP(false);
 
                             if (mounted) {
-                              Navigator.pop(context);
-                              // Navigator.pushReplacement(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => const HomeScreen()),
-                              // );
+                              // Navigator.pop(context);
                             }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
