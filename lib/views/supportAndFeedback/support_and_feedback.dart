@@ -44,7 +44,10 @@ class _SupportAndFeedbackState extends State<SupportAndFeedback> {
       appBar: CustomAppBar(
         title: 'Customer Support',
         leftIcon: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: CustomColors.white,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },

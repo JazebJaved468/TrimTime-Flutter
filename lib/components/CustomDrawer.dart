@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/views/editProfile/edit_profile.dart';
 import 'package:trim_time/views/rateApp/rate_app.dart';
 import 'package:trim_time/views/sign_in.dart';
 import 'package:trim_time/views/supportAndFeedback/support_and_feedback.dart';
@@ -59,7 +60,11 @@ class CustomDrawer extends StatelessWidget {
                   icon: Icon(Icons.person, color: CustomColors.white),
                   title: 'My Profile',
                   onTap: () {
-                    print('go to profile');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EditProfileClient()),
+                    );
                   },
                 ),
 

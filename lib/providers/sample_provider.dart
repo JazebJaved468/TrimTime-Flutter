@@ -41,6 +41,7 @@ class SampleProvider with ChangeNotifier {
   bool rateBarberCIP = false;
   bool isSlotTileExpanded = false;
   bool saveClientProfileCIP = false;
+  bool editClientProfileCIP = false;
 
   // Client : CLient Booking Flow States
   Map<String, dynamic> selectedBarber = {};
@@ -460,6 +461,13 @@ class SampleProvider with ChangeNotifier {
 
   updateClientGEnder(String value) {
     clientGender = value;
+
+    notifyListeners();
+  }
+
+  editClientGEnder(String value) {
+    localDataInProvider['userData']['gender'] = value;
+
     notifyListeners();
   }
 
@@ -669,6 +677,11 @@ class SampleProvider with ChangeNotifier {
   // --------------------------------------------------Setters  --------------------------------------------------
   setSaveClientProfileCIP(bool value) {
     saveClientProfileCIP = value;
+    notifyListeners();
+  }
+
+  setEditClientProfileCIP(bool value) {
+    editClientProfileCIP = value;
     notifyListeners();
   }
 
