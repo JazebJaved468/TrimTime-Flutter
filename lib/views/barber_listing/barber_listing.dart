@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/utilities/helpers/functions.dart';
 import 'package:trim_time/views/barber_profile/barber_profile.dart';
 
 class BarberListing extends StatefulWidget {
@@ -231,7 +232,7 @@ class _BarberCardState extends State<BarberCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.barberName,
+                          '${capitalizeFirstLetterOfEachWord(widget.barberName)}',
                           style: TextStyle(
                               color: CustomColors.white,
                               fontWeight: FontWeight.bold),
@@ -286,7 +287,7 @@ class _BarberCardState extends State<BarberCard> {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      widget.shopName,
+                      '${capitalizeFirstLetterOfEachWord(widget.shopName)}',
                       style: const TextStyle(
                           color: Color.fromARGB(255, 180, 178, 178)),
                     ),

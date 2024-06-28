@@ -5,6 +5,7 @@ import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/components/EmptyList.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:trim_time/utilities/helpers/functions.dart';
 import 'package:trim_time/views/reviewsAndRating/reviews.dart';
 
 class BookingScreen extends StatefulWidget {
@@ -315,7 +316,7 @@ class BookingCardClient extends StatelessWidget {
                   size: 18,
                 ),
                 Text(
-                  '$barberName',
+                  '${capitalizeFirstLetterOfEachWord(barberName)}',
                   style: const TextStyle(
                       color: CustomColors.peelOrange,
                       fontWeight: FontWeight.bold),
@@ -332,7 +333,7 @@ class BookingCardClient extends StatelessWidget {
                 const Icon(Icons.store_mall_directory,
                     size: 18, color: CustomColors.white),
                 Text(
-                  '$shopName',
+                  '${capitalizeFirstLetterOfEachWord(shopName)}',
                   style: const TextStyle(color: CustomColors.white),
                 ),
               ],

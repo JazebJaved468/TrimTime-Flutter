@@ -8,6 +8,7 @@ import 'package:trim_time/components/reviewBox.dart';
 import 'package:trim_time/components/servicesContainer.dart';
 import 'package:trim_time/components/timeSlotBox.dart';
 import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/utilities/helpers/functions.dart';
 import 'package:trim_time/views/appointment_summary/appointment_summary.dart';
 
 class BarberProfile extends StatefulWidget {
@@ -50,7 +51,7 @@ class _BarberProfileState extends State<BarberProfile> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               //1.Carousel
-              ImageCarousel(),
+              Container(color: Colors.pink, child: ImageCarousel()),
 
               const SizedBox(
                 height: 24,
@@ -66,7 +67,8 @@ class _BarberProfileState extends State<BarberProfile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      appProvider.selectedBarber['name'],
+                      capitalizeFirstLetterOfEachWord(
+                          appProvider.selectedBarber['name']),
                       style: const TextStyle(
                         fontSize: 24,
                         color: CustomColors.white,
@@ -126,7 +128,8 @@ class _BarberProfileState extends State<BarberProfile> {
                       width: 10,
                     ),
                     Text(
-                      appProvider.selectedBarber['shopName'],
+                      capitalizeFirstLetterOfEachWord(
+                          appProvider.selectedBarber['shopName']),
                       style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
@@ -155,7 +158,8 @@ class _BarberProfileState extends State<BarberProfile> {
                     ),
                     Flexible(
                       child: Text(
-                        appProvider.selectedBarber['shopAddress'],
+                        capitalizeFirstLetterOfEachWord(
+                            appProvider.selectedBarber['shopAddress']),
                         style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
@@ -223,7 +227,7 @@ class _BarberProfileState extends State<BarberProfile> {
                           letterSpacing: 1),
                     ),
                     Text(
-                      ' (${appProvider.selectedBarber['reviews'].length} reviews)',
+                      ' (${appProvider.selectedBarber['reviews'].length} Reviews)',
                       style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,

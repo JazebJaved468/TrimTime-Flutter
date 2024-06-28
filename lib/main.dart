@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Trim Time',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
           fontFamily: 'Urbanist',
         ),

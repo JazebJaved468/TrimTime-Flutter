@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/utilities/helpers/functions.dart';
 
 class Review extends StatelessWidget {
   const Review(
@@ -33,9 +34,9 @@ class Review extends StatelessWidget {
                     Container(
                         // color: Colors.red,
                         child: Text(
-                      '$ClientName',
+                      capitalizeFirstLetterOfEachWord('$ClientName'),
                       style: TextStyle(
-                          fontFamily: 'Raleway',
+                          // fontFamily: 'Raleway',
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
 
@@ -62,7 +63,7 @@ class Review extends StatelessWidget {
                           Text(
                             '$rating',
                             style: TextStyle(
-                                fontFamily: 'Poppins',
+                                // fontFamily: 'Poppins',
                                 fontSize: 12,
                                 color: CustomColors.peelOrange),
                           ),
@@ -74,9 +75,9 @@ class Review extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    '$review',
+                    capitalizeFirstLetter('$review'),
                     style: TextStyle(
-                        fontFamily: 'Raleway',
+                        // fontFamily: 'Raleway',
                         fontSize: 14,
                         color: CustomColors.white),
                   ),

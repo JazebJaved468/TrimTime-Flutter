@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/utilities/helpers/functions.dart';
 import 'package:trim_time/views/editProfile/edit_profile.dart';
 import 'package:trim_time/views/rateApp/rate_app.dart';
 import 'package:trim_time/views/sign_in.dart';
@@ -55,7 +56,7 @@ class CustomDrawer extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  "${appProvider.localDataInProvider['userData']['name']}",
+                  "${capitalizeFirstLetterOfEachWord(appProvider.localDataInProvider['userData']['name'])}",
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.w600),
                 ),
