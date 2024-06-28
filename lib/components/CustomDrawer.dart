@@ -14,8 +14,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     return Drawer(
       backgroundColor: CustomColors.gunmetal,
       child: ListView(
@@ -30,38 +29,38 @@ class CustomDrawer extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Consumer<SampleProvider>(builder: (context, provider, child) {
+                Consumer<AppProvider>(builder: (context, provider, child) {
                   return provider.profileImageInBytes != null
                       ? CircleAvatar(
                           radius: 60,
                           backgroundImage:
-                              MemoryImage(sampleProvider.profileImageInBytes!))
+                              MemoryImage(appProvider.profileImageInBytes!))
                       : CircleAvatar(
                           radius: 60,
-                          backgroundImage: NetworkImage(sampleProvider
+                          backgroundImage: NetworkImage(appProvider
                               .localDataInProvider['userData']['photoURL']),
                         );
                 }),
-                // sampleProvider.profileImageInBytes != null
+                // appProvider.profileImageInBytes != null
                 //     ? CircleAvatar(
                 //         radius: 60,
                 //         backgroundImage:
-                //             MemoryImage(sampleProvider.profileImageInBytes!))
+                //             MemoryImage(appProvider.profileImageInBytes!))
                 //     : CircleAvatar(
                 //         radius: 60,
-                //         backgroundImage: NetworkImage(sampleProvider
+                //         backgroundImage: NetworkImage(appProvider
                 //             .localDataInProvider['userData']['photoURL']),
                 //       ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  "${sampleProvider.localDataInProvider['userData']['name']}",
+                  "${appProvider.localDataInProvider['userData']['name']}",
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  "${sampleProvider.localDataInProvider['userData']['email']}",
+                  "${appProvider.localDataInProvider['userData']['email']}",
                   style: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w400),
                 ),
@@ -112,7 +111,7 @@ class CustomDrawer extends StatelessWidget {
                   icon: const Icon(Icons.logout, color: CustomColors.white),
                   title: 'Logout',
                   onTap: () async {
-                    await sampleProvider.handleLogoutByProvider();
+                    await appProvider.handleLogoutByProvider();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => const SignIn()),
                         (Route route) => false);

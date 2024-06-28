@@ -57,24 +57,23 @@ class _EditProfileState extends State<EditProfileClient> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     TextEditingController fullNameController = TextEditingController(
-        text: sampleProvider.localDataInProvider['userData']['name']);
+        text: appProvider.localDataInProvider['userData']['name']);
     TextEditingController nickNameController = TextEditingController(
-        text: sampleProvider.localDataInProvider['userData']['nickName']);
+        text: appProvider.localDataInProvider['userData']['nickName']);
 
     TextEditingController emailController = TextEditingController(
-        text: sampleProvider.localDataInProvider['userData']['email']);
+        text: appProvider.localDataInProvider['userData']['email']);
 
     TextEditingController phoneNumberController = TextEditingController(
-        text: sampleProvider.localDataInProvider['userData']['phoneNumber']);
+        text: appProvider.localDataInProvider['userData']['phoneNumber']);
 
     TextEditingController addressController = TextEditingController(
-        text: sampleProvider.localDataInProvider['userData']['address']);
+        text: appProvider.localDataInProvider['userData']['address']);
 
-    print(sampleProvider.localDataInProvider['userData']['gender']);
+    print(appProvider.localDataInProvider['userData']['gender']);
 
     return Scaffold(
         // resizeToAvoidBottomInset: false,
@@ -123,7 +122,7 @@ class _EditProfileState extends State<EditProfileClient> {
               // mainAxisSize: MainAxisSize.min,
               children: [
                 // const Text('Register Yourself Here!'),
-                Consumer<SampleProvider>(builder: (builder, provider, child) {
+                Consumer<AppProvider>(builder: (builder, provider, child) {
                   return _image != null
                       ? Stack(children: [
                           Container(
@@ -160,7 +159,7 @@ class _EditProfileState extends State<EditProfileClient> {
                             ),
                           ),
                         ])
-                      : sampleProvider.profileImageInBytes != null
+                      : appProvider.profileImageInBytes != null
                           ? Stack(children: [
                               Container(
                                 // color: Colors.pink,
@@ -170,7 +169,7 @@ class _EditProfileState extends State<EditProfileClient> {
                               CircleAvatar(
                                 radius: 60,
                                 backgroundImage: MemoryImage(
-                                    sampleProvider.profileImageInBytes!),
+                                    appProvider.profileImageInBytes!),
                               ),
                               Positioned(
                                 right: 0,
@@ -204,9 +203,9 @@ class _EditProfileState extends State<EditProfileClient> {
                               ),
                               CircleAvatar(
                                 radius: 60,
-                                backgroundImage: NetworkImage(sampleProvider
-                                        .localDataInProvider['userData']
-                                    ['photoURL']),
+                                backgroundImage: NetworkImage(
+                                    appProvider.localDataInProvider['userData']
+                                        ['photoURL']),
                               ),
                               Positioned(
                                 right: 0,
@@ -323,7 +322,7 @@ class _EditProfileState extends State<EditProfileClient> {
                 const SizedBox(
                   height: 16,
                 ),
-                Consumer<SampleProvider>(
+                Consumer<AppProvider>(
                   builder: (context, provider, child) {
                     return Container(
                       padding: const EdgeInsets.symmetric(
@@ -375,7 +374,7 @@ class _EditProfileState extends State<EditProfileClient> {
                   },
                 ),
 
-                Consumer<SampleProvider>(builder: (context, provider, child) {
+                Consumer<AppProvider>(builder: (context, provider, child) {
                   return Container(
                     width: double.infinity,
                     margin: const EdgeInsets.only(top: 30.0),
@@ -398,16 +397,16 @@ class _EditProfileState extends State<EditProfileClient> {
                               addressController.text.trim().isNotEmpty) {
                             provider.setEditClientProfileCIP(true);
                             // await updateUserRegistrationDataInFirestore(
-                            //     userId: sampleProvider
+                            //     userId: appProvider
                             //         .localDataInProvider['userData']['uid'],
-                            //     isClient: sampleProvider
+                            //     isClient: appProvider
                             //             .localDataInProvider['userData']
                             //         ['isClient'],
                             //     data: {
                             //       'name': fullNameController.text,
                             //       'nickName': nickNameController.text,
                             //       'phoneNumber': phoneNumberController.text,
-                            //       'gender': sampleProvider
+                            //       'gender': appProvider
                             //           .localDataInProvider['userData']['gender']
                             //           .toLowerCase(),
                             //       'address': addressController.text,
@@ -419,48 +418,48 @@ class _EditProfileState extends State<EditProfileClient> {
 
                             if (_image != null) {
                               final photo =
-                                  await sampleProvider.updateUserProflileImage(
-                                      userId: sampleProvider
+                                  await appProvider.updateUserProflileImage(
+                                      userId: appProvider
                                               .localDataInProvider['userData']
                                           ['uid'],
-                                      isClient: sampleProvider
+                                      isClient: appProvider
                                               .localDataInProvider['userData']
                                           ['isClient'],
                                       file: _image);
 
                               await updateUserRegistrationDataInFirestore(
-                                  userId: sampleProvider
+                                  userId: appProvider
                                       .localDataInProvider['userData']['uid'],
-                                  isClient: sampleProvider
+                                  isClient: appProvider
                                           .localDataInProvider['userData']
                                       ['isClient'],
                                   data: {
                                     'name': fullNameController.text,
                                     'nickName': nickNameController.text,
                                     'phoneNumber': phoneNumberController.text,
-                                    'gender': sampleProvider
+                                    'gender': appProvider
                                         .localDataInProvider['userData']
                                             ['gender']
                                         .toLowerCase(),
                                     'address': addressController.text,
                                     'photoURL': photo == ''
-                                        ? sampleProvider
+                                        ? appProvider
                                                 .localDataInProvider['userData']
                                             ['photoURL']
                                         : photo,
                                   });
                             } else {
                               await updateUserRegistrationDataInFirestore(
-                                  userId: sampleProvider
+                                  userId: appProvider
                                       .localDataInProvider['userData']['uid'],
-                                  isClient: sampleProvider
+                                  isClient: appProvider
                                           .localDataInProvider['userData']
                                       ['isClient'],
                                   data: {
                                     'name': fullNameController.text,
                                     'nickName': nickNameController.text,
                                     'phoneNumber': phoneNumberController.text,
-                                    'gender': sampleProvider
+                                    'gender': appProvider
                                         .localDataInProvider['userData']
                                             ['gender']
                                         .toLowerCase(),
@@ -468,11 +467,11 @@ class _EditProfileState extends State<EditProfileClient> {
                                   });
                             }
 
-                            sampleProvider
+                            appProvider
                                 .updateUserDataInLocalStorageByProvider();
 
                             provider.setEditClientProfileCIP(false);
-                            sampleProvider.setProfileImageInBytes(_image);
+                            appProvider.setProfileImageInBytes(_image);
                             // if (mounted) {
                             //   Navigator.pop(context);
                             // }

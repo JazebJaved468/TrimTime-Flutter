@@ -14,7 +14,7 @@ import 'package:trim_time/views/barberScreens/registeration_barber.dart';
 import 'package:trim_time/views/clientScreens/registration_client.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
 
-class SampleProvider with ChangeNotifier {
+class AppProvider with ChangeNotifier {
   // General States
   bool isAppInitialLoading = true;
   Map localDataInProvider = {};

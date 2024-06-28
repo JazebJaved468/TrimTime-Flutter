@@ -35,8 +35,7 @@ class _SupportAndFeedbackState extends State<SupportAndFeedback> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
       appBar: CustomAppBar(
@@ -188,7 +187,7 @@ class _SupportAndFeedbackState extends State<SupportAndFeedback> {
                       ],
                     ),
                   ),
-                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                  Consumer<AppProvider>(builder: (context, provider, child) {
                     return Container(
                       margin: const EdgeInsets.only(
                           left: 30,

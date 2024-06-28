@@ -22,17 +22,16 @@ class Services extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
-    // bool isSelected = sampleProvider.selectedService == service['serviceId'];
+    // bool isSelected = appProvider.selectedService == service['serviceId'];
 
     return GestureDetector(
       onTap: () {
-        sampleProvider.updateSelectedService(service['serviceId']);
+        appProvider.updateSelectedService(service['serviceId']);
       },
 
-      // sampleProvider.updateSelectedService(service['serviceId']),
+      // appProvider.updateSelectedService(service['serviceId']),
       child: Container(
         height: 160,
         width: 120,

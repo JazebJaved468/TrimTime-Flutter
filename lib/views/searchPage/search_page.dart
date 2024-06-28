@@ -12,9 +12,8 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
-    sampleProvider.resetSearchedBarbers();
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+    appProvider.resetSearchedBarbers();
     return Scaffold(
         appBar: CustomAppBar(
           title: 'Search Barbers',
@@ -29,7 +28,7 @@ class SearchPage extends StatelessWidget {
               children: [
                 TextField(
                   onChanged: (value) {
-                    sampleProvider.updateSearchedBarbers(value);
+                    appProvider.updateSearchedBarbers(value);
                   },
                   controller: searchFieldController,
                   decoration: InputDecoration(
@@ -58,7 +57,7 @@ class SearchPage extends StatelessWidget {
                   ),
                   style: const TextStyle(color: CustomColors.white),
                 ),
-                Consumer<SampleProvider>(builder: (context, provider, child) {
+                Consumer<AppProvider>(builder: (context, provider, child) {
                   return Expanded(
                     child: searchFieldController.text.length == 0 &&
                             provider.searchedBarbers.isEmpty

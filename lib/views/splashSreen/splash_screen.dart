@@ -98,12 +98,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
-    sampleProvider.initializeAppByProvider();
+    appProvider.initializeAppByProvider();
 
-    return Consumer<SampleProvider>(builder: (context, provider, child) {
+    return Consumer<AppProvider>(builder: (context, provider, child) {
       if (mounted && provider.isAppInitialLoading) {
         return const LoadingScreen();
       } else if (provider.localDataInProvider['isFirstVisit']) {

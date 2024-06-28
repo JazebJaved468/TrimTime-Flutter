@@ -113,8 +113,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -175,7 +174,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 SizedBox(
                   height: screenHeight * .2,
-                  child: Consumer<SampleProvider>(
+                  child: Consumer<AppProvider>(
                     builder: (context, provider, child) {
                       // print(provider.signInCIP);
                       return provider.signInCIP
@@ -199,10 +198,10 @@ class _SignInState extends State<SignIn> {
                   child: OutlinedButton(
                     onPressed: () async {
                       try {
-                        sampleProvider.setSignInCIP(true);
-                        await sampleProvider.handleLoginByProvider(
+                        appProvider.setSignInCIP(true);
+                        await appProvider.handleLoginByProvider(
                             context: context, isClient: isClient);
-                        sampleProvider.setSignInCIP(false);
+                        appProvider.setSignInCIP(false);
                       } catch (e) {
                         print(e);
                       }

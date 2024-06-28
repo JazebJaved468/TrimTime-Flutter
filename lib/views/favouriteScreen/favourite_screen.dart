@@ -16,8 +16,7 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -26,9 +25,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
         color: CustomColors.gunmetal,
-        child: Consumer<SampleProvider>(
+        child: Consumer<AppProvider>(
           builder: (context, provider, child) {
-            return sampleProvider.inAppfavouriteList.isEmpty
+            return appProvider.inAppfavouriteList.isEmpty
                 ? EmptyList(
                     message: 'You have not Favourited any Barber yet.',
                   )

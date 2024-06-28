@@ -25,8 +25,7 @@ class _ReviewsAndRatingState extends State<ReviewsAndRating> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
       body: Center(
@@ -127,7 +126,7 @@ class _ReviewsAndRatingState extends State<ReviewsAndRating> {
                     ],
                   ),
                 ),
-                Consumer<SampleProvider>(builder: (context, provider, child) {
+                Consumer<AppProvider>(builder: (context, provider, child) {
                   return Container(
                     margin:
                         const EdgeInsets.all(30), // Margin around the button

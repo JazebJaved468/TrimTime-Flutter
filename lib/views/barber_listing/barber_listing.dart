@@ -22,24 +22,23 @@ class _BarberListingState extends State<BarberListing> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     switch (selectedIndex) {
       case 1:
-        currentListing = sampleProvider.haircutFilterBarbers;
+        currentListing = appProvider.haircutFilterBarbers;
         break;
       case 2:
-        currentListing = sampleProvider.shaveFilterBarbers;
+        currentListing = appProvider.shaveFilterBarbers;
         break;
       case 3:
-        currentListing = sampleProvider.beardTrimFilterBarbers;
+        currentListing = appProvider.beardTrimFilterBarbers;
         break;
       case 4:
-        currentListing = sampleProvider.massageFilterBarbers;
+        currentListing = appProvider.massageFilterBarbers;
         break;
       default:
-        currentListing = sampleProvider.allBarbers;
+        currentListing = appProvider.allBarbers;
     }
 
     return Scaffold(
@@ -195,14 +194,13 @@ class _BarberCardState extends State<BarberCard> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     return GestureDetector(
       onTap: () {
-        sampleProvider.setSelectedBarber(widget.barberId);
-        sampleProvider.resetSelectedSlot();
-        print('Selected Barber: ${sampleProvider.selectedBarber}}');
+        appProvider.setSelectedBarber(widget.barberId);
+        appProvider.resetSelectedSlot();
+        print('Selected Barber: ${appProvider.selectedBarber}}');
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const BarberProfile()),
@@ -238,9 +236,9 @@ class _BarberCardState extends State<BarberCard> {
                               color: CustomColors.white,
                               fontWeight: FontWeight.bold),
                         ),
-                        Consumer<SampleProvider>(
+                        Consumer<AppProvider>(
                             builder: (context, provider, Widget? child) {
-                          isFavourite = sampleProvider.allBarbers.firstWhere(
+                          isFavourite = appProvider.allBarbers.firstWhere(
                               (element) =>
                                   element['uid'] ==
                                   widget.barberId)['isFavourite'];
@@ -248,11 +246,11 @@ class _BarberCardState extends State<BarberCard> {
                             onTap: () async {
                               if (isFavourite) {
                                 print('remove fav');
-                                sampleProvider.removeBarberFromFavourites(
+                                appProvider.removeBarberFromFavourites(
                                     widget.barberId);
                               } else {
                                 print('add fav');
-                                sampleProvider
+                                appProvider
                                     .addBarberToFavourites(widget.barberId);
                               }
                             },
@@ -268,7 +266,7 @@ class _BarberCardState extends State<BarberCard> {
                         //   onTap: () {
                         //     if (isFavourite) {
                         //       print('remove fav');
-                        //       sampleProvider
+                        //       appProvider
                         //           .removeBarberFromFavourites(widget.barberId);
                         //       isFavourite = false;
                         //       setState(() {});

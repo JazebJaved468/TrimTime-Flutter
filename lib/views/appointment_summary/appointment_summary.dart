@@ -26,19 +26,18 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
-    String date = DateFormat('dd-MM-yyyy').format(sampleProvider.selectedDate);
+    String date = DateFormat('dd-MM-yyyy').format(appProvider.selectedDate);
     String startTime = DateFormat('hh : mm a')
-        .format(DateTime.parse(sampleProvider.selectedSlot['start']));
+        .format(DateTime.parse(appProvider.selectedSlot['start']));
     String endtime = DateFormat('hh : mm a')
-        .format(DateTime.parse(sampleProvider.selectedSlot['end']));
-    String serviceName = sampleProvider.getSelectedServiceName();
-    int servicePrice = sampleProvider.getSelectedServicePrice();
+        .format(DateTime.parse(appProvider.selectedSlot['end']));
+    String serviceName = appProvider.getSelectedServiceName();
+    int servicePrice = appProvider.getSelectedServicePrice();
 
     // Calculate the total price
-    int total = sampleProvider.getTotalPrice();
+    int total = appProvider.getTotalPrice();
     // services.fold(0, (sum, item) => sum + int.parse(item['price']!));
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
@@ -89,7 +88,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             ),
                           ),
                           Text(
-                            sampleProvider.selectedBarber['name'],
+                            appProvider.selectedBarber['name'],
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -113,7 +112,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             ),
                           ),
                           Text(
-                            sampleProvider.selectedBarber['shopName'],
+                            appProvider.selectedBarber['shopName'],
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -141,7 +140,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                           ),
                           Flexible(
                             child: Text(
-                              sampleProvider.selectedBarber['shopAddress'],
+                              appProvider.selectedBarber['shopAddress'],
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,
@@ -167,7 +166,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             ),
                           ),
                           Text(
-                            sampleProvider.selectedBarber['phoneNumber'],
+                            appProvider.selectedBarber['phoneNumber'],
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -362,7 +361,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
             ),
           ),
           // Fixed position container
-          Consumer<SampleProvider>(builder: (context, provider, child) {
+          Consumer<AppProvider>(builder: (context, provider, child) {
             return Align(
               alignment: Alignment.bottomCenter,
               child: Container(

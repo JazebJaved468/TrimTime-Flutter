@@ -31,16 +31,15 @@ class _BarberProfileState extends State<BarberProfile> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
-    String selectedBarberId = sampleProvider.selectedBarber['uid'];
-    List services = sampleProvider.getBarberServicesForBarberProfile();
-    sampleProvider.resetIsSlotTileExpanded();
+    String selectedBarberId = appProvider.selectedBarber['uid'];
+    List services = appProvider.getBarberServicesForBarberProfile();
+    appProvider.resetIsSlotTileExpanded();
 
     print('services in widgett ----> $services');
 
-    print('selected barber ----> ${sampleProvider.selectedBarber['uid']}');
+    print('selected barber ----> ${appProvider.selectedBarber['uid']}');
 
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
@@ -67,7 +66,7 @@ class _BarberProfileState extends State<BarberProfile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      sampleProvider.selectedBarber['name'],
+                      appProvider.selectedBarber['name'],
                       style: const TextStyle(
                         fontSize: 24,
                         color: CustomColors.white,
@@ -79,9 +78,9 @@ class _BarberProfileState extends State<BarberProfile> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: Consumer<SampleProvider>(
+                      child: Consumer<AppProvider>(
                           builder: (context, provider, Widget? child) {
-                        isFavourite = sampleProvider.allBarbers.firstWhere(
+                        isFavourite = appProvider.allBarbers.firstWhere(
                             (element) =>
                                 element['uid'] ==
                                 selectedBarberId)['isFavourite'];
@@ -89,11 +88,11 @@ class _BarberProfileState extends State<BarberProfile> {
                           onTap: () async {
                             if (isFavourite) {
                               print('remove fav');
-                              sampleProvider
+                              appProvider
                                   .removeBarberFromFavourites(selectedBarberId);
                             } else {
                               print('add fav');
-                              sampleProvider
+                              appProvider
                                   .addBarberToFavourites(selectedBarberId);
                             }
                           },
@@ -127,7 +126,7 @@ class _BarberProfileState extends State<BarberProfile> {
                       width: 10,
                     ),
                     Text(
-                      sampleProvider.selectedBarber['shopName'],
+                      appProvider.selectedBarber['shopName'],
                       style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
@@ -156,7 +155,7 @@ class _BarberProfileState extends State<BarberProfile> {
                     ),
                     Flexible(
                       child: Text(
-                        sampleProvider.selectedBarber['shopAddress'],
+                        appProvider.selectedBarber['shopAddress'],
                         style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
@@ -188,7 +187,7 @@ class _BarberProfileState extends State<BarberProfile> {
                       width: 10,
                     ),
                     Text(
-                      sampleProvider.selectedBarber['phoneNumber'],
+                      appProvider.selectedBarber['phoneNumber'],
                       style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
@@ -216,7 +215,7 @@ class _BarberProfileState extends State<BarberProfile> {
                       width: 10,
                     ),
                     Text(
-                      sampleProvider.selectedBarber['averageRating'],
+                      appProvider.selectedBarber['averageRating'],
                       style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
@@ -224,7 +223,7 @@ class _BarberProfileState extends State<BarberProfile> {
                           letterSpacing: 1),
                     ),
                     Text(
-                      ' (${sampleProvider.selectedBarber['reviews'].length} reviews)',
+                      ' (${appProvider.selectedBarber['reviews'].length} reviews)',
                       style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
@@ -264,7 +263,7 @@ class _BarberProfileState extends State<BarberProfile> {
                 height: 160,
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    return Consumer<SampleProvider>(
+                    return Consumer<AppProvider>(
                         builder: (context, provider, child) {
                       return Services(
                         isFirstCard: index == 0,
@@ -300,8 +299,7 @@ class _BarberProfileState extends State<BarberProfile> {
                           fontWeight: FontWeight.bold,
                           color: CustomColors.white),
                     ),
-                    Consumer<SampleProvider>(
-                        builder: (context, provider, child) {
+                    Consumer<AppProvider>(builder: (context, provider, child) {
                       return InkWell(
                         onTap: () async {
                           DateTime? selected = await showDatePicker(
@@ -311,17 +309,17 @@ class _BarberProfileState extends State<BarberProfile> {
                               const Duration(days: 6),
                             ),
                             initialDate:
-                                sampleProvider.selectedDate ?? DateTime.now(),
+                                appProvider.selectedDate ?? DateTime.now(),
                           );
 
                           print('DAte selected ----> $selected');
 
                           if (selected != null) {
-                            sampleProvider.updateSelectedDate(selected);
-                            sampleProvider.updateSlotsToShow();
+                            appProvider.updateSelectedDate(selected);
+                            appProvider.updateSlotsToShow();
                           }
                           print(
-                              'DAte selected in provider ----> ${sampleProvider.selectedDate}');
+                              'DAte selected in provider ----> ${appProvider.selectedDate}');
                         },
                         child: const Padding(
                           padding: EdgeInsets.only(right: 20),
@@ -351,7 +349,7 @@ class _BarberProfileState extends State<BarberProfile> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 12),
-                      child: Consumer<SampleProvider>(
+                      child: Consumer<AppProvider>(
                         builder: (context, provider, child) {
                           var date = DateFormat('EEEE, dd-MM-yyyy')
                               .format(provider.selectedDate);
@@ -400,8 +398,8 @@ class _BarberProfileState extends State<BarberProfile> {
                 decoration: const BoxDecoration(
                     color: CustomColors.charcoal,
                     borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Consumer<SampleProvider>(
-                    builder: (context, provider, child) {
+                child:
+                    Consumer<AppProvider>(builder: (context, provider, child) {
                   var day = DateFormat('EEEE').format(provider.selectedDate);
 
                   // List slots = provider.slotsToShow;
@@ -431,7 +429,7 @@ class _BarberProfileState extends State<BarberProfile> {
                                   ),
                                 ),
                               )
-                            : Consumer<SampleProvider>(
+                            : Consumer<AppProvider>(
                                 builder: (context, provider, child) {
                                 return ExpansionTile(
                                   shape:
@@ -503,7 +501,7 @@ class _BarberProfileState extends State<BarberProfile> {
 
               //Reviews
 
-              sampleProvider.selectedBarber['reviews'].length == 0
+              appProvider.selectedBarber['reviews'].length == 0
                   ? const Center(
                       child: Text(
                         'No Reviews Yet',
@@ -519,19 +517,17 @@ class _BarberProfileState extends State<BarberProfile> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return Review(
-                          ClientName: sampleProvider.selectedBarber['reviews']
+                          ClientName: appProvider.selectedBarber['reviews']
                               [index]['clientName'],
-                          review: sampleProvider.selectedBarber['reviews']
-                              [index]['review'],
-                          rating: sampleProvider.selectedBarber['reviews']
-                              [index]['rating'],
+                          review: appProvider.selectedBarber['reviews'][index]
+                              ['review'],
+                          rating: appProvider.selectedBarber['reviews'][index]
+                              ['rating'],
                           isLastReview: index ==
-                              sampleProvider.selectedBarber['reviews'].length -
-                                  1,
+                              appProvider.selectedBarber['reviews'].length - 1,
                         );
                       },
-                      itemCount:
-                          sampleProvider.selectedBarber['reviews'].length,
+                      itemCount: appProvider.selectedBarber['reviews'].length,
                     ),
 
               //for space
@@ -545,7 +541,7 @@ class _BarberProfileState extends State<BarberProfile> {
           ),
           // Fixed position container
 
-          Consumer<SampleProvider>(builder: (context, provider, child) {
+          Consumer<AppProvider>(builder: (context, provider, child) {
             return Positioned(
               left: 0,
               right: 0,

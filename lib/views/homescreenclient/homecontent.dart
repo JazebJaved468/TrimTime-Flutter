@@ -47,8 +47,7 @@ class _HomeContentState extends State<HomeContent> {
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
 
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     return PopScope(
       canPop: false,
@@ -83,7 +82,7 @@ class _HomeContentState extends State<HomeContent> {
             actions: [
               IconButton(
                 onPressed: () async {
-                  await sampleProvider.handleLogoutByProvider();
+                  await appProvider.handleLogoutByProvider();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => const SignIn()),
                       (Route route) => false);
@@ -108,11 +107,11 @@ class _HomeContentState extends State<HomeContent> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Consumer<SampleProvider>(
+                        Consumer<AppProvider>(
                           builder: (context, provider, child) {
                             // print('----------------------in home screen');
                             // print(
-                            //     '----------------------local data in provider in  home screen ${sampleProvider.localDataInProvider}');
+                            //     '----------------------local data in provider in  home screen ${appProvider.localDataInProvider}');
                             return Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 10),
@@ -358,9 +357,8 @@ class LocationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
-    // return Consumer<SampleProvider>(builder: (context, provider, child) {
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+    // return Consumer<AppProvider>(builder: (context, provider, child) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -375,18 +373,18 @@ class LocationSection extends StatelessWidget {
         const SizedBox(height: 12),
         ListView.builder(
           shrinkWrap: true,
-          itemCount: sampleProvider.popularBarbers.length,
+          itemCount: appProvider.popularBarbers.length,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return BarberCard(
-                barberName: sampleProvider.popularBarbers[index]['name'],
-                shopName: sampleProvider.popularBarbers[index]['shopName'],
-                stars: sampleProvider.popularBarbers[index]['averageRating'],
-                imageUrl: sampleProvider.popularBarbers[index]['photoURL'],
-                barberId: sampleProvider.popularBarbers[index]['uid']);
+                barberName: appProvider.popularBarbers[index]['name'],
+                shopName: appProvider.popularBarbers[index]['shopName'],
+                stars: appProvider.popularBarbers[index]['averageRating'],
+                imageUrl: appProvider.popularBarbers[index]['photoURL'],
+                barberId: appProvider.popularBarbers[index]['uid']);
 
             // Text(
-            //   sampleProvider.popularBarbers[index]['name'],
+            //   appProvider.popularBarbers[index]['name'],
             //   style: TextStyle(color: CustomColors.white),
             // );
           },

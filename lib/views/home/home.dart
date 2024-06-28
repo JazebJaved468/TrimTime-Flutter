@@ -7,16 +7,16 @@ import 'package:trim_time/views/onBoardingScreens/loading_screen.dart';
 class Home extends StatelessWidget {
   const Home({super.key});
 
-  // Provider.of<SampleProvider>(context, listen: false);
+  // Provider.of<AppProvider>(context, listen: false);
 
   @override
   Widget build(BuildContext context) {
-    final sampleProvider = Provider.of<SampleProvider>(context, listen: false);
+    final appProvider = Provider.of<AppProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Trim Time'),
       ),
-      body: Consumer<SampleProvider>(
+      body: Consumer<AppProvider>(
         builder: (context, provider, child) => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -33,7 +33,7 @@ class Home extends StatelessWidget {
                           fontSize: 20, color: CustomColors.peelOrange),
                     ),
                     Text(
-                      '${sampleProvider.activeBarbers}',
+                      '${appProvider.activeBarbers}',
                       style: TextStyle(
                           fontSize: 36, color: CustomColors.peelOrange),
                     ),

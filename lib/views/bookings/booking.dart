@@ -20,17 +20,16 @@ class _BookingScreenState extends State<BookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     switch (selectedIndex) {
       case 1:
-        currentListing = sampleProvider.cancelledBookingsClient;
+        currentListing = appProvider.cancelledBookingsClient;
         break;
       case 2:
-        currentListing = sampleProvider.completedBookingsClient;
+        currentListing = appProvider.completedBookingsClient;
         break;
       default:
-        currentListing = sampleProvider.upcomingBookingsClient;
+        currentListing = appProvider.upcomingBookingsClient;
     }
 
     return Scaffold(
@@ -51,7 +50,7 @@ class _BookingScreenState extends State<BookingScreen> {
               ],
             ),
           ),
-          Consumer<SampleProvider>(
+          Consumer<AppProvider>(
             builder: (context, provider, child) {
               return Expanded(
                 child: selectedIndex == 0 &&

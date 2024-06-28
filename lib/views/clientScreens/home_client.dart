@@ -40,8 +40,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Client Home Page'),
@@ -71,10 +70,10 @@ class _ClientHomePageState extends State<ClientHomePage> {
                   Text('isClient: ${localData['isClient']}'),
                   ElevatedButton(
                     onPressed: () {
-                      // sampleProvider.uid = localData['userData']['uid'];
-                      // sampleProvider.setUserData(localData['userData']);
+                      // appProvider.uid = localData['userData']['uid'];
+                      // appProvider.setUserData(localData['userData']);
 
-                      // sampleProvider.barberAvailability =
+                      // appProvider.barberAvailability =
                       //     localData['userData']['availability'];
                       Navigator.push(
                         context,

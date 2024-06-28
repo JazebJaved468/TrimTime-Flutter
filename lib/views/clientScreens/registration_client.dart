@@ -56,8 +56,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
   @override
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     TextEditingController fullNameController =
         TextEditingController(text: widget.fullName);
@@ -107,7 +106,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                   // const Text('Register Yourself Here!'),
                   CircleAvatar(
                     radius: 60,
-                    backgroundImage: NetworkImage(sampleProvider
+                    backgroundImage: NetworkImage(appProvider
                         .localDataInProvider['userData']['photoURL']),
                   ),
                   const SizedBox(
@@ -199,7 +198,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                   const SizedBox(
                     height: 16,
                   ),
-                  Consumer<SampleProvider>(
+                  Consumer<AppProvider>(
                     builder: (context, provider, child) {
                       return Container(
                         padding: const EdgeInsets.symmetric(
@@ -249,7 +248,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                     },
                   ),
 
-                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                  Consumer<AppProvider>(builder: (context, provider, child) {
                     return Container(
                       width: double.infinity,
                       margin: const EdgeInsets.only(top: 30.0),
@@ -272,9 +271,9 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                                 addressController.text.trim().isNotEmpty) {
                               provider.setSaveClientProfileCIP(true);
                               await updateUserRegistrationDataInFirestore(
-                                  userId: sampleProvider
+                                  userId: appProvider
                                       .localDataInProvider['userData']['uid'],
-                                  isClient: sampleProvider
+                                  isClient: appProvider
                                           .localDataInProvider['userData']
                                       ['isClient'],
                                   data: {
@@ -283,12 +282,12 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                                     'nickName': nickNameController.text,
                                     'email': emailController.text,
                                     'phoneNumber': phoneNumberController.text,
-                                    'gender': sampleProvider.clientGender
-                                        .toLowerCase(),
+                                    'gender':
+                                        appProvider.clientGender.toLowerCase(),
                                     'address': addressController.text,
                                   });
 
-                              sampleProvider
+                              appProvider
                                   .updateUserDataInLocalStorageByProvider();
 
                               provider.setSaveClientProfileCIP(false);

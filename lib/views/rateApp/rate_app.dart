@@ -26,8 +26,7 @@ class _RateAppState extends State<RateApp> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
       appBar: CustomAppBar(
@@ -145,7 +144,7 @@ class _RateAppState extends State<RateApp> {
                       ],
                     ),
                   ),
-                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                  Consumer<AppProvider>(builder: (context, provider, child) {
                     return Container(
                       margin: const EdgeInsets.only(
                           left: 30,
@@ -162,10 +161,10 @@ class _RateAppState extends State<RateApp> {
                           await provider.rateAppByProvider(
                             rating: rating,
                             review: myController.text,
-                            isClient: sampleProvider
+                            isClient: appProvider
                                 .localDataInProvider['userData']['isClient'],
-                            userId: sampleProvider
-                                .localDataInProvider['userData']['uid'],
+                            userId: appProvider.localDataInProvider['userData']
+                                ['uid'],
                           );
 
                           provider.setRateBarberCIP(false);

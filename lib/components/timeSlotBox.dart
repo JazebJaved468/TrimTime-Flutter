@@ -18,8 +18,8 @@ class TimeSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider =
+        Provider.of<AppProvider>(context, listen: false);
 
     String slotId = slot['slotId'];
     String start = DateFormat('hh : mm').format(DateTime.parse(slot['start']));
@@ -27,7 +27,7 @@ class TimeSlot extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        sampleProvider.updateSelectedSlot(slot);
+        appProvider.updateSelectedSlot(slot);
       },
       child: Container(
         margin: const EdgeInsets.all(5),
