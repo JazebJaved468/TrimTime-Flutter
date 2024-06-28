@@ -672,24 +672,30 @@ class AppProvider with ChangeNotifier {
 
   getBarberServicesForBarberProfile() {
     String serviceName = '';
+    String imageFileName = '';
     List tempList = [];
     Map<String, dynamic> servicesFromDb = selectedBarber['services'];
     servicesFromDb.forEach((key, value) {
       if (value['isProviding']) {
         if (key == '1') {
           serviceName = 'Haircut';
+          imageFileName = 'haircut.png';
         } else if (key == '2') {
           serviceName = 'Shave';
+          imageFileName = 'shave.png';
         } else if (key == '3') {
           serviceName = 'Beard Trim';
+          imageFileName = 'beardTrim.png';
         } else if (key == '4') {
           serviceName = 'Massage';
+          imageFileName = 'massage.png';
         }
 
         tempList.add({
           'serviceName': serviceName,
           'price': value['price'],
           'serviceId': key,
+          'imageFileName': imageFileName,
         });
       }
     });

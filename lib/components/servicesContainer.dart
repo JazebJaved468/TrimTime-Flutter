@@ -9,6 +9,7 @@ class Services extends StatelessWidget {
   final bool isSelected;
   final Map service;
   final bool isFirstCard;
+  final String imageFileName;
 
   const Services({
     Key? key,
@@ -16,6 +17,7 @@ class Services extends StatelessWidget {
     required this.service,
     required this.isSelected,
     required this.isFirstCard,
+    required this.imageFileName,
     // required this.onTap,
     // required this.clicked,
   }) : super(key: key);
@@ -48,14 +50,15 @@ class Services extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
+                height: 94,
                 clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    color: CustomColors.white),
                 child: Image.asset(
-                  'assets/images/1.jpg',
+                  'assets/images/$imageFileName',
                   fit: BoxFit.cover,
                 ),
               ),

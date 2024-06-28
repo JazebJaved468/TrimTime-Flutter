@@ -270,6 +270,7 @@ class _BarberProfileState extends State<BarberProfile> {
                         service: services[index],
                         isSelected: provider.selectedService ==
                             services[index]['serviceId'],
+                        imageFileName: services[index]['imageFileName'],
                         // onTap: provider.updateSelectedService(
                         //     services[index]['serviceId']),
                       );
