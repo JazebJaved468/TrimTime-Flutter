@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
 
 class LoadingScreen extends StatelessWidget {
   const LoadingScreen({super.key});

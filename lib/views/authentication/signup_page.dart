@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/views/barberScreens/home_barber.dart';
-import 'package:trim_time/views/clientScreens/home_client.dart';
 import 'package:trim_time/views/barberScreens/registeration_barber.dart';
 import 'package:trim_time/views/clientScreens/registration_client.dart';
-import 'package:trim_time/views/homescreenclient/homecontent.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
 
 // remove this file

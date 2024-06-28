@@ -1,7 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/local_storage.dart';
-import 'package:trim_time/controller/login.dart';
 
 initializeApp() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barber_listing/barber_listing.dart';
 import 'package:trim_time/views/bookings/booking.dart';
 import 'package:trim_time/views/favouriteScreen/favourite_screen.dart';
@@ -78,9 +76,6 @@ class _NavigationExampleState extends State<NavigationExample> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
-
     return Scaffold(
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(

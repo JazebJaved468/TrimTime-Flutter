@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
-import 'package:trim_time/controller/local_storage.dart';
-import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
-import 'package:trim_time/views/barberScreens/home_barber.dart';
-import 'package:trim_time/views/barberScreens/registeration_barber.dart';
-import 'package:trim_time/views/clientScreens/home_client.dart';
-import 'package:trim_time/views/clientScreens/registration_client.dart';
-import 'package:trim_time/views/homescreenclient/homecontent.dart';
-import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
-// import 'package:trim_time/views/sign_in.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});

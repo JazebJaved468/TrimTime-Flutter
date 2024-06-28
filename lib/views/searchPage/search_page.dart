@@ -38,7 +38,8 @@ class SearchPage extends StatelessWidget {
                     hintStyle: TextStyle(
                         color: CustomColors.white.withOpacity(0.6),
                         fontSize: 14),
-                    prefixIcon: Icon(Icons.search, color: CustomColors.white),
+                    prefixIcon:
+                        const Icon(Icons.search, color: CustomColors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none,
@@ -55,13 +56,13 @@ class SearchPage extends StatelessWidget {
                     //   borderRadius: BorderRadius.circular(15),
                     // ),
                   ),
-                  style: TextStyle(color: CustomColors.white),
+                  style: const TextStyle(color: CustomColors.white),
                 ),
                 Consumer<SampleProvider>(builder: (context, provider, child) {
                   return Expanded(
                     child: searchFieldController.text.length == 0 &&
                             provider.searchedBarbers.isEmpty
-                        ? Center(
+                        ? const Center(
                             child: Text(
                               'Your Search Results will appear here',
                               style: TextStyle(color: CustomColors.white),
@@ -69,7 +70,7 @@ class SearchPage extends StatelessWidget {
                           )
                         : searchFieldController.text.length != 0 &&
                                 provider.searchedBarbers.isEmpty
-                            ? Center(
+                            ? const Center(
                                 child: Text(
                                   'Sorry! No Barbers Found with this name',
                                   style: TextStyle(color: CustomColors.white),

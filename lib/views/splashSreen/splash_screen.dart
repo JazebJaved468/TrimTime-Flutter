@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trim_time/controller/initialization.dart';
-import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barberScreens/home_barber.dart';
-import 'package:trim_time/views/clientScreens/home_client.dart';
 import 'package:trim_time/views/barberScreens/registeration_barber.dart';
 import 'package:trim_time/views/clientScreens/registration_client.dart';
-import 'package:trim_time/views/homescreenclient/homecontent.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
 import 'package:trim_time/views/onBoardingScreens/loading_screen.dart';
 import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
@@ -109,12 +105,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return Consumer<SampleProvider>(builder: (context, provider, child) {
       if (mounted && provider.isAppInitialLoading) {
-        return LoadingScreen();
+        return const LoadingScreen();
       } else if (provider.localDataInProvider['isFirstVisit']) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => WelcomeScreen()),
+            MaterialPageRoute(builder: (context) => const WelcomeScreen()),
           );
         });
       } else if (provider.localDataInProvider['uid'] != null) {
@@ -125,7 +121,7 @@ class _SplashScreenState extends State<SplashScreen> {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
               );
             });
           } else {
@@ -188,12 +184,12 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => SignIn()),
+              MaterialPageRoute(builder: (context) => const SignIn()),
               (Route route) => false);
         });
       }
 
-      return LoadingScreen();
+      return const LoadingScreen();
       // else{
       // return LoadingScreen();
 

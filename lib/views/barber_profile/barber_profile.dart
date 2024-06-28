@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -60,7 +59,7 @@ class _BarberProfileState extends State<BarberProfile> {
 
               //2. Name
               Container(
-                margin: EdgeInsets.only(bottom: 10),
+                margin: const EdgeInsets.only(bottom: 10),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                 ),

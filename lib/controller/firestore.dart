@@ -1,14 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:trim_time/controller/date_time.dart';
 import 'package:trim_time/controller/local_storage.dart';
-import 'package:trim_time/controller/login.dart';
 import 'package:uuid/uuid.dart';
 
 getPopularBarbersFromFireStore() async {

@@ -14,8 +14,6 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
     SampleProvider sampleProvider =
         Provider.of<SampleProvider>(context, listen: false);
     return Drawer(
@@ -24,9 +22,9 @@ class CustomDrawer extends StatelessWidget {
         padding: const EdgeInsets.all(0),
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 16),
-            padding: EdgeInsets.only(top: 100, bottom: 10),
-            decoration: BoxDecoration(
+            margin: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(top: 100, bottom: 10),
+            decoration: const BoxDecoration(
               color: CustomColors.peelOrange,
             ),
             child: Column(
@@ -54,16 +52,18 @@ class CustomDrawer extends StatelessWidget {
                 //         backgroundImage: NetworkImage(sampleProvider
                 //             .localDataInProvider['userData']['photoURL']),
                 //       ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
                   "${sampleProvider.localDataInProvider['userData']['name']}",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 Text(
                   "${sampleProvider.localDataInProvider['userData']['email']}",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w400),
                 ),
               ],
             ),
@@ -74,7 +74,7 @@ class CustomDrawer extends StatelessWidget {
               // mainAxisSize: MainAxisSize.max,
               children: [
                 DrawerItem(
-                  icon: Icon(Icons.person, color: CustomColors.white),
+                  icon: const Icon(Icons.person, color: CustomColors.white),
                   title: 'My Profile',
                   onTap: () {
                     Navigator.push(
@@ -86,7 +86,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
 
                 DrawerItem(
-                  icon: Icon(Icons.support_agent_outlined,
+                  icon: const Icon(Icons.support_agent_outlined,
                       color: CustomColors.white),
                   title: 'Customer Support',
                   onTap: () {
@@ -98,8 +98,8 @@ class CustomDrawer extends StatelessWidget {
                   },
                 ),
                 DrawerItem(
-                  icon:
-                      Icon(Icons.star_rate_rounded, color: CustomColors.white),
+                  icon: const Icon(Icons.star_rate_rounded,
+                      color: CustomColors.white),
                   title: 'Rate App',
                   onTap: () {
                     Navigator.push(
@@ -109,7 +109,7 @@ class CustomDrawer extends StatelessWidget {
                   },
                 ),
                 DrawerItem(
-                  icon: Icon(Icons.logout, color: CustomColors.white),
+                  icon: const Icon(Icons.logout, color: CustomColors.white),
                   title: 'Logout',
                   onTap: () async {
                     await sampleProvider.handleLogoutByProvider();
@@ -183,16 +183,16 @@ class DrawerItem extends StatelessWidget {
       },
       child: Container(
         height: 54,
-        padding: EdgeInsets.only(left: 20),
+        padding: const EdgeInsets.only(left: 20),
         child: Row(
           children: [
             icon,
-            SizedBox(
+            const SizedBox(
               width: 14,
             ),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: CustomColors.white),

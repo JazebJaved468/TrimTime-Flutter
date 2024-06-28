@@ -1,8 +1,4 @@
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -74,7 +70,7 @@ class _RateAppState extends State<RateApp> {
                         ),
                         Container(
                           // color: Colors.brown,
-                          margin: EdgeInsets.only(bottom: 4),
+                          margin: const EdgeInsets.only(bottom: 4),
                           child: const Text(
                             'Rate Our App',
                             textAlign: TextAlign.center,
@@ -207,9 +203,9 @@ class _RateAppState extends State<RateApp> {
                                     color: CustomColors.peelOrange,
                                     size: 30,
                                   )
-                                : Text(
+                                : const Text(
                                     'Submit',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: CustomColors.peelOrange,
                                       // fontFamily: 'Poppins',
                                       fontSize: 15,

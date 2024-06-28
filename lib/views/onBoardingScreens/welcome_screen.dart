@@ -1,6 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/views/onBoardingScreens/get_started_screen.dart';
@@ -10,14 +9,12 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: InkWell(
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => GetStartedScreen()),
+            MaterialPageRoute(builder: (context) => const GetStartedScreen()),
           );
         },
         child: Container(

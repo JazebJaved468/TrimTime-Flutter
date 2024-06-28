@@ -177,7 +177,7 @@ class _ReviewsAndRatingState extends State<ReviewsAndRating> {
                                   color: CustomColors.peelOrange,
                                   size: 30,
                                 )
-                              : Text(
+                              : const Text(
                                   'Submit',
                                   style: TextStyle(
                                     color: CustomColors.peelOrange,

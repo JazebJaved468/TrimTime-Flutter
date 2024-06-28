@@ -5,7 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
-import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/utilities/constants/constants.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
@@ -273,9 +272,9 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             'GST (18%)',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
                               fontFamily: 'Poppins',
@@ -400,7 +399,8 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                       if (mounted) {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()),
                         );
                       }
                     }
@@ -420,7 +420,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                               color: CustomColors.charcoal,
                               size: 30.0,
                             )
-                          : Text(
+                          : const Text(
                               'Book Now',
                               style: TextStyle(
                                   color: Colors.white,

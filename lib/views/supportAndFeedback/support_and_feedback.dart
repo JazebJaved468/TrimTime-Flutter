@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +9,6 @@ import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SupportAndFeedback extends StatefulWidget {
   const SupportAndFeedback({super.key});
@@ -245,7 +243,7 @@ class _SupportAndFeedbackState extends State<SupportAndFeedback> {
                                       ),
                                       const Text(
                                         'Whatsapp',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           color: CustomColors.white,
                                           // fontFamily: 'Poppins',
                                           fontSize: 15,

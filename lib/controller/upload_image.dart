@@ -1,8 +1,3 @@
-import 'dart:typed_data';
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 pickImage(ImageSource source) async {
@@ -18,14 +13,4 @@ pickImage(ImageSource source) async {
     return await _file.readAsBytes();
   }
   print('-------------->Message : no image is selected');
-}
-
-void networkImageToUint8ListSync(String imageUrl) async {
-  final image = NetworkImage(imageUrl);
-  ByteData data = await rootBundle.load(imageUrl);
-
-  List<int> bytes = data.buffer.asUint8List();
-
-  print('image data in bytes ----> ${Uint8List.fromList(bytes)}');
-  // return Uint8List.fromList(bytes);
 }

@@ -1,7 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
@@ -42,7 +39,8 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
       counterText: "",
 
       alignLabelWithHint: true,
-      contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
       // labelText: 'Full Name',
       hintText: placeHolderText,
       hintStyle: TextStyle(color: CustomColors.white.withOpacity(0.6)),
@@ -112,17 +110,17 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                     backgroundImage: NetworkImage(sampleProvider
                         .localDataInProvider['userData']['photoURL']),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
 
                   TextField(
                     cursorColor: CustomColors.white.withOpacity(1),
-                    cursorRadius: Radius.circular(10),
+                    cursorRadius: const Radius.circular(10),
                     cursorOpacityAnimates: true,
                     decoration:
                         getTextFieldDecoration(placeHolderText: 'Full Name'),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: CustomColors.white,
                     ),
@@ -130,26 +128,26 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                     controller: fullNameController,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
 
                   // not styled
                   TextField(
                     cursorColor: CustomColors.white.withOpacity(1),
-                    cursorRadius: Radius.circular(10),
+                    cursorRadius: const Radius.circular(10),
                     cursorOpacityAnimates: true,
                     maxLength: 30,
                     controller: nickNameController,
                     decoration:
                         getTextFieldDecoration(placeHolderText: 'Nick Name'),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: CustomColors.white,
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   TextField(
@@ -163,48 +161,48 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   TextField(
                     cursorColor: CustomColors.white.withOpacity(1),
-                    cursorRadius: Radius.circular(10),
+                    cursorRadius: const Radius.circular(10),
                     cursorOpacityAnimates: true,
                     maxLength: 11,
                     keyboardType: TextInputType.phone,
                     controller: phoneNumberController,
                     decoration:
                         getTextFieldDecoration(placeHolderText: 'Phone Number'),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: CustomColors.white,
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   TextField(
                     cursorColor: CustomColors.white.withOpacity(1),
-                    cursorRadius: Radius.circular(10),
+                    cursorRadius: const Radius.circular(10),
                     cursorOpacityAnimates: true,
                     maxLength: 70,
                     controller: addressController,
                     decoration:
                         getTextFieldDecoration(placeHolderText: 'Address'),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: CustomColors.white,
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Consumer<SampleProvider>(
                     builder: (context, provider, child) {
                       return Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             vertical: 16.0, horizontal: 10),
                         decoration: BoxDecoration(
                           color: CustomColors.charcoal,
@@ -217,7 +215,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                           alignment: Alignment.bottomLeft,
                           isDense: true,
                           elevation: 0,
-                          underline: SizedBox(
+                          underline: const SizedBox(
                             width: 0,
                             height: 0,
                           ),
@@ -236,7 +234,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                               value: item,
                               child: Text(
                                 item.toUpperCase(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: CustomColors.white,
                                 ),
                               ),
@@ -314,11 +312,11 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                               height: 50,
                               child: Center(
                                 child: provider.saveClientProfileCIP
-                                    ? SpinKitFadingCircle(
+                                    ? const SpinKitFadingCircle(
                                         color: CustomColors.charcoal,
                                         size: 26.0,
                                       )
-                                    : Text(
+                                    : const Text(
                                         'Save Profile',
                                         style: TextStyle(
                                           fontSize: 16,

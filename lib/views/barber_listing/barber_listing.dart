@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/components/CustomAppBar.dart';
-import 'package:trim_time/controller/firestore.dart';
-import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barber_profile/barber_profile.dart';
 
@@ -112,7 +109,7 @@ class _BarberListingState extends State<BarberListing> {
           Expanded(
             child: Container(
               // color: Colors.pink,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ListView.builder(
                 itemCount: currentListing.length,
                 itemBuilder: (context, index) {
