@@ -32,7 +32,10 @@ class _RateAppState extends State<RateApp> {
       appBar: CustomAppBar(
         title: 'Rating',
         leftIcon: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: CustomColors.white,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },

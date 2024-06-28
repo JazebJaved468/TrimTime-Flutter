@@ -131,11 +131,11 @@ class BookingCardClient extends StatelessWidget {
   late String serviceId = booking['serviceId'];
 
 // Just for testing
-  // late bool isCancelled = false;
-  // late bool isCompleted = false;
+  // late bool isCancelled = true;
+  // late bool isCompleted = true;
   // late bool isConfirmed = true;
   // late bool isRated = false;
-  // late bool isPaid = false;
+  // late bool isPaid = true;
 
   late String dateTime =
       DateFormat('EEE, d MMM yyyy, h:mm a').format(DateTime.parse(startTime));
@@ -158,6 +158,89 @@ class BookingCardClient extends StatelessWidget {
       return 'Beard Trim';
     } else {
       return 'Massage';
+    }
+  }
+
+  getStatusInfo() {
+    if (!isConfirmed && !isCancelled && !isCompleted && !isPaid && !isRated) {
+      return {
+        'message': 'Pending',
+        'icon': const Icon(
+          Icons.circle,
+          color: Colors.yellowAccent,
+          size: 10,
+        ),
+        'color': Colors.yellowAccent
+      };
+    } else if (isConfirmed &&
+        !isCancelled &&
+        !isCompleted &&
+        !isPaid &&
+        !isRated) {
+      return {
+        'message': 'Confirmed',
+        'icon': const Icon(
+          Icons.circle,
+          color: Colors.greenAccent,
+          size: 10,
+        ),
+        'color': Colors.greenAccent
+      };
+    } else if (isConfirmed &&
+        !isCancelled &&
+        isPaid &&
+        !isCompleted &&
+        !isRated) {
+      return {
+        'message': 'Paid',
+        'icon': const Icon(
+          Icons.check,
+          color: Colors.greenAccent,
+          size: 10,
+        ),
+        'color': Colors.greenAccent
+      };
+    } else {
+      return {
+        'message': '',
+        'icon': const Icon(
+          Icons.cancel,
+          color: Colors.yellowAccent,
+          size: 10,
+        ),
+        'color': Colors.redAccent
+      };
+    }
+  }
+
+  Widget getStatus() {
+    if (getStatusInfo()['message'] != '') {
+      return Positioned(
+        top: 16,
+        right: 16,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          decoration: BoxDecoration(
+            border: Border.all(color: getStatusInfo()['color']),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Wrap(
+              direction: Axis.horizontal,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 6,
+              children: [
+                getStatusInfo()['icon'],
+                Text(
+                  getStatusInfo()['message'],
+                  style:
+                      TextStyle(color: getStatusInfo()['color'], fontSize: 10),
+                ),
+              ]),
+        ),
+      );
+    } else {
+      return Container();
     }
   }
 
@@ -231,174 +314,177 @@ class BookingCardClient extends StatelessWidget {
   Widget build(BuildContext context) {
     // String day = DateFormat('EEEE').format(DateTime.parse(dateTime));
     // String date = DateFormat('d MMM').format(DateTime.parse(dateTime));
-    return Card(
-      color: CustomColors.charcoal,
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    imageUrl,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 10,
-                        children: [
-                          const Icon(Icons.calendar_month,
-                              size: 18, color: CustomColors.white),
-                          Text(
-                            '$day',
-                            style: const TextStyle(color: CustomColors.white),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 10,
-                        children: [
-                          const Icon(Icons.edit_calendar_outlined,
-                              size: 18, color: CustomColors.white),
-                          Text(
-                            '$date',
-                            style: const TextStyle(color: CustomColors.white),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 10,
-                        children: [
-                          const Icon(Icons.timer_outlined,
-                              size: 18, color: CustomColors.white),
-                          Text(
-                            '$startTimeFormatted - $endTimeFormatted',
-                            style: const TextStyle(color: CustomColors.white),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              spacing: 10,
-              children: [
-                const Icon(
-                  Icons.person_outline_rounded,
-                  color: CustomColors.peelOrange,
-                  size: 18,
-                ),
-                Text(
-                  '${capitalizeFirstLetterOfEachWord(barberName)}',
-                  style: const TextStyle(
-                      color: CustomColors.peelOrange,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              spacing: 10,
-              children: [
-                const Icon(Icons.store_mall_directory,
-                    size: 18, color: CustomColors.white),
-                Text(
-                  '${capitalizeFirstLetterOfEachWord(shopName)}',
-                  style: const TextStyle(color: CustomColors.white),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              spacing: 10,
-              children: [
-                const Icon(Icons.phone, size: 18, color: CustomColors.white),
-                Text(
-                  '$phoneNumber',
-                  style: const TextStyle(color: CustomColors.white),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              spacing: 10,
-              children: [
-                const Icon(Icons.shortcut_sharp,
-                    size: 18, color: CustomColors.white),
-                Text(
-                  '$shopAddress',
-                  style: const TextStyle(color: CustomColors.white),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 36,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Stack(children: [
+      Card(
+        color: CustomColors.charcoal,
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
                 children: [
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: 10,
-                    children: [
-                      const Icon(Icons.monetization_on_outlined,
-                          size: 18, color: CustomColors.peelOrange),
-                      Text(
-                        'Rs. $totalAmount',
-                        style: const TextStyle(
-                          color: CustomColors.peelOrange,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.network(
+                      imageUrl,
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  getCustomButton(context: context),
+                  const SizedBox(width: 16),
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 10,
+                          children: [
+                            const Icon(Icons.calendar_month,
+                                size: 18, color: CustomColors.white),
+                            Text(
+                              '$day',
+                              style: const TextStyle(color: CustomColors.white),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 10,
+                          children: [
+                            const Icon(Icons.edit_calendar_outlined,
+                                size: 18, color: CustomColors.white),
+                            Text(
+                              '$date',
+                              style: const TextStyle(color: CustomColors.white),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 10,
+                          children: [
+                            const Icon(Icons.timer_outlined,
+                                size: 18, color: CustomColors.white),
+                            Text(
+                              '$startTimeFormatted - $endTimeFormatted',
+                              style: const TextStyle(color: CustomColors.white),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 10,
+                children: [
+                  const Icon(
+                    Icons.person_outline_rounded,
+                    color: CustomColors.peelOrange,
+                    size: 18,
+                  ),
+                  Text(
+                    '${capitalizeFirstLetterOfEachWord(barberName)}',
+                    style: const TextStyle(
+                        color: CustomColors.peelOrange,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 10,
+                children: [
+                  const Icon(Icons.store_mall_directory,
+                      size: 18, color: CustomColors.white),
+                  Text(
+                    '${capitalizeFirstLetterOfEachWord(shopName)}',
+                    style: const TextStyle(color: CustomColors.white),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 10,
+                children: [
+                  const Icon(Icons.phone, size: 18, color: CustomColors.white),
+                  Text(
+                    '$phoneNumber',
+                    style: const TextStyle(color: CustomColors.white),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 10,
+                children: [
+                  const Icon(Icons.shortcut_sharp,
+                      size: 18, color: CustomColors.white),
+                  Text(
+                    '$shopAddress',
+                    style: const TextStyle(color: CustomColors.white),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 36,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: 10,
+                      children: [
+                        const Icon(Icons.monetization_on_outlined,
+                            size: 18, color: CustomColors.peelOrange),
+                        Text(
+                          'Rs. $totalAmount',
+                          style: const TextStyle(
+                            color: CustomColors.peelOrange,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    getCustomButton(context: context),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    );
+      getStatus(),
+    ]);
   }
 }
