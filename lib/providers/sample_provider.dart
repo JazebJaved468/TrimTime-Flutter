@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:trim_time/controller/date_time.dart';
 import 'package:trim_time/controller/firestore.dart';
@@ -21,6 +22,7 @@ class SampleProvider with ChangeNotifier {
   late Map<String, dynamic> userData;
   late bool isClient;
   bool gender = true;
+  Uint8List? profileImageInBytes;
 
   // CIP : CAll IN PROGRESS
   bool updateSlotsCIP = false;
@@ -696,6 +698,11 @@ class SampleProvider with ChangeNotifier {
   }
 
   // --------------------------------------------------Setters  --------------------------------------------------
+  setProfileImageInBytes(Uint8List? value) {
+    profileImageInBytes = value;
+    notifyListeners();
+  }
+
   setSaveClientProfileCIP(bool value) {
     saveClientProfileCIP = value;
     notifyListeners();

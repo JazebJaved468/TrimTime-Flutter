@@ -5,10 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
-import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/components/CustomDrawer.dart';
-import 'package:trim_time/controller/local_storage.dart';
-import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barber_listing/barber_listing.dart';
 import 'package:trim_time/views/sign_in.dart';
@@ -49,14 +46,15 @@ class _HomeContentState extends State<HomeContent> {
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+
     SampleProvider sampleProvider =
         Provider.of<SampleProvider>(context, listen: false);
+
     return PopScope(
       canPop: false,
       child: Scaffold(
           key: scaffoldkey,
-          drawer: CustomDrawer(),
+          drawer: const CustomDrawer(),
           drawerEnableOpenDragGesture: true,
           appBar: AppBar(
             leadingWidth: 70,
@@ -74,12 +72,12 @@ class _HomeContentState extends State<HomeContent> {
             ),
             elevation: 0,
             centerTitle: true,
-            titleTextStyle: TextStyle(
+            titleTextStyle: const TextStyle(
                 color: CustomColors.white,
                 fontSize: 18,
                 fontWeight: FontWeight.w500),
             backgroundColor: CustomColors.gunmetal,
-            title: Text(
+            title: const Text(
               'Trim Time',
             ),
             actions: [
@@ -130,7 +128,7 @@ class _HomeContentState extends State<HomeContent> {
                                       color: CustomColors.white,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   SvgPicture.asset(

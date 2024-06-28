@@ -32,11 +32,28 @@ class CustomDrawer extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundImage: NetworkImage(sampleProvider
-                      .localDataInProvider['userData']['photoURL']),
-                ),
+                Consumer<SampleProvider>(builder: (context, provider, child) {
+                  return provider.profileImageInBytes != null
+                      ? CircleAvatar(
+                          radius: 60,
+                          backgroundImage:
+                              MemoryImage(sampleProvider.profileImageInBytes!))
+                      : CircleAvatar(
+                          radius: 60,
+                          backgroundImage: NetworkImage(sampleProvider
+                              .localDataInProvider['userData']['photoURL']),
+                        );
+                }),
+                // sampleProvider.profileImageInBytes != null
+                //     ? CircleAvatar(
+                //         radius: 60,
+                //         backgroundImage:
+                //             MemoryImage(sampleProvider.profileImageInBytes!))
+                //     : CircleAvatar(
+                //         radius: 60,
+                //         backgroundImage: NetworkImage(sampleProvider
+                //             .localDataInProvider['userData']['photoURL']),
+                //       ),
                 SizedBox(
                   height: 10,
                 ),

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ffi';
 import 'dart:typed_data';
 
@@ -45,9 +46,12 @@ class _EditProfileState extends State<EditProfileClient> {
   }
 
   Uint8List? _image;
-
   selectImage() async {
-    Uint8List img = await pickImage(ImageSource.gallery);
+    Uint8List? img = await pickImage(ImageSource.gallery);
+    if (img == null) return;
+
+    log('image file size: ${img.lengthInBytes}');
+
     setState(() {
       _image = img;
     });
@@ -121,85 +125,117 @@ class _EditProfileState extends State<EditProfileClient> {
               // mainAxisSize: MainAxisSize.min,
               children: [
                 // const Text('Register Yourself Here!'),
-                _image != null
-                    ? Stack(children: [
-                        Container(
-                          // color: Colors.pink,
-                          width: 126,
-                          height: 126,
-                        ),
-                        CircleAvatar(
-                          radius: 60,
-                          backgroundImage: MemoryImage(_image!),
-                        ),
-                        Positioned(
-                          right: 0,
-                          bottom: 0,
-                          child: IconButton(
-                            onPressed: () {
-                              // setState(() {
-                              //   _image = null;
-                              // });
-                            },
-                            icon: GestureDetector(
-                              onTap: () {
-                                selectImage();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  color: CustomColors.peelOrange,
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Icon(
-                                  Icons.camera_alt_rounded,
-                                  color: CustomColors.black,
-                                  size: 20,
+                Consumer<SampleProvider>(builder: (builder, provider, child) {
+                  return _image != null
+                      ? Stack(children: [
+                          Container(
+                            // color: Colors.pink,
+                            width: 126,
+                            height: 126,
+                          ),
+                          CircleAvatar(
+                            radius: 60,
+                            backgroundImage: MemoryImage(_image!),
+                          ),
+                          Positioned(
+                            right: 0,
+                            bottom: 0,
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: GestureDetector(
+                                onTap: () {
+                                  selectImage();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: CustomColors.peelOrange,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Icon(
+                                    Icons.camera_alt_rounded,
+                                    color: CustomColors.black,
+                                    size: 20,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ])
-                    : Stack(children: [
-                        Container(
-                          width: 126,
-                          height: 126,
-                        ),
-                        CircleAvatar(
-                          radius: 60,
-                          backgroundImage: NetworkImage(sampleProvider
-                              .localDataInProvider['userData']['photoURL']),
-                        ),
-                        Positioned(
-                          right: 0,
-                          bottom: 0,
-                          child: IconButton(
-                            onPressed: () {
-                              // setState(() {
-                              //   _image = null;
-                              // });
-                            },
-                            icon: GestureDetector(
-                              onTap: () {
-                                selectImage();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  color: CustomColors.peelOrange,
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Icon(
-                                  Icons.camera_alt_rounded,
-                                  color: CustomColors.black,
-                                  size: 20,
+                        ])
+                      : sampleProvider.profileImageInBytes != null
+                          ? Stack(children: [
+                              Container(
+                                // color: Colors.pink,
+                                width: 126,
+                                height: 126,
+                              ),
+                              CircleAvatar(
+                                radius: 60,
+                                backgroundImage: MemoryImage(
+                                    sampleProvider.profileImageInBytes!),
+                              ),
+                              Positioned(
+                                right: 0,
+                                bottom: 0,
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: GestureDetector(
+                                    onTap: () {
+                                      selectImage();
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: CustomColors.peelOrange,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      child: Icon(
+                                        Icons.camera_alt_rounded,
+                                        color: CustomColors.black,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
-                      ]),
+                            ])
+                          : Stack(children: [
+                              Container(
+                                width: 126,
+                                height: 126,
+                              ),
+                              CircleAvatar(
+                                radius: 60,
+                                backgroundImage: NetworkImage(sampleProvider
+                                        .localDataInProvider['userData']
+                                    ['photoURL']),
+                              ),
+                              Positioned(
+                                right: 0,
+                                bottom: 0,
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: GestureDetector(
+                                    onTap: () {
+                                      selectImage();
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: CustomColors.peelOrange,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      child: Icon(
+                                        Icons.camera_alt_rounded,
+                                        color: CustomColors.black,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ]);
+                }),
 
                 const SizedBox(
                   height: 30,
@@ -379,6 +415,9 @@ class _EditProfileState extends State<EditProfileClient> {
                             //       'address': addressController.text,
 
                             //     });
+                            if (mounted) {
+                              Navigator.pop(context);
+                            }
 
                             if (_image != null) {
                               final photo =
@@ -435,10 +474,10 @@ class _EditProfileState extends State<EditProfileClient> {
                                 .updateUserDataInLocalStorageByProvider();
 
                             provider.setEditClientProfileCIP(false);
-
-                            if (mounted) {
-                              // Navigator.pop(context);
-                            }
+                            sampleProvider.setProfileImageInBytes(_image);
+                            // if (mounted) {
+                            //   Navigator.pop(context);
+                            // }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
