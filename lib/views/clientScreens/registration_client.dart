@@ -1,9 +1,14 @@
+import 'dart:developer';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/login.dart';
+import 'package:trim_time/controller/upload_image.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/utilities/constants/constants.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
@@ -32,6 +37,8 @@ class ClientRegistrationPage extends StatefulWidget {
 class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
   final isClient = true;
 
+  Uint8List? _image;
+
   late String dropDownValue;
 
   InputDecoration getTextFieldDecoration({required String placeHolderText}) {
@@ -57,6 +64,16 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+
+    selectImage() async {
+      Uint8List? img = await pickImage(ImageSource.gallery);
+      if (img == null) return;
+
+      log('image file size: ${img.lengthInBytes}');
+
+      _image = img;
+      appProvider.notifyListeners();
+    }
 
     TextEditingController fullNameController =
         TextEditingController(text: widget.fullName);
@@ -104,11 +121,79 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                 // mainAxisSize: MainAxisSize.min,
                 children: [
                   // const Text('Register Yourself Here!'),
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundImage: NetworkImage(appProvider
-                        .localDataInProvider['userData']['photoURL']),
-                  ),
+                  Consumer<AppProvider>(builder: (builder, provider, child) {
+                    return _image != null
+                        ? Stack(children: [
+                            Container(
+                              // color: Colors.pink,
+                              width: 126,
+                              height: 126,
+                            ),
+                            CircleAvatar(
+                              radius: 60,
+                              backgroundImage: MemoryImage(_image!),
+                            ),
+                            Positioned(
+                              right: 0,
+                              bottom: 0,
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: GestureDetector(
+                                  onTap: () {
+                                    selectImage();
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: CustomColors.peelOrange,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: Icon(
+                                      Icons.camera_alt_rounded,
+                                      color: CustomColors.black,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ])
+                        : Stack(children: [
+                            Container(
+                              width: 126,
+                              height: 126,
+                            ),
+                            CircleAvatar(
+                              radius: 60,
+                              backgroundImage: NetworkImage(appProvider
+                                  .localDataInProvider['userData']['photoURL']),
+                            ),
+                            Positioned(
+                              right: 0,
+                              bottom: 0,
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: GestureDetector(
+                                  onTap: () {
+                                    selectImage();
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: CustomColors.peelOrange,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: Icon(
+                                      Icons.camera_alt_rounded,
+                                      color: CustomColors.black,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ]);
+                  }),
                   const SizedBox(
                     height: 30,
                   ),
@@ -270,27 +355,81 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                                 phoneNumberController.text.trim().isNotEmpty &&
                                 addressController.text.trim().isNotEmpty) {
                               provider.setSaveClientProfileCIP(true);
-                              await updateUserRegistrationDataInFirestore(
-                                  userId: appProvider
-                                      .localDataInProvider['userData']['uid'],
-                                  isClient: appProvider
+                              // await updateUserRegistrationDataInFirestore(
+                              //     userId: appProvider
+                              //         .localDataInProvider['userData']['uid'],
+                              //     isClient: appProvider
+                              //             .localDataInProvider['userData']
+                              //         ['isClient'],
+                              //     data: {
+                              //       'isRegistered': true,
+                              //       'name': fullNameController.text,
+                              //       'nickName': nickNameController.text,
+                              //       'email': emailController.text,
+                              //       'phoneNumber': phoneNumberController.text,
+                              //       'gender':
+                              //           appProvider.clientGender.toLowerCase(),
+                              //       'address': addressController.text,
+                              //     });
+                              if (_image != null) {
+                                final photo =
+                                    await appProvider.updateUserProflileImage(
+                                        userId: appProvider
+                                                .localDataInProvider['userData']
+                                            ['uid'],
+                                        isClient: appProvider
+                                                .localDataInProvider['userData']
+                                            ['isClient'],
+                                        file: _image);
+
+                                await updateUserRegistrationDataInFirestore(
+                                    userId: appProvider
+                                        .localDataInProvider['userData']['uid'],
+                                    isClient: appProvider
+                                            .localDataInProvider['userData']
+                                        ['isClient'],
+                                    data: {
+                                      'isRegistered': true,
+                                      'name': fullNameController.text,
+                                      'nickName': nickNameController.text,
+                                      'phoneNumber': phoneNumberController.text,
+                                      'gender': appProvider
                                           .localDataInProvider['userData']
-                                      ['isClient'],
-                                  data: {
-                                    'isRegistered': true,
-                                    'name': fullNameController.text,
-                                    'nickName': nickNameController.text,
-                                    'email': emailController.text,
-                                    'phoneNumber': phoneNumberController.text,
-                                    'gender':
-                                        appProvider.clientGender.toLowerCase(),
-                                    'address': addressController.text,
-                                  });
+                                              ['gender']
+                                          .toLowerCase(),
+                                      'address': addressController.text,
+                                      'photoURL': photo == ''
+                                          ? appProvider.localDataInProvider[
+                                              'userData']['photoURL']
+                                          : photo,
+                                    });
+                              } else {
+                                await updateUserRegistrationDataInFirestore(
+                                    userId: appProvider
+                                        .localDataInProvider['userData']['uid'],
+                                    isClient: appProvider
+                                            .localDataInProvider['userData']
+                                        ['isClient'],
+                                    data: {
+                                      'isRegistered': true,
+                                      'name': fullNameController.text,
+                                      'nickName': nickNameController.text,
+                                      'phoneNumber': phoneNumberController.text,
+                                      'gender': appProvider
+                                          .localDataInProvider['userData']
+                                              ['gender']
+                                          .toLowerCase(),
+                                      'address': addressController.text,
+                                    });
+                              }
 
                               appProvider
                                   .updateUserDataInLocalStorageByProvider();
 
                               provider.setSaveClientProfileCIP(false);
+                              if (_image != null) {
+                                appProvider.setProfileImageInBytes(_image);
+                              }
 
                               if (mounted) {
                                 Navigator.pushReplacement(

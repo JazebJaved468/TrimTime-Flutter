@@ -44,20 +44,30 @@ class _EditProfileState extends State<EditProfileClient> {
   }
 
   Uint8List? _image;
-  selectImage() async {
-    Uint8List? img = await pickImage(ImageSource.gallery);
-    if (img == null) return;
+  // selectImage() async {
+  //   Uint8List? img = await pickImage(ImageSource.gallery);
+  //   if (img == null) return;
 
-    log('image file size: ${img.lengthInBytes}');
+  //   log('image file size: ${img.lengthInBytes}');
 
-    setState(() {
-      _image = img;
-    });
-  }
+  //   setState(() {
+  //     _image = img;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+
+    selectImage() async {
+      Uint8List? img = await pickImage(ImageSource.gallery);
+      if (img == null) return;
+
+      log('image file size: ${img.lengthInBytes}');
+
+      _image = img;
+      appProvider.notifyListeners();
+    }
 
     TextEditingController fullNameController = TextEditingController(
         text: appProvider.localDataInProvider['userData']['name']);
@@ -73,7 +83,8 @@ class _EditProfileState extends State<EditProfileClient> {
     TextEditingController addressController = TextEditingController(
         text: appProvider.localDataInProvider['userData']['address']);
 
-    print(appProvider.localDataInProvider['userData']['gender']);
+    // print(appProvider.localDataInProvider['userData']['gender']);
+    print('image: ${appProvider.profileImageInBytes}');
 
     return Scaffold(
         // resizeToAvoidBottomInset: false,
@@ -471,7 +482,9 @@ class _EditProfileState extends State<EditProfileClient> {
                                 .updateUserDataInLocalStorageByProvider();
 
                             provider.setEditClientProfileCIP(false);
-                            appProvider.setProfileImageInBytes(_image);
+                            if (_image != null) {
+                              appProvider.setProfileImageInBytes(_image);
+                            }
                             // if (mounted) {
                             //   Navigator.pop(context);
                             // }
