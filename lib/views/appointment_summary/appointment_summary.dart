@@ -5,6 +5,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/utilities/helpers/functions.dart';
+import 'package:trim_time/views/checkout/checkout.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/utilities/constants/constants.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
@@ -88,7 +90,8 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             ),
                           ),
                           Text(
-                            appProvider.selectedBarber['name'],
+                            capitalizeFirstLetterOfEachWord(
+                                appProvider.selectedBarber['name']),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -112,7 +115,8 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             ),
                           ),
                           Text(
-                            appProvider.selectedBarber['shopName'],
+                            capitalizeFirstLetterOfEachWord(
+                                appProvider.selectedBarber['shopName']),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -140,7 +144,8 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                           ),
                           Flexible(
                             child: Text(
-                              appProvider.selectedBarber['shopAddress'],
+                              capitalizeFirstLetterOfEachWord(
+                                  appProvider.selectedBarber['shopAddress']),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,

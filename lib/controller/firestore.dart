@@ -21,6 +21,23 @@ getPopularBarbersFromFireStore() async {
   return allBarbers.take(3).toList();
 }
 
+payBarberInFirestore({
+  required String barberId,
+  required String clientId,
+  required String bookingId,
+  required int paidAmount,
+}) async {
+  print('-----------------> Paying Barber In FireStore <-----------------');
+  CollectionReference bookings =
+      FirebaseFirestore.instance.collection('bookings');
+
+  await bookings.doc(bookingId).update({
+    'isPaid': true,
+    'paidAmount': paidAmount,
+    'updatedAt': DateTime.now().toIso8601String(),
+  });
+}
+
 rateBarberInFirestore({
   required String barberId,
   required String clientId,
