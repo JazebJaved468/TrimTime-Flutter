@@ -6,6 +6,7 @@ import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/utilities/helpers/functions.dart';
 import 'package:trim_time/views/editProfile/edit_profile.dart';
+import 'package:trim_time/views/faq/faq.dart';
 import 'package:trim_time/views/rateApp/rate_app.dart';
 import 'package:trim_time/views/sign_in.dart';
 import 'package:trim_time/views/supportAndFeedback/support_and_feedback.dart';
@@ -77,6 +78,7 @@ class CustomDrawer extends StatelessWidget {
                   icon: const Icon(Icons.person, color: CustomColors.white),
                   title: 'My Profile',
                   onTap: () {
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -90,6 +92,7 @@ class CustomDrawer extends StatelessWidget {
                       color: CustomColors.white),
                   title: 'Customer Support',
                   onTap: () {
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -102,6 +105,7 @@ class CustomDrawer extends StatelessWidget {
                       color: CustomColors.white),
                   title: 'Rate App',
                   onTap: () {
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const RateApp()),
@@ -109,13 +113,89 @@ class CustomDrawer extends StatelessWidget {
                   },
                 ),
                 DrawerItem(
+                  icon: const Icon(Icons.question_answer_rounded,
+                      color: CustomColors.white),
+                  title: 'FAQs',
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FAQScreen()),
+                    );
+                  },
+                ),
+                DrawerItem(
                   icon: const Icon(Icons.logout, color: CustomColors.white),
                   title: 'Logout',
                   onTap: () async {
-                    await appProvider.handleLogoutByProvider();
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => const SignIn()),
-                        (Route route) => false);
+                    // await appProvider.handleLogoutByProvider();
+                    // Navigator.of(context).pushAndRemoveUntil(
+                    //     MaterialPageRoute(builder: (context) => const SignIn()),
+                    //     (Route route) => false);
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        titlePadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
+                        backgroundColor: CustomColors.charcoal,
+                        title: const Text(
+                          "Are You Sure You Want To Logout?",
+                          style: TextStyle(
+                            color: CustomColors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                          ),
+                        ),
+                        content: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: CustomColors.peelOrange,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  )),
+                              child: const Text(
+                                'Cancel',
+                                style: TextStyle(
+                                  color: CustomColors.white,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                await appProvider.handleLogoutByProvider();
+
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) => const SignIn()),
+                                    (Route route) => false);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: CustomColors.peelOrange,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  )),
+                              child: const Text(
+                                'Logout',
+                                style: TextStyle(
+                                  color: CustomColors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   },
                 ),
 
@@ -178,10 +258,10 @@ class DrawerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pop(context);
         onTap();
       },
       child: Container(
+        color: Colors.transparent,
         height: 54,
         padding: const EdgeInsets.only(left: 20),
         child: Row(

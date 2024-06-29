@@ -82,10 +82,69 @@ class _HomeContentState extends State<HomeContent> {
             actions: [
               IconButton(
                 onPressed: () async {
-                  await appProvider.handleLogoutByProvider();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const SignIn()),
-                      (Route route) => false);
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      titlePadding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
+                      backgroundColor: CustomColors.charcoal,
+                      title: const Text(
+                        "Are You Sure You Want To Logout?",
+                        style: TextStyle(
+                          color: CustomColors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                        ),
+                      ),
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: CustomColors.peelOrange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                )),
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(
+                                color: CustomColors.white,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              await appProvider.handleLogoutByProvider();
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => const SignIn()),
+                                  (Route route) => false);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: CustomColors.peelOrange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                )),
+                            child: const Text(
+                              'Logout',
+                              style: TextStyle(
+                                color: CustomColors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
                 },
                 icon: const Icon(
                   Icons.logout,
