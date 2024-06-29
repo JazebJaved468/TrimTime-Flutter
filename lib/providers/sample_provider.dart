@@ -100,7 +100,8 @@ class AppProvider with ChangeNotifier {
       }
     }
     setIsAppInitialLoading(false);
-    print('local data in provider ----> $localDataInProvider');
+    print(
+        'local data in provider ----> ${localDataInProvider['userData']['isRegistered']}');
   }
 
   handleLoginByProvider(
@@ -221,6 +222,7 @@ class AppProvider with ChangeNotifier {
     resetInAppFavouriteList();
     resetLocalDataInProvider();
     resetAllBarbers();
+    resetMemoryImage();
   }
 
   rateAppByProvider(
@@ -873,6 +875,10 @@ class AppProvider with ChangeNotifier {
 
   resetAllBarbers() {
     allBarbers = [];
+  }
+
+  resetMemoryImage() {
+    profileImageInBytes = null;
   }
 
   // ---------------------------------------------------- Rough Work ----------------------------------------

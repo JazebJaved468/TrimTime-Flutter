@@ -338,130 +338,135 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                       width: double.infinity,
                       margin: const EdgeInsets.only(top: 30.0),
                       child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            backgroundColor: CustomColors.peelOrange,
-                            // padding: const EdgeInsets.symmetric(
-                            //     vertical: 14.0, horizontal: 0.0),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
                           ),
-                          onPressed: () async {
-                            print('before firebase function call');
+                          backgroundColor: CustomColors.peelOrange,
+                          // padding: const EdgeInsets.symmetric(
+                          //     vertical: 14.0, horizontal: 0.0),
+                        ),
+                        onPressed: () async {
+                          print('before firebase function call');
 
-                            if (fullNameController.text.trim().isNotEmpty &&
-                                nickNameController.text.trim().isNotEmpty &&
-                                phoneNumberController.text.trim().isNotEmpty &&
-                                addressController.text.trim().isNotEmpty) {
-                              provider.setSaveClientProfileCIP(true);
-                              // await updateUserRegistrationDataInFirestore(
-                              //     userId: appProvider
-                              //         .localDataInProvider['userData']['uid'],
-                              //     isClient: appProvider
-                              //             .localDataInProvider['userData']
-                              //         ['isClient'],
-                              //     data: {
-                              //       'isRegistered': true,
-                              //       'name': fullNameController.text,
-                              //       'nickName': nickNameController.text,
-                              //       'email': emailController.text,
-                              //       'phoneNumber': phoneNumberController.text,
-                              //       'gender':
-                              //           appProvider.clientGender.toLowerCase(),
-                              //       'address': addressController.text,
-                              //     });
-                              if (_image != null) {
-                                final photo =
-                                    await appProvider.updateUserProflileImage(
-                                        userId: appProvider
-                                                .localDataInProvider['userData']
-                                            ['uid'],
-                                        isClient: appProvider
-                                                .localDataInProvider['userData']
-                                            ['isClient'],
-                                        file: _image);
+                          if (fullNameController.text.trim().isNotEmpty &&
+                              nickNameController.text.trim().isNotEmpty &&
+                              phoneNumberController.text.trim().isNotEmpty &&
+                              addressController.text.trim().isNotEmpty) {
+                            provider.setSaveClientProfileCIP(true);
+                            // await updateUserRegistrationDataInFirestore(
+                            //     userId: appProvider
+                            //         .localDataInProvider['userData']['uid'],
+                            //     isClient: appProvider
+                            //             .localDataInProvider['userData']
+                            //         ['isClient'],
+                            //     data: {
+                            //       'isRegistered': true,
+                            //       'name': fullNameController.text,
+                            //       'nickName': nickNameController.text,
+                            //       'email': emailController.text,
+                            //       'phoneNumber': phoneNumberController.text,
+                            //       'gender':
+                            //           appProvider.clientGender.toLowerCase(),
+                            //       'address': addressController.text,
+                            //     });
+                            if (_image != null) {
+                              final photo =
+                                  await appProvider.updateUserProflileImage(
+                                      userId: appProvider
+                                              .localDataInProvider['userData']
+                                          ['uid'],
+                                      isClient: appProvider
+                                              .localDataInProvider['userData']
+                                          ['isClient'],
+                                      file: _image);
 
-                                await updateUserRegistrationDataInFirestore(
-                                    userId: appProvider
-                                        .localDataInProvider['userData']['uid'],
-                                    isClient: appProvider
-                                            .localDataInProvider['userData']
-                                        ['isClient'],
-                                    data: {
-                                      'isRegistered': true,
-                                      'name': fullNameController.text,
-                                      'nickName': nickNameController.text,
-                                      'phoneNumber': phoneNumberController.text,
-                                      'gender': appProvider
+                              await updateUserRegistrationDataInFirestore(
+                                  userId: appProvider
+                                      .localDataInProvider['userData']['uid'],
+                                  isClient: appProvider
                                           .localDataInProvider['userData']
-                                              ['gender']
-                                          .toLowerCase(),
-                                      'address': addressController.text,
-                                      'photoURL': photo == ''
-                                          ? appProvider.localDataInProvider[
-                                              'userData']['photoURL']
-                                          : photo,
-                                    });
-                              } else {
-                                await updateUserRegistrationDataInFirestore(
-                                    userId: appProvider
-                                        .localDataInProvider['userData']['uid'],
-                                    isClient: appProvider
-                                            .localDataInProvider['userData']
-                                        ['isClient'],
-                                    data: {
-                                      'isRegistered': true,
-                                      'name': fullNameController.text,
-                                      'nickName': nickNameController.text,
-                                      'phoneNumber': phoneNumberController.text,
-                                      'gender': appProvider
-                                          .localDataInProvider['userData']
-                                              ['gender']
-                                          .toLowerCase(),
-                                      'address': addressController.text,
-                                    });
-                              }
-
-                              appProvider
-                                  .updateUserDataInLocalStorageByProvider();
-
-                              provider.setSaveClientProfileCIP(false);
-                              if (_image != null) {
-                                appProvider.setProfileImageInBytes(_image);
-                              }
-
-                              if (mounted) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const HomeScreen()),
-                                );
-                              }
+                                      ['isClient'],
+                                  data: {
+                                    'isRegistered': true,
+                                    'name': fullNameController.text.trim(),
+                                    'nickName': nickNameController.text.trim(),
+                                    'phoneNumber':
+                                        phoneNumberController.text.trim(),
+                                    'gender': appProvider
+                                        .localDataInProvider['userData']
+                                            ['gender']
+                                        .toLowerCase(),
+                                    'address': addressController.text,
+                                    'photoURL': photo == ''
+                                        ? appProvider
+                                                .localDataInProvider['userData']
+                                            ['photoURL']
+                                        : photo,
+                                  });
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Kindly fill all the fields"),
-                                ),
+                              await updateUserRegistrationDataInFirestore(
+                                  userId: appProvider
+                                      .localDataInProvider['userData']['uid'],
+                                  isClient: appProvider
+                                          .localDataInProvider['userData']
+                                      ['isClient'],
+                                  data: {
+                                    'isRegistered': true,
+                                    'name': fullNameController.text.trim(),
+                                    'nickName': nickNameController.text.trim(),
+                                    'phoneNumber':
+                                        phoneNumberController.text.trim(),
+                                    'gender': appProvider
+                                        .localDataInProvider['userData']
+                                            ['gender']
+                                        .toLowerCase(),
+                                    'address': addressController.text,
+                                  });
+                            }
+
+                            appProvider
+                                .updateUserDataInLocalStorageByProvider();
+
+                            provider.setSaveClientProfileCIP(false);
+                            if (_image != null) {
+                              appProvider.setProfileImageInBytes(_image);
+                            }
+
+                            if (mounted) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomeScreen()),
                               );
                             }
-                          },
-                          child: Container(
-                              height: 50,
-                              child: Center(
-                                child: provider.saveClientProfileCIP
-                                    ? const SpinKitFadingCircle(
-                                        color: CustomColors.charcoal,
-                                        size: 26.0,
-                                      )
-                                    : const Text(
-                                        'Save Profile',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: CustomColors.white,
-                                        ),
-                                      ),
-                              ))),
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Kindly fill all the fields"),
+                              ),
+                            );
+                          }
+                        },
+                        child: Container(
+                          height: 50,
+                          child: Center(
+                            child: provider.saveClientProfileCIP
+                                ? const SpinKitFadingCircle(
+                                    color: CustomColors.charcoal,
+                                    size: 26.0,
+                                  )
+                                : const Text(
+                                    'Save Profile',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: CustomColors.white,
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ),
                     );
                   }),
                 ],

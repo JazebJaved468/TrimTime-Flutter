@@ -369,6 +369,7 @@ createBookingInFirestore({
           DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
 
       if (selectedDateFormatted == fomattedDate) {
+        barberData['availability'][_date]['hasBooking'] = true;
         barberData['availability'][_date]['slots'].forEach((_slot) {
           if (_slot['slotId'] == slot['slotId']) {
             _slot['isBooked'] = true;
@@ -413,7 +414,6 @@ storeUserDataInFirestore(
       'phoneNumber': user.user!.phoneNumber ?? '',
       'isRegistered': false,
       'nickName': '',
-      'address': '',
       'gender': 'male',
       'favourites': [],
       'bookings': [],
