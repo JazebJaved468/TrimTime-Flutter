@@ -1,5 +1,7 @@
 import 'package:trim_time/views/faq/faq.dart';
 
+const ADVANCE_PAYMENT_PERCENTAGE = 40;
+
 const CLIENT_ID =
     '132866959008-ivs96rvps42v8s1dgo9bsbvecnuj01a1.apps.googleusercontent.com';
 
@@ -23,7 +25,7 @@ final List<FAQ> faqItems = [
     question:
         "How much is the advance payment required for booking an appointment?",
     answer:
-        "A user has to pay 60% of the total amount in advance to successfully book an appointment.",
+        "A user has to pay $ADVANCE_PAYMENT_PERCENTAGE% of the total amount in advance to successfully book an appointment.",
   ),
   FAQ(
     question:

@@ -46,6 +46,7 @@ class AppProvider with ChangeNotifier {
   bool isSlotTileExpanded = false;
   bool saveClientProfileCIP = false;
   bool editClientProfileCIP = false;
+  bool payBarberCIP = false;
 
   // Client : CLient Booking Flow States
   Map<String, dynamic> selectedBarber = {};
@@ -258,6 +259,26 @@ class AppProvider with ChangeNotifier {
     completedBookingsClient.forEach((booking) {
       if (booking['id'] == bookingId) {
         booking['isRated'] = true;
+        // print(booking);
+      }
+      notifyListeners();
+    });
+  }
+
+  payBarberByProvider(
+      {required String barberId,
+      required String bookingId,
+      required int paidAmount}) async {
+    await payBarberInFirestore(
+      barberId: barberId,
+      clientId: uid,
+      bookingId: bookingId,
+      paidAmount: paidAmount,
+    );
+
+    upcomingBookingsClient.forEach((booking) {
+      if (booking['id'] == bookingId) {
+        booking['isPaid'] = true;
         // print(booking);
       }
       notifyListeners();
@@ -771,6 +792,11 @@ class AppProvider with ChangeNotifier {
 
   setRateBarberCIP(bool value) {
     rateBarberCIP = value;
+    notifyListeners();
+  }
+
+  setPayBarberCIP(bool value) {
+    payBarberCIP = value;
     notifyListeners();
   }
 

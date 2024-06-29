@@ -5,7 +5,9 @@ import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/components/EmptyList.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:trim_time/utilities/constants/constants.dart';
 import 'package:trim_time/utilities/helpers/functions.dart';
+import 'package:trim_time/views/checkout/checkout.dart';
 import 'package:trim_time/views/reviewsAndRating/reviews.dart';
 
 class BookingScreen extends StatefulWidget {
@@ -192,7 +194,7 @@ class BookingCardClient extends StatelessWidget {
         !isCompleted &&
         !isRated) {
       return {
-        'message': 'Paid',
+        'message': 'Paid $ADVANCE_PAYMENT_PERCENTAGE%',
         'icon': const Icon(
           Icons.check,
           color: Colors.greenAccent,
@@ -213,107 +215,140 @@ class BookingCardClient extends StatelessWidget {
     }
   }
 
-  Widget getStatus() {
-    if (getStatusInfo()['message'] != '') {
-      return Positioned(
-        top: 16,
-        right: 16,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          decoration: BoxDecoration(
-            border: Border.all(color: getStatusInfo()['color']),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Wrap(
-              direction: Axis.horizontal,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              spacing: 6,
-              children: [
-                getStatusInfo()['icon'],
-                Text(
-                  getStatusInfo()['message'],
-                  style:
-                      TextStyle(color: getStatusInfo()['color'], fontSize: 10),
-                ),
-              ]),
-        ),
-      );
-    } else {
-      return Container();
-    }
-  }
-
-  Widget getCustomButton({required BuildContext context}) {
-    if (!isCancelled &&
-        (!isConfirmed || isConfirmed) &&
-        !isPaid &&
-        !isRated &&
-        !isCompleted) {
-      return Container(
-        child: ElevatedButton(
-          onPressed: () {
-            if (!isConfirmed) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                      'Please wait for the barber to confirm your booking'),
-                ),
-              );
-            } else {
-              //  paymentFunction();
-            }
-          },
-          style: ElevatedButton.styleFrom(
-              backgroundColor: CustomColors.peelOrange),
-          child: const Text(
-            'Pay',
-            style: TextStyle(color: CustomColors.white),
-          ),
-        ),
-      );
-    } else if (!isCancelled && !isRated && isCompleted && isPaid) {
-      return Container(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ReviewsAndRating(
-                  bookingData: booking,
-                ),
-              ),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-              backgroundColor: CustomColors.peelOrange),
-          child: const Text(
-            'Rate',
-            style: TextStyle(color: CustomColors.white),
-          ),
-        ),
-      );
-    } else if (!isCancelled && isCompleted && isPaid && isRated) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        decoration: BoxDecoration(
-          border: Border.all(color: CustomColors.peelOrange),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: const Text(
-          'Rated',
-          style: TextStyle(color: Colors.white),
-        ),
-      );
-    }
-
-    return Container();
-  }
-
   @override
   Widget build(BuildContext context) {
     // String day = DateFormat('EEEE').format(DateTime.parse(dateTime));
     // String date = DateFormat('d MMM').format(DateTime.parse(dateTime));
+
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+
+    Widget getStatus() {
+      if (getStatusInfo()['message'] != '') {
+        return Positioned(
+          top: 16,
+          right: 16,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            decoration: BoxDecoration(
+              border: Border.all(color: getStatusInfo()['color']),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Wrap(
+                direction: Axis.horizontal,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 6,
+                children: [
+                  getStatusInfo()['icon'],
+                  Text(
+                    getStatusInfo()['message'],
+                    style: TextStyle(
+                        color: getStatusInfo()['color'], fontSize: 10),
+                  ),
+                ]),
+          ),
+        );
+      } else {
+        return Container();
+      }
+    }
+
+    Widget getCustomButton({required BuildContext context}) {
+      if (!isCancelled && !isPaid && !isRated && !isCompleted) {
+        return Container(
+          child: ElevatedButton(
+            onPressed: () async {
+              if (!isConfirmed) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                        'Please wait for the barber to confirm your booking'),
+                  ),
+                );
+              } else {
+                //  paymentFunction();
+
+                Map amounts = calculatePercentages(int.parse(totalAmount));
+                int amountToPay = amounts['amountToPay'];
+
+                print('do pay call start');
+                var res = await StripePaymentHandle()
+                    .MakePayment(amountToPay.toString());
+
+                if (res == 0) {
+                  print('Payment success');
+                  appProvider.payBarberByProvider(
+                      barberId: booking['barberId'],
+                      bookingId: bookingId,
+                      paidAmount: amountToPay);
+                }
+
+                print('do pay call end');
+              }
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.peelOrange),
+            child: const Text(
+              'Pay',
+              style: TextStyle(color: CustomColors.white),
+            ),
+          ),
+        );
+      } else if (!isCancelled &&
+          isConfirmed &&
+          isPaid &&
+          !isRated &&
+          !isCompleted) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          decoration: BoxDecoration(
+            border: Border.all(color: CustomColors.peelOrange),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            'Remaining Amount : Rs. ${calculatePercentages(int.parse(totalAmount))['remainingAmount']}',
+            style: TextStyle(color: Colors.white, fontSize: 12),
+          ),
+        );
+      } else if (!isCancelled && !isRated && isCompleted && isPaid) {
+        return Container(
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ReviewsAndRating(
+                    bookingData: booking,
+                  ),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.peelOrange),
+            child: const Text(
+              'Rate',
+              style: TextStyle(color: CustomColors.white),
+            ),
+          ),
+        );
+      } else if (!isCancelled && isCompleted && isPaid && isRated) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          decoration: BoxDecoration(
+            border: Border.all(color: CustomColors.peelOrange),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: const Text(
+            'Rated',
+            style: TextStyle(color: Colors.white),
+          ),
+        );
+      }
+
+      return Container();
+    }
+
+// build func
     return Stack(children: [
       Card(
         color: CustomColors.charcoal,

@@ -8,7 +8,7 @@ import 'package:currency_converter/currency_converter.dart';
 class StripePaymentHandle {
   Map<String, dynamic>? paymentIntent;
 
-  Future<void> MakePayment(String amount) async {
+  Future<int> MakePayment(String amount) async {
     try {
       paymentIntent = await createPaymentIntent(amount, 'INR');
 
@@ -32,19 +32,22 @@ class StripePaymentHandle {
           .then((value) {});
 
       //STEP 3: Display Payment sheet
-      displayPaymentSheet();
+      int responseCode = await displayPaymentSheet();
+      return responseCode;
     } catch (e) {
       print(e.toString());
       Fluttertoast.showToast(msg: e.toString());
+      return 1;
     }
   }
 
-  displayPaymentSheet() async {
+  Future<int> displayPaymentSheet() async {
     try {
       // 3. display the payment sheet.
       await Stripe.instance.presentPaymentSheet();
 
       Fluttertoast.showToast(msg: 'Payment successfully completed');
+      return 0;
     } on Exception catch (e) {
       if (e is StripeException) {
         Fluttertoast.showToast(
@@ -52,6 +55,8 @@ class StripePaymentHandle {
       } else {
         Fluttertoast.showToast(msg: 'Unforeseen error: ${e}');
       }
+
+      return 1;
     }
   }
 
@@ -70,7 +75,8 @@ class StripePaymentHandle {
       var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
         headers: {
-          'Authorization': 'Bearer sk_test_51NU517SBDQj9WtJX4rAgzOh9hnKg40cQIEBNKmEYgD7Sy4DAkdnDagYRXSVRQ16q1ZlY9HfKsS0LoISALGZ8v6Hv00cyBPNt8a',
+          'Authorization':
+              'Bearer sk_test_51NU517SBDQj9WtJX4rAgzOh9hnKg40cQIEBNKmEYgD7Sy4DAkdnDagYRXSVRQ16q1ZlY9HfKsS0LoISALGZ8v6Hv00cyBPNt8a',
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: body,

@@ -1,3 +1,5 @@
+import 'package:trim_time/utilities/constants/constants.dart';
+
 String capitalizeFirstLetterOfEachWord(String input) {
   return input.split(' ').map((word) {
     if (word.isEmpty) return word;
@@ -20,4 +22,15 @@ String capitalizeFirstLetter(String input) {
   String firstWord = input.substring(0, firstSpaceIndex);
   String restOfString = input.substring(firstSpaceIndex);
   return firstWord[0].toUpperCase() + firstWord.substring(1) + restOfString;
+}
+
+Map<String, int> calculatePercentages(int amount) {
+  int amountToPay = (amount * ADVANCE_PAYMENT_PERCENTAGE / 100).round(); // 40%
+  int remainingAmount =
+      (amount * (100 - ADVANCE_PAYMENT_PERCENTAGE) / 100).round(); // 60%
+
+  return {
+    'amountToPay': amountToPay,
+    'remainingAmount': remainingAmount,
+  };
 }
