@@ -45,6 +45,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Ignore the .dart_tool/chrom-device directory
-.dart_tool/chrom-device/
-
+# Ignore these directories
+.dart_tool/chrome-device/
+/android/.gradle/7.6.3/checksums
+/android/.gradle/7.6.3/fileHashes
+/android/.gradle/buildOutputCleanup

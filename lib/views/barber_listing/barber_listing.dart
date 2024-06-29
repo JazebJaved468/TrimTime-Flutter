@@ -1,160 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/components/CustomAppBar.dart';
+import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/utilities/helpers/functions.dart';
 import 'package:trim_time/views/barber_profile/barber_profile.dart';
 
 class BarberListing extends StatefulWidget {
+  const BarberListing({super.key});
+
+  // final List<Map<String, dynamic>> allBarbers;
+
   @override
-  _BarberListingState createState() => _BarberListingState();
+  State<BarberListing> createState() => _BarberListingState();
 }
 
 class _BarberListingState extends State<BarberListing> {
-  bool clicked = false;
+  final isClient = true;
   int selectedIndex = 0;
 
-  final List<Map<String, String>> haircut = [
-    {
-      'barberName': 'Barbarella Inova',
-      'shopName': 'Belle Curls',
-      'stars': '4.5',
-      'imageUrl': 'assets/images/1.jpg',
-    },
-    {
-      'barberName': 'Choppers',
-      'shopName': 'Bella Curls',
-      'stars': '4.5',
-      'imageUrl': 'assets/images/4.jpg',
-    },
-    {
-      'barberName': 'Barbarella',
-      'shopName': 'Belle Curls',
-      'stars': '4.6',
-      'imageUrl': 'assets/images/5.jpg',
-    },
-  ];
-
-  final List<Map<String, String>> beardTrim = [
-    {
-      'barberName': 'Jane Smith',
-      'shopName': 'Pretty Parlor',
-      'stars': "4.3",
-      'imageUrl': 'assets/images/3.jpg',
-    },
-  ];
-
-  final List<Map<String, String>> hairColoring = [
-    {
-      'barberName': 'Jane Smith',
-      'shopName': 'Pretty Parlor',
-      'stars': "4.3",
-      'imageUrl': 'assets/images/testpic.jpg',
-    },
-    {
-      'barberName': 'Jane Smith',
-      'shopName': 'Pretty Parlor',
-      'stars': "4.3",
-      'imageUrl': 'assets/images/testpic.jpg',
-    },
-  ];
-
-  final List<Map<String, String>> faceTreatment = [
-    {
-      'barberName': 'Jane Smith',
-      'shopName': 'Pretty Parlor',
-      'stars': "4.3",
-      'imageUrl': 'assets/images/testpic.jpg',
-    },
-    {
-      'barberName': 'Jane Smith',
-      'shopName': 'Pretty Parlor',
-      'stars': "4.3",
-      'imageUrl': 'assets/images/testpic.jpg',
-    },
-    {
-      'barberName': 'Jane Smith',
-      'shopName': 'Pretty Parlor',
-      'stars': "4.3",
-      'imageUrl': 'assets/images/testpic.jpg',
-    },
-  ];
-
-  // Combine all the lists into one
-  List<Map<String, String>> combineServices() {
-    return []
-      ..addAll(haircut)
-      ..addAll(beardTrim)
-      ..addAll(hairColoring)
-      ..addAll(faceTreatment);
-    //The cascade operator (..) allows you to perform a sequence of operations on the same object. In this case, it's used to add all the elements from the haircut, beardTrim, hairColoring, and faceTreatment lists to the empty list.
-  }
+  late List currentListing;
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> currentBookings;
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     switch (selectedIndex) {
       case 1:
-        currentBookings = haircut;
+        currentListing = appProvider.haircutFilterBarbers;
         break;
       case 2:
-        currentBookings = beardTrim;
+        currentListing = appProvider.shaveFilterBarbers;
         break;
       case 3:
-        currentBookings = hairColoring;
+        currentListing = appProvider.beardTrimFilterBarbers;
         break;
       case 4:
-        currentBookings = faceTreatment;
+        currentListing = appProvider.massageFilterBarbers;
         break;
       default:
-        currentBookings = combineServices();
+        currentListing = appProvider.allBarbers;
     }
 
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
-      appBar: AppBar(
-        backgroundColor: CustomColors.gunmetal,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: const Text(
-          'Barbers',
-          style: TextStyle(color: Colors.white),
-        ),
-        elevation: 0,
+      appBar: CustomAppBar(
+        title: 'Barbers',
       ),
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            child: TextFormField(
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                  hintText: 'Search',
-                  hintStyle: const TextStyle(
-                      color: Colors.grey, fontFamily: 'Raleway'),
-                  fillColor: CustomColors.charcoal,
-                  filled: true,
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                  ),
-                  // suffixIcon: const Icon(
-                  //   Icons.visibility_off_outlined,
-                  // ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    // borderSide: const BorderSide(color: Color(0xffE4E7EB)),
-                    borderRadius: BorderRadius.circular(15),
-                  )),
-            ),
-          ),
-          const SizedBox(height: 5),
+          // Container(
+          //   padding: const EdgeInsets.all(5),
+          //   margin: const EdgeInsets.symmetric(horizontal: 10),
+          //   child: TextFormField(
+          //     style: const TextStyle(color: Colors.white),
+          //     decoration: InputDecoration(
+          //         hintText: 'Search',
+          //         hintStyle: const TextStyle(
+          //             color: Colors.grey, fontFamily: 'Raleway'),
+          //         fillColor: CustomColors.charcoal,
+          //         filled: true,
+          //         prefixIcon: const Icon(
+          //           Icons.search,
+          //           color: Colors.grey,
+          //         ),
+          //         // suffixIcon: const Icon(
+          //         //   Icons.visibility_off_outlined,
+          //         // ),
+          //         focusedBorder: OutlineInputBorder(
+          //           borderSide: const BorderSide(color: Colors.white),
+          //           borderRadius: BorderRadius.circular(10),
+          //         ),
+          //         enabledBorder: OutlineInputBorder(
+          //           // borderSide: const BorderSide(color: Color(0xffE4E7EB)),
+          //           borderRadius: BorderRadius.circular(15),
+          //         )),
+          //   ),
+          // ),
+          // const SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
@@ -170,31 +93,38 @@ class _BarberListingState extends State<BarberListing> {
                   const SizedBox(
                     width: 10,
                   ),
-                  buildChoiceChip('Beard Trim', 2),
+                  buildChoiceChip('Shave', 2),
                   const SizedBox(
                     width: 10,
                   ),
-                  buildChoiceChip('Hair Coloring', 3),
+                  buildChoiceChip('Beard Trim', 3),
                   const SizedBox(
                     width: 10,
                   ),
-                  buildChoiceChip('Face Treatment', 4),
+                  buildChoiceChip('Massage', 4),
                 ],
               ),
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: currentBookings.length,
-              itemBuilder: (context, index) {
-                final booking = currentBookings[index];
-                return BookingCard(
-                  barberName: booking['barberName']!,
-                  shopName: booking['shopName']!,
-                  stars: booking['stars']!,
-                  imageUrl: booking['imageUrl']!,
-                );
-              },
+            child: Container(
+              // color: Colors.pink,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListView.builder(
+                itemCount: currentListing.length,
+                itemBuilder: (context, index) {
+                  final barber = currentListing[index];
+
+                  return BarberCard(
+                    barberId: barber['uid'],
+                    barberName: barber['name'],
+                    shopName: barber['shopName'],
+                    stars: barber['averageRating'],
+                    imageUrl: barber['photoURL'],
+                    // isFavourite: barber['isFavourite'],
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -232,30 +162,46 @@ class _BarberListingState extends State<BarberListing> {
   }
 }
 
-class BookingCard extends StatefulWidget {
+class BarberCard extends StatefulWidget {
   final String barberName;
   final String shopName;
   final String stars;
   final String imageUrl;
+  final String barberId;
+  // final bool isFavourite;
 
-  const BookingCard({
+  const BarberCard({
     required this.barberName,
     required this.shopName,
     required this.stars,
     required this.imageUrl,
     Key? key,
+    // required this.isFavourite,
+    required this.barberId,
   }) : super(key: key);
 
   @override
-  State<BookingCard> createState() => _BookingCardState();
+  State<BarberCard> createState() => _BarberCardState();
 }
 
-class _BookingCardState extends State<BookingCard> {
-  bool clicked = false;
+class _BarberCardState extends State<BarberCard> {
+  late bool isFavourite;
+
+  @override
+  void initState() {
+    super.initState();
+    // isFavourite = widget.isFavourite;
+  }
+
   @override
   Widget build(BuildContext context) {
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+
     return GestureDetector(
       onTap: () {
+        appProvider.setSelectedBarber(widget.barberId);
+        appProvider.resetSelectedSlot();
+        print('Selected Barber: ${appProvider.selectedBarber}}');
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const BarberProfile()),
@@ -263,14 +209,14 @@ class _BookingCardState extends State<BookingCard> {
       },
       child: Card(
         color: Colors.grey[900],
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
+                child: Image.network(
                   widget.imageUrl,
                   width: 80,
                   height: 80,
@@ -286,31 +232,62 @@ class _BookingCardState extends State<BookingCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.barberName,
+                          '${capitalizeFirstLetterOfEachWord(widget.barberName)}',
                           style: TextStyle(
                               color: CustomColors.white,
                               fontWeight: FontWeight.bold),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            if (clicked) {
-                              clicked = false;
-                              setState(() {});
-                            } else {
-                              clicked = true;
-                              setState(() {});
-                            }
-                          },
-                          child: Icon(
-                            clicked ? Icons.favorite : Icons.favorite_border,
-                            color: clicked ? Colors.red : Colors.white,
-                          ),
-                        ),
+                        Consumer<AppProvider>(
+                            builder: (context, provider, Widget? child) {
+                          isFavourite = appProvider.allBarbers.firstWhere(
+                              (element) =>
+                                  element['uid'] ==
+                                  widget.barberId)['isFavourite'];
+                          return GestureDetector(
+                            onTap: () async {
+                              if (isFavourite) {
+                                print('remove fav');
+                                appProvider.removeBarberFromFavourites(
+                                    widget.barberId);
+                              } else {
+                                print('add fav');
+                                appProvider
+                                    .addBarberToFavourites(widget.barberId);
+                              }
+                            },
+                            child: Icon(
+                              isFavourite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: isFavourite ? Colors.red : Colors.white,
+                            ),
+                          );
+                        }),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     if (isFavourite) {
+                        //       print('remove fav');
+                        //       appProvider
+                        //           .removeBarberFromFavourites(widget.barberId);
+                        //       isFavourite = false;
+                        //       setState(() {});
+                        //     } else {
+                        //       isFavourite = true;
+                        //       setState(() {});
+                        //     }
+                        //   },
+                        //   child: Icon(
+                        //     isFavourite
+                        //         ? Icons.favorite
+                        //         : Icons.favorite_border,
+                        //     color: isFavourite ? Colors.red : Colors.white,
+                        //   ),
+                        // ),
                       ],
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      widget.shopName,
+                      '${capitalizeFirstLetterOfEachWord(widget.shopName)}',
                       style: const TextStyle(
                           color: Color.fromARGB(255, 180, 178, 178)),
                     ),

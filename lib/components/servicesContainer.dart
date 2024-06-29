@@ -1,29 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
+import 'package:trim_time/providers/sample_provider.dart';
 
 class Services extends StatelessWidget {
-  final bool clicked;
-  final VoidCallback onTap;
-  final String service;
+  // final bool clicked;
+  // final VoidCallback onTap;
+  final bool isSelected;
+  final Map service;
+  final bool isFirstCard;
+  final String imageFileName;
 
   const Services({
     Key? key,
-    required this.onTap,
+    // required this.onTap,
     required this.service,
-    required this.clicked,
+    required this.isSelected,
+    required this.isFirstCard,
+    required this.imageFileName,
+    // required this.onTap,
+    // required this.clicked,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+
+    // bool isSelected = appProvider.selectedService == service['serviceId'];
+
+    return GestureDetector(
+      onTap: () {
+        appProvider.updateSelectedService(service['serviceId']);
+      },
+
+      // appProvider.updateSelectedService(service['serviceId']),
       child: Container(
         height: 160,
         width: 120,
-        margin: const EdgeInsets.only(right: 10),
+        margin: EdgeInsets.only(right: 10, left: isFirstCard ? 16 : 0),
         decoration: BoxDecoration(
-          color: clicked ? CustomColors.peelOrange : CustomColors.charcoal,
-          border: Border.all(color: CustomColors.peelOrange),
+          color: isSelected ? CustomColors.peelOrange : CustomColors.charcoal,
+          border: Border.all(color: CustomColors.peelOrange.withOpacity(0.5)),
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
@@ -33,20 +50,21 @@ class Services extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
+                height: 94,
                 clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    color: CustomColors.white),
                 child: Image.asset(
-                  'assets/images/1.jpg',
+                  'assets/images/$imageFileName',
                   fit: BoxFit.cover,
                 ),
               ),
             ),
             Text(
-              service,
+              service['serviceName'],
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: CustomColors.white,
@@ -54,7 +72,7 @@ class Services extends StatelessWidget {
               ),
             ),
             Text(
-              'Rs. 300',
+              service['price'].toString(),
               style: TextStyle(
                 color: CustomColors.white,
               ),

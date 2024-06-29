@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:trim_time/views/barber_listing/barber_listing.dart';
+import 'package:trim_time/views/bookings/booking.dart';
+import 'package:trim_time/views/favouriteScreen/favourite_screen.dart';
+import 'package:trim_time/views/searchPage/search_page.dart';
 import '../../views/homescreenclient/homecontent.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 
@@ -12,126 +16,163 @@ class NavigationExample extends StatefulWidget {
 class _NavigationExampleState extends State<NavigationExample> {
   int currentPageIndex = 0;
 
+  final isClient = true;
+
+  List destinations = [
+    NavigationDestination(
+      selectedIcon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child:
+              const Icon(Icons.home_rounded, color: CustomColors.peelOrange)),
+      icon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.home_rounded, color: Colors.white)),
+      label: 'Home',
+    ),
+    NavigationDestination(
+      selectedIcon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.content_cut_rounded,
+              color: CustomColors.peelOrange)),
+      icon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.content_cut_rounded, color: Colors.white)),
+      label: 'Barbers',
+    ),
+    NavigationDestination(
+      selectedIcon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child:
+              const Icon(Icons.book_rounded, color: CustomColors.peelOrange)),
+      icon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.book_rounded, color: Colors.white)),
+      label: 'My Bookings',
+    ),
+    NavigationDestination(
+      selectedIcon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.favorite_rounded,
+              color: CustomColors.peelOrange)),
+      icon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.favorite_rounded, color: Colors.white)),
+      label: 'Favorites',
+    ),
+    NavigationDestination(
+      selectedIcon: Container(
+        margin: const EdgeInsets.only(bottom: 2),
+        child: const Icon(
+          Icons.person_search_rounded,
+          color: CustomColors.peelOrange,
+        ),
+      ),
+      icon: Container(
+          margin: const EdgeInsets.only(bottom: 2),
+          child: const Icon(Icons.person_search_rounded, color: Colors.white)),
+      label: 'Search',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        type: BottomNavigationBarType.fixed, // Ensure no background circle for selected icon
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        backgroundColor: CustomColors.gunmetal,
-        indicatorColor: Colors.amber, // Not necessary since type is fixed
-        selectedIndex: currentPageIndex,
-        destinations:[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home, color: CustomColors.peelOrange),
-            icon: Icon(Icons.home_outlined, color: Colors.white),
-            label: 'Home',
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: CustomColors.transparent,
+          highlightColor: CustomColors.transparent,
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType
+              .fixed, // Ensure no background circle for selected icon
+
+          currentIndex: currentPageIndex,
+          onTap: (int index) {
+            setState(() {
+              currentPageIndex = index;
+            });
+          },
+          backgroundColor: CustomColors.gunmetal,
+          selectedItemColor: CustomColors.peelOrange,
+          iconSize: 22,
+
+          unselectedItemColor: Colors.white,
+
+          unselectedLabelStyle: const TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w300,
           ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.content_cut, color: CustomColors.peelOrange),
-            icon: Icon(Icons.content_cut, color: Colors.white),
-            label: 'Barber',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.favorite, color: CustomColors.peelOrange),
-            icon: Icon(Icons.favorite_border, color: Colors.white),
-            label: 'Favorite',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.book, color: CustomColors.peelOrange),
-            icon: Icon(Icons.book_outlined, color: Colors.white),
-            label: 'My Booking',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.person, color: CustomColors.peelOrange),
-            icon: Icon(Icons.person_outline, color: Colors.white),
-            label: 'Profile',
-          ),
-        ],
+          selectedLabelStyle:
+              const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+          items: destinations
+              .map((destination) => BottomNavigationBarItem(
+                    icon: destination.icon,
+                    activeIcon: destination.selectedIcon,
+                    label: destination.label,
+                  ))
+              .toList(),
+        ),
       ),
+
+      /// undo from here
+
       body: [
-        /// Home page
-        const HomeContent(), // Call the HomeContent widget here
-
-        /// Barber page (Placeholder)
-        const Center(
-          child: Text(
-            'Barber Page',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
-
-        /// Favorite page (Placeholder)
-        const Center(
-          child: Text(
-            'Favorite Page',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
-
-        /// My Booking page (Placeholder)
-        const Center(
-          child: Text(
-            'My Booking Page',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
-
-        /// Profile page (Placeholder)
-        const Center(
-          child: Text(
-            'Profile Page',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
+        HomeContent(),
+        const BarberListing(),
+        BookingScreen(),
+        const FavouriteScreen(),
+        SearchPage(),
       ][currentPageIndex],
     );
   }
 }
 
-class NavigationBar extends StatelessWidget {
-  final BottomNavigationBarType type;
-  final int selectedIndex;
-  final ValueChanged<int> onDestinationSelected;
-  final Color backgroundColor;
-  final Color? indicatorColor;
-  final List<NavigationDestination> destinations;
+// class NavigationBar extends StatelessWidget {
+//   final BottomNavigationBarType type;
+//   final int selectedIndex;
+//   final ValueChanged<int> onDestinationSelected;
+//   final Color backgroundColor;
+//   final Color? indicatorColor;
+//   final List<NavigationDestination> destinations;
 
-  const NavigationBar({
-    Key? key,
-    required this.type,
-    required this.selectedIndex,
-    required this.onDestinationSelected,
-    required this.backgroundColor,
-    this.indicatorColor,
-    required this.destinations,
-  }) : super(key: key);
+//   const NavigationBar({
+//     super.key,
+//     required this.type,
+//     required this.selectedIndex,
+//     required this.onDestinationSelected,
+//     required this.backgroundColor,
+//     this.indicatorColor,
+//     required this.destinations,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: type,
-      currentIndex: selectedIndex,
-      onTap: onDestinationSelected,
-      backgroundColor: backgroundColor,
-      selectedItemColor: CustomColors.peelOrange,
-      unselectedItemColor: Colors.white,
-      items: destinations.map((destination) => BottomNavigationBarItem(
-        icon: destination.icon,
-        activeIcon: destination.selectedIcon,
-        label: destination.label,
-      )).toList(),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return BottomNavigationBar(
+//       type: type,
+//       currentIndex: selectedIndex,
+//       onTap: onDestinationSelected,
+//       backgroundColor: backgroundColor,
+//       selectedItemColor: CustomColors.peelOrange,
+//       iconSize: 20,
+//       unselectedItemColor: Colors.white,
+//       unselectedLabelStyle:
+//           const TextStyle(fontSize: 10, fontWeight: FontWeight.w300),
+//       selectedLabelStyle:
+//           const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+//       items: destinations
+//           .map((destination) => BottomNavigationBarItem(
+//                 icon: destination.icon,
+//                 activeIcon: destination.selectedIcon,
+//                 label: destination.label,
+//               ))
+//           .toList(),
+//     );
+//   }
+// }
 
 class NavigationDestination {
-  final Icon icon;
-  final Icon selectedIcon;
+  final Widget icon;
+  final Widget selectedIcon;
   final String label;
 
   NavigationDestination({
