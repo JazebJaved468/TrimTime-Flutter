@@ -52,7 +52,21 @@ class _BarberProfileState extends State<BarberProfile> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               //1.Carousel
               Container(color: Colors.transparent, child: ImageCarousel()),
-
+              // const SizedBox(
+              //   height: 50,
+              // ),
+              // Align(
+              //   alignment: Alignment.center,
+              //   child: ClipRRect(
+              //     borderRadius: BorderRadius.circular(100),
+              //     child: Image.network(
+              //       appProvider.selectedBarber['photoURL'],
+              //       width: 170,
+              //       height: 170,
+              //       fit: BoxFit.cover,
+              //     ),
+              //   ),
+              // ),
               const SizedBox(
                 height: 24,
               ),
@@ -570,16 +584,38 @@ class _BarberProfileState extends State<BarberProfile> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Alert'),
-                            content: Text(provider.selectedService == ''
-                                ? 'Kindly select service.'
-                                : 'Kindly select time slot.'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text('OK'),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            titlePadding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 20),
+                            backgroundColor: CustomColors.charcoal,
+                            title: Text(
+                              provider.selectedService == ''
+                                  ? 'Kindly select service.'
+                                  : 'Kindly select time slot.',
+                              style: TextStyle(
+                                color: CustomColors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                              ),
+                            ),
+                            actions: [
+                              ElevatedButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: CustomColors.peelOrange,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    )),
+                                child: const Text(
+                                  'Ok',
+                                  style: TextStyle(
+                                    color: CustomColors.white,
+                                  ),
+                                ),
                               ),
                             ],
                           );

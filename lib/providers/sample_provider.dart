@@ -379,6 +379,21 @@ class AppProvider with ChangeNotifier {
     return isPast;
   }
 
+  // has5minutesPassed({required Map slot}) {
+  //   bool isPassed = false;
+  //   DateTime currentTime = DateTime.now();
+  //   DateTime slotStartTime = DateTime.parse(slot['start']);
+
+  //   if (slotStartTime.isBefore(currentTime) ||
+  //       slotStartTime
+  //           .subtract(const Duration(minutes: 5))
+  //           .isBefore(currentTime)) {
+  //     isPast = true;
+  //   }
+
+  //   return isPast;
+  // }
+
   // -------------------------------------------------- Updaters  --------------------------------------------------
 
   updateUserProflileImage({

@@ -359,71 +359,99 @@ class BookingCardClient extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(
-                      imageUrl,
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
+              Container(
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        imageUrl,
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 10,
-                          children: [
-                            const Icon(Icons.calendar_month,
-                                size: 18, color: CustomColors.white),
-                            Text(
-                              '$day',
-                              style: const TextStyle(color: CustomColors.white),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 10,
-                          children: [
-                            const Icon(Icons.edit_calendar_outlined,
-                                size: 18, color: CustomColors.white),
-                            Text(
-                              '$date',
-                              style: const TextStyle(color: CustomColors.white),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 10,
-                          children: [
-                            const Icon(Icons.timer_outlined,
-                                size: 18, color: CustomColors.white),
-                            Text(
-                              '$startTimeFormatted - $endTimeFormatted',
-                              style: const TextStyle(color: CustomColors.white),
-                            ),
-                          ],
-                        ),
-                      ],
+                    const SizedBox(width: 16),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 10,
+                            children: [
+                              const Icon(Icons.calendar_month,
+                                  size: 18, color: CustomColors.white),
+                              Text(
+                                '$day',
+                                style:
+                                    const TextStyle(color: CustomColors.white),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 10,
+                            children: [
+                              const Icon(Icons.edit_calendar_outlined,
+                                  size: 18, color: CustomColors.white),
+                              Text(
+                                '$date',
+                                style:
+                                    const TextStyle(color: CustomColors.white),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 10,
+                            children: [
+                              const Icon(Icons.timer_outlined,
+                                  size: 18, color: CustomColors.white),
+                              Text(
+                                '$startTimeFormatted - $endTimeFormatted',
+                                style:
+                                    const TextStyle(color: CustomColors.white),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 10,
+                            children: [
+                              const Icon(Icons.task_alt_outlined,
+                                  size: 18, color: CustomColors.white),
+                              Text(
+                                '${getServiceName()}',
+                                style:
+                                    const TextStyle(color: CustomColors.white),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(
-                height: 10,
+                height: 4,
+              ),
+              Divider(
+                color: CustomColors.white.withOpacity(0.2),
+                thickness: 0.1,
+              ),
+              const SizedBox(
+                height: 4,
               ),
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
