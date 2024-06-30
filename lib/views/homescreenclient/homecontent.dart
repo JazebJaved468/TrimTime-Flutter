@@ -161,6 +161,7 @@ class _HomeContentState extends State<HomeContent> {
                   size: 50.0,
                 ))
               : Container(
+                  height: double.infinity,
                   color: CustomColors.gunmetal,
                   child: SingleChildScrollView(
                     child: Column(
