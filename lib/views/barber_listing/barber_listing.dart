@@ -154,7 +154,7 @@ class _BarberListingState extends State<BarberListing> {
           label,
           style: TextStyle(
             color: isSelected ? Colors.white : CustomColors.peelOrange,
-            fontFamily: 'Raleway',
+            // fontFamily: 'Raleway',
           ),
         ),
       ),

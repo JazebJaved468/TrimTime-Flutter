@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barberScreens/home_barber.dart';
 import 'package:trim_time/views/barberScreens/registeration_barber.dart';
-import 'package:trim_time/views/clientScreens/registration_client.dart';
+import 'package:trim_time/views/clientRegisteration/registration_client.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
 import 'package:trim_time/views/onBoardingScreens/loading_screen.dart';
 import 'package:trim_time/views/onBoardingScreens/welcome_screen.dart';
-import 'package:trim_time/views/sign_in.dart';
+import 'package:trim_time/views/sign_in/sign_in.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

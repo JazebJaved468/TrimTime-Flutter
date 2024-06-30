@@ -4,8 +4,6 @@ import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 
 class Services extends StatelessWidget {
-  // final bool clicked;
-  // final VoidCallback onTap;
   final bool isSelected;
   final Map service;
   final bool isFirstCard;
@@ -13,20 +11,15 @@ class Services extends StatelessWidget {
 
   const Services({
     Key? key,
-    // required this.onTap,
     required this.service,
     required this.isSelected,
     required this.isFirstCard,
     required this.imageFileName,
-    // required this.onTap,
-    // required this.clicked,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
-
-    // bool isSelected = appProvider.selectedService == service['serviceId'];
 
     return GestureDetector(
       onTap: () {
@@ -68,7 +61,7 @@ class Services extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: CustomColors.white,
-                fontFamily: 'Raleway',
+                // fontFamily: 'Raleway',
               ),
             ),
             Text(

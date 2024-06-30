@@ -12,7 +12,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
   final CarouselController _controller = CarouselController();
   final List<String> imgList = [
     'assets/images/1.jpg',
-    'assets/images/2.jpg',
+    'assets/images/barberShop2.jpg',
     'assets/images/3.jpg',
   ];
   int _current = 0;

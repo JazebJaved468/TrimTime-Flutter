@@ -8,7 +8,7 @@ import 'package:trim_time/utilities/helpers/functions.dart';
 import 'package:trim_time/views/editProfile/edit_profile.dart';
 import 'package:trim_time/views/faq/faq.dart';
 import 'package:trim_time/views/rateApp/rate_app.dart';
-import 'package:trim_time/views/sign_in.dart';
+import 'package:trim_time/views/sign_in/sign_in.dart';
 import 'package:trim_time/views/supportAndFeedback/support_and_feedback.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -86,7 +86,6 @@ class CustomDrawer extends StatelessWidget {
                     );
                   },
                 ),
-
                 DrawerItem(
                   icon: const Icon(Icons.support_agent_outlined,
                       color: CustomColors.white),
@@ -128,10 +127,6 @@ class CustomDrawer extends StatelessWidget {
                   icon: const Icon(Icons.logout, color: CustomColors.white),
                   title: 'Logout',
                   onTap: () async {
-                    // await appProvider.handleLogoutByProvider();
-                    // Navigator.of(context).pushAndRemoveUntil(
-                    //     MaterialPageRoute(builder: (context) => const SignIn()),
-                    //     (Route route) => false);
                     showDialog(
                       context: context,
                       builder: (ctx) => AlertDialog(
@@ -198,42 +193,6 @@ class CustomDrawer extends StatelessWidget {
                     );
                   },
                 ),
-
-                // ListTile(
-                //   leading: const Icon(Icons.book),
-                //   title: const Text(' My Course '),
-                //   onTap: () {
-                //     Navigator.pop(context);
-                //   },
-                // ),
-                // ListTile(
-                //   leading: const Icon(Icons.workspace_premium),
-                //   title: const Text(' Go Premium '),
-                //   onTap: () {
-                //     Navigator.pop(context);
-                //   },
-                // ),
-                // ListTile(
-                //   leading: const Icon(Icons.video_label),
-                //   title: const Text(' Saved Videos '),
-                //   onTap: () {
-                //     Navigator.pop(context);
-                //   },
-                // ),
-                // ListTile(
-                //   leading: const Icon(Icons.edit),
-                //   title: const Text(' Edit Profile '),
-                //   onTap: () {
-                //     Navigator.pop(context);
-                //   },
-                // ),
-                // ListTile(
-                //   leading: const Icon(Icons.logout),
-                //   title: const Text('LogOut'),
-                //   onTap: () {
-                //     Navigator.pop(context);
-                //   },
-                // ),
               ],
             ),
           ),

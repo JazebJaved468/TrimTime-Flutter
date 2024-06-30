@@ -67,7 +67,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              fontFamily: 'rubik'
+                              // fontFamily: 'rubik'
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -86,7 +86,8 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
               return Container(
                 width: 8.0,
                 height: 8.0,
-                margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 2.0),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 2.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _current == index
@@ -100,24 +101,28 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
           InkWell(
             splashColor: CustomColors.transparent,
             highlightColor: CustomColors.transparent,
-            onTap: (){print("pressed");},
+            onTap: () {
+              print("pressed");
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 15),
-              decoration: BoxDecoration(borderRadius:BorderRadius.circular(25),color: CustomColors.peelOrange),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: CustomColors.peelOrange),
               width: 320,
               child: const Center(
-            
-                child:  Text(
-                  "Next" ,style: TextStyle(color: Colors.white , fontFamily: 'dmsans'),
+                child: Text(
+                  "Next",
+                  style: TextStyle(
+                    color: Colors.white,
+                    //  fontFamily: 'dmsans'
+                  ),
                 ),
               ),
             ),
           )
         ],
-      
       ),
     );
   }
 }
-
-

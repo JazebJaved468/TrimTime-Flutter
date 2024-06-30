@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/utilities/helpers/functions.dart';
-import 'package:trim_time/views/checkout/checkout.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/utilities/constants/constants.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';

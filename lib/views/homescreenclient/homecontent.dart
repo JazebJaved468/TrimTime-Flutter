@@ -8,7 +8,7 @@ import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/components/CustomDrawer.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barber_listing/barber_listing.dart';
-import 'package:trim_time/views/sign_in.dart';
+import 'package:trim_time/views/sign_in/sign_in.dart';
 
 class HomeContent extends StatefulWidget {
   HomeContent({Key? key}) : super(key: key);
@@ -481,15 +481,15 @@ class _LocationCardState extends State<LocationCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(6.0),
-              child: Image.asset(
-                'assets/images/testpic.jpg',
-                width: 60.0,
-                height: 75.0,
-                fit: BoxFit.cover,
-              ),
-            ),
+            // leading: ClipRRect(
+            //   borderRadius: BorderRadius.circular(6.0),
+            //   child: Image.asset(
+            //     'assets/images/testpic.jpg',
+            //     width: 60.0,
+            //     height: 75.0,
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
             title: Text(
               widget.title,
               style: const TextStyle(color: Colors.white),

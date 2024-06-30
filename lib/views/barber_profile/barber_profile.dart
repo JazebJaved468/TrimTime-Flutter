@@ -51,7 +51,10 @@ class _BarberProfileState extends State<BarberProfile> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               //1.Carousel
-              Container(color: Colors.transparent, child: ImageCarousel()),
+              Container(
+                  height: 250,
+                  color: Colors.transparent,
+                  child: ImageCarousel()),
               // const SizedBox(
               //   height: 50,
               // ),

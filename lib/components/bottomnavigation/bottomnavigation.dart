@@ -126,50 +126,7 @@ class _NavigationExampleState extends State<NavigationExample> {
     );
   }
 }
-
-// class NavigationBar extends StatelessWidget {
-//   final BottomNavigationBarType type;
-//   final int selectedIndex;
-//   final ValueChanged<int> onDestinationSelected;
-//   final Color backgroundColor;
-//   final Color? indicatorColor;
-//   final List<NavigationDestination> destinations;
-
-//   const NavigationBar({
-//     super.key,
-//     required this.type,
-//     required this.selectedIndex,
-//     required this.onDestinationSelected,
-//     required this.backgroundColor,
-//     this.indicatorColor,
-//     required this.destinations,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BottomNavigationBar(
-//       type: type,
-//       currentIndex: selectedIndex,
-//       onTap: onDestinationSelected,
-//       backgroundColor: backgroundColor,
-//       selectedItemColor: CustomColors.peelOrange,
-//       iconSize: 20,
-//       unselectedItemColor: Colors.white,
-//       unselectedLabelStyle:
-//           const TextStyle(fontSize: 10, fontWeight: FontWeight.w300),
-//       selectedLabelStyle:
-//           const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-//       items: destinations
-//           .map((destination) => BottomNavigationBarItem(
-//                 icon: destination.icon,
-//                 activeIcon: destination.selectedIcon,
-//                 label: destination.label,
-//               ))
-//           .toList(),
-//     );
-//   }
-// }
-
+ 
 class NavigationDestination {
   final Widget icon;
   final Widget selectedIcon;

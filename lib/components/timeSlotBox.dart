@@ -6,20 +6,15 @@ import 'package:trim_time/providers/sample_provider.dart';
 
 class TimeSlot extends StatelessWidget {
   final bool isSelected;
-  // final VoidCallback onTap;
+
   final Map slot;
 
-  const TimeSlot(
-      {Key? key,
-      required this.isSelected,
-      // required this.onTap,
-      required this.slot})
+  const TimeSlot({Key? key, required this.isSelected, required this.slot})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    AppProvider appProvider =
-        Provider.of<AppProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     String slotId = slot['slotId'];
     String start = DateFormat('hh : mm').format(DateTime.parse(slot['start']));
@@ -46,7 +41,6 @@ class TimeSlot extends StatelessWidget {
             '${start} - ${end}',
             style: TextStyle(
               color: isSelected ? CustomColors.white : CustomColors.peelOrange,
-              fontFamily: 'Poppins',
               fontSize: 12,
             ),
           ),

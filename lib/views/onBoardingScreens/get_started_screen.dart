@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:trim_time/controller/local_storage.dart';
-import 'package:trim_time/views/sign_in.dart';
+import 'package:trim_time/views/sign_in/sign_in.dart';
 
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({super.key});
@@ -197,7 +197,10 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                 child: Center(
                   child: Text(
                     _current < 2 ? "Next" : "Get Started",
-                    style: TextStyle(color: Colors.white, fontFamily: 'dmsans'),
+                    style: TextStyle(
+                      color: Colors.white,
+                      // fontFamily: 'dmsans'
+                    ),
                   ),
                 ),
               ),

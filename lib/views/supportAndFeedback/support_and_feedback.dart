@@ -107,30 +107,6 @@ class _SupportAndFeedbackState extends State<SupportAndFeedback> {
                           height: 40,
                         ),
 
-                        // const SizedBox(
-                        //   height: 30,
-                        // ),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: 30),
-                        //   child: TextFormField(
-                        //     decoration: InputDecoration(
-                        //       hintText: 'Love the app? Share your thoughts!',
-                        //       hintStyle: TextStyle(
-                        //           color: Colors.grey.withOpacity(0.5)),
-                        //       focusedBorder: const UnderlineInputBorder(
-                        //         borderSide:
-                        //             BorderSide(color: CustomColors.peelOrange),
-                        //       ),
-                        //       enabledBorder: const UnderlineInputBorder(
-                        //         borderSide:
-                        //             BorderSide(color: CustomColors.peelOrange),
-                        //       ),
-                        //     ),
-                        //     style: const TextStyle(color: Colors.white),
-                        //     controller: myController,
-                        //   ),
-                        // ),
-
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Container(

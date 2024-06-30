@@ -11,14 +11,12 @@ PreferredSizeWidget CustomAppBar(
     leadingWidth: 80,
     leading: leftIcon ?? Container(),
     elevation: 0,
-    // toolbarHeight: 50,
     centerTitle: true,
     titleTextStyle: TextStyle(
         color: CustomColors.white, fontSize: 18, fontWeight: FontWeight.w500),
     backgroundColor:
         showYellowBg ? CustomColors.peelOrange : CustomColors.gunmetal,
     surfaceTintColor: Colors.amber,
-    // backgroundColor: CustomColors.peelOrange,
     title: Text(
       '$title',
     ),

@@ -11,7 +11,7 @@ import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/utilities/constants/constants.dart';
 import 'package:trim_time/views/barberScreens/home_barber.dart';
 import 'package:trim_time/views/barberScreens/registeration_barber.dart';
-import 'package:trim_time/views/clientScreens/registration_client.dart';
+import 'package:trim_time/views/clientRegisteration/registration_client.dart';
 import 'package:trim_time/views/homescreenclient/homescreenclient.dart';
 
 class AppProvider with ChangeNotifier {
