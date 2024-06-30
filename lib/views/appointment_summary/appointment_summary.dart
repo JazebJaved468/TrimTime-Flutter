@@ -62,6 +62,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
           // Scrollable background content
           SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: double.infinity,
@@ -86,7 +87,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                           Text(
@@ -95,7 +96,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                         ],
@@ -111,7 +112,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                           Text(
@@ -120,7 +121,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                         ],
@@ -136,7 +137,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                           const SizedBox(
@@ -149,7 +150,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,
-                                fontFamily: 'Poppins',
+                                // fontFamily: 'Poppins',
                               ),
                               softWrap: true,
                             ),
@@ -167,7 +168,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                           Text(
@@ -175,7 +176,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                         ],
@@ -191,7 +192,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                           Text(
@@ -199,7 +200,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                         ],
@@ -215,7 +216,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                           Text(
@@ -223,7 +224,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                         ],
@@ -257,7 +258,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                           Text(
@@ -265,7 +266,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                         ],
@@ -281,7 +282,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                           Text(
@@ -289,7 +290,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                         ],
@@ -343,7 +344,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                           Text(
@@ -351,7 +352,7 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
-                              fontFamily: 'Poppins',
+                              // fontFamily: 'Poppins',
                             ),
                           ),
                         ],
@@ -362,6 +363,29 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                     ],
                   ),
                 ),
+                // Container(
+                //   width: double.infinity,
+                //   margin:
+                //       const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                //   padding: const EdgeInsets.only(
+                //     top: 10,
+                //     bottom: 10,
+                //     left: 20,
+                //     right: 20,
+                //   ),
+                //   decoration: const BoxDecoration(
+                //     color: CustomColors.charcoal,
+                //     borderRadius: BorderRadius.all(
+                //       Radius.circular(10),
+                //     ),
+                //   ),
+                //   child: Text(
+                //       'Note : Barber will approve the booking and then you have to pay $ADVANCE_PAYMENT_PERCENTAGE% of the total amount within 5 minutes to confirm your booking',
+                //       style: TextStyle(
+                //         color: Colors.grey,
+                //         fontSize: 12,
+                //       )),
+                // ),
               ],
             ),
           ),
@@ -369,92 +393,125 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
           Consumer<AppProvider>(builder: (context, provider, child) {
             return Align(
               alignment: Alignment.bottomCenter,
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 10), // Margin around the button
-                child: GestureDetector(
-                  onTap: () async {
-                    provider.setCreateBookingCIP(true);
-
-                    int responseCode = await provider.createBooking();
-
-                    if (responseCode == -1) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Sorry, Someone booked that slot in mean time, booking failed',
-                          ),
-                        ),
-                      );
-
-                      // remove if-condition if creates issue
-                      if (mounted) {
-                        Navigator.pop(context);
-                      }
-                    } else {
-                      await provider.updateAllClientBookings();
-                      await provider.updateUpcomingBookingsClient();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Booking is successfuly made'),
-                        ),
-                      );
-                      // remove if-condition if creates issue
-                      if (mounted) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeScreen()),
-                        );
-                      }
-                    }
-
-                    provider.setCreateBookingCIP(false);
-                  },
-                  child: Container(
-                    height: 50,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: CustomColors.peelOrange,
-                      borderRadius: BorderRadius.circular(50),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                      left: 20,
+                      right: 20,
                     ),
-                    child: Center(
-                      child: provider.createBookingCIP
-                          ? const SpinKitFadingCircle(
-                              color: CustomColors.charcoal,
-                              size: 30.0,
-                            )
-                          : const Text(
-                              'Book Now',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                    decoration: BoxDecoration(
+                      color: CustomColors.charcoal,
+                      border: Border.all(
+                        color: Colors.grey.withOpacity(0.1),
+                        width: 1,
+                      ),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    child: const Text(
+                        'Note : Barber will approve the booking and then you have to pay $ADVANCE_PAYMENT_PERCENTAGE% of the total amount within 5 minutes to confirm your booking',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        )),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10), // Margin around the button
+                    child: GestureDetector(
+                      onTap: () async {
+                        provider.setCreateBookingCIP(true);
 
-                      //  Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   children: [
-                      //     Text(
-                      //   'Confirm Booking',
-                      //   style: TextStyle(
-                      //       color: Colors.white,
-                      //       fontSize: 20,
-                      //       fontWeight: FontWeight.bold,
-                      //       fontFamily: 'Poppins'),
-                      // ),
-                      // SizedBox(
-                      //   width: 10,
-                      // ),
-                      // Image(
-                      //   image: AssetImage('assets/images/stripe-logo.png'),
-                      //   height: 25,
-                      // ),
-                      // ],
+                        int responseCode = await provider.createBooking();
+
+                        if (responseCode == -1) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Sorry, Someone booked that slot in mean time, booking failed',
+                              ),
+                            ),
+                          );
+
+                          // remove if-condition if creates issue
+                          if (mounted) {
+                            Navigator.pop(context);
+                          }
+                        } else {
+                          await provider.updateAllClientBookings();
+                          await provider.updateUpcomingBookingsClient();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Booking is successfuly made'),
+                            ),
+                          );
+                          // remove if-condition if creates issue
+                          if (mounted) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeScreen()),
+                            );
+                          }
+                        }
+
+                        provider.setCreateBookingCIP(false);
+                      },
+                      child: Container(
+                        height: 50,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: CustomColors.peelOrange,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Center(
+                          child: provider.createBookingCIP
+                              ? const SpinKitFadingCircle(
+                                  color: CustomColors.charcoal,
+                                  size: 30.0,
+                                )
+                              : const Text(
+                                  'Book Now',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+
+                          //  Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   crossAxisAlignment: CrossAxisAlignment.center,
+                          //   children: [
+                          //     Text(
+                          //   'Confirm Booking',
+                          //   style: TextStyle(
+                          //       color: Colors.white,
+                          //       fontSize: 20,
+                          //       fontWeight: FontWeight.bold,
+                          //       fontFamily: 'Poppins'),
+                          // ),
+                          // SizedBox(
+                          //   width: 10,
+                          // ),
+                          // Image(
+                          //   image: AssetImage('assets/images/stripe-logo.png'),
+                          //   height: 25,
+                          // ),
+                          // ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             );
           }),
