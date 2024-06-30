@@ -20,7 +20,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Your Favourite Barbers',
+        title: 'Your Favorite Barbers',
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
