@@ -29,7 +29,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           builder: (context, provider, child) {
             return appProvider.inAppfavouriteList.isEmpty
                 ? EmptyList(
-                    message: 'You have not Favourited any Barber yet.',
+                    message:
+                        'You have not marked any barber as a favorite yet.',
                   )
                 : ListView.builder(
                     itemCount: provider.inAppfavouriteList.length,
