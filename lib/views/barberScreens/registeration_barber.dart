@@ -8,11 +8,13 @@ import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/controller/date_time.dart';
 import 'package:trim_time/controller/firestore.dart';
+import 'package:trim_time/controller/local_storage.dart';
 
 import 'package:trim_time/providers/sample_provider.dart';
 
 import 'package:trim_time/controller/upload_image.dart';
 import 'package:trim_time/utilities/constants/constants.dart';
+import 'package:trim_time/views/barberScreens/home_barber.dart';
 import 'package:trim_time/views/sign_in/sign_in.dart';
 
 class BarberRegistrationPage extends StatefulWidget {
@@ -45,40 +47,17 @@ class BarberRegistrationPage extends StatefulWidget {
 
 class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
   final isClient = false;
-  // bool _isLoading = true;
-
-  // late String genderDropDownValue;
-  // late int openingTimeDropDownValue;
-  // late int closingTimeDropDownValue;
   late bool? isProvidingHaircut;
   late bool? isProvidingShave;
   late bool? isProvidingBeardTrim;
   late bool? isProvidingMassage;
 
-  // late Map<String, dynamic> localData;
-
-  // LocalStorageModel? localStorageData;
-
   Uint8List? _image;
   _loadData() {
-    // await Future.delayed(const Duration(seconds: 2));
-
-    // localData = await getDataFromLocalStorage();
-
-    // print('------------>localData in barber registration page----> $localData');
-
-    // final _services = localData['userData']['services'];
-
-    // setState(() {
     isProvidingHaircut = widget.services['1']['isProviding'];
     isProvidingShave = widget.services['2']['isProviding'];
     isProvidingBeardTrim = widget.services['3']['isProviding'];
     isProvidingMassage = widget.services['4']['isProviding'];
-    // genderDropDownValue = widget.gender;
-    // openingTimeDropDownValue = widget.openingTime;
-    // closingTimeDropDownValue = widget.closingTime;
-    // _isLoading = false;
-    // });
   }
 
   @override
@@ -172,7 +151,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                                   selectImage();
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.all(4),
+                                  padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
                                     color: CustomColors.peelOrange,
                                     borderRadius: BorderRadius.circular(50),
@@ -207,12 +186,12 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                                   selectImage();
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.all(6),
+                                  padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     color: CustomColors.black,
                                     borderRadius: BorderRadius.circular(50),
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.camera_alt_rounded,
                                     color: CustomColors.white,
                                     size: 16,
@@ -354,7 +333,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                       );
                     }),
                     const Text('Haircut'),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     SizedBox(
@@ -380,7 +359,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                       );
                     }),
                     const Text('Shave'),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     SizedBox(
@@ -406,7 +385,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                       );
                     }),
                     const Text('Beard Trim'),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     SizedBox(
@@ -432,7 +411,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                       );
                     }),
                     const Text('Massage'),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     SizedBox(
@@ -593,58 +572,6 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                                 });
                           }
 
-                          // await updateUserRegistrationDataInFirestore(
-                          //     userId: widget.uid,
-                          //     isClient: isClient,
-                          //     data: {
-                          //       'isRegistered': true,
-                          //       'name': fullNameController.text,
-                          //       'nickName': nickNameController.text,
-                          //       'email': emailController.text,
-                          //       'phoneNumber': phoneNumberController.text,
-                          //       'gender':
-                          //           appProvider.barberGender.toLowerCase(),
-                          //       'shopName': shopNameController.text,
-                          //       'shopAddress': shopAddressController.text,
-                          //       'openingTime': appProvider.barberOpeningTime,
-                          //       'closingTime': appProvider.barberClosingTime,
-                          //       'shopPhoneNumber':
-                          //           shopPhoneNumberController.text,
-                          //       'availability': generate7DaysSlots(
-                          //           DateTime.now(),
-                          //           appProvider.barberOpeningTime,
-                          //           appProvider.barberClosingTime),
-                          //       'services': {
-                          //         '1': {
-                          //           'serviceId': '1',
-                          //           'isProviding':
-                          //               appProvider.isProvidingHaircut,
-                          //           'price':
-                          //               int.parse(haircutPriceController.text),
-                          //         },
-                          //         '2': {
-                          //           'serviceId': '2',
-                          //           'isProviding': appProvider.isProvidingShave,
-                          //           'price':
-                          //               int.parse(shavePriceController.text),
-                          //         },
-                          //         '3': {
-                          //           'serviceId': '3',
-                          //           'isProviding':
-                          //               appProvider.isProvidingBeardTrim,
-                          //           'price': int.parse(
-                          //               beardTrimPriceController.text),
-                          //         },
-                          //         '4': {
-                          //           'serviceId': '4',
-                          //           'isProviding':
-                          //               appProvider.isProvidingMassage,
-                          //           'price':
-                          //               int.parse(massagePriceController.text),
-                          //         },
-                          //       },
-                          //     });
-
                           await updateUserDataInLocalStorage(
                               data: await getUserDataFromFirestore(
                                   widget.uid, isClient));
@@ -682,7 +609,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                                 color: CustomColors.white,
                                 size: 26.0,
                               )
-                            : Text(
+                            : const Text(
                                 'Save Profile',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -697,6 +624,5 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
             ),
           ),
         ));
-    ;
   }
 }
