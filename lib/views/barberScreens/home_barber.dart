@@ -19,7 +19,7 @@ class _BarberHomePageState extends State<BarberHomePage> {
         body: const Center(
             child: SpinKitFadingCircle(
           color: CustomColors.peelOrange,
-          size: 50.0,
+          size: 51.0,
         )));
   }
 }
