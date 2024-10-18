@@ -20,13 +20,26 @@ class _ManageDaysState extends State<ManageDays> {
   final isClient = false;
   bool _isLoading = true;
 
-  _loadData() async {
+   _loadData() async {
     localData = await getDataFromLocalStorage();
 
     setState(() {
       _isLoading = false;
     });
   }
+
+  _updateData(
+      {required String uid,
+      required Map<String, dynamic> barberAvailability}) async {
+    await updateBarberAvailabilityInFirestore(
+      barberId: uid,
+      data: barberAvailability,
+    );
+
+    await updateUserDataInLocalStorage(
+        data: await getUserDataFromFirestore(uid, isClient));
+  }
+
 
   @override
   void initState() {
