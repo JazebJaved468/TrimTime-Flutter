@@ -55,6 +55,36 @@ class _ManageDaysState extends State<ManageDays> {
     days.sort((a, b) => DateTime.parse(a).compareTo(DateTime.parse(b)));
 
     return Scaffold(
+            floatingActionButton: FloatingActionButton(onPressed: () async {
+        appProvider.setUpdateDaysCIP(true);
+
+        await _updateData(
+            uid: appProvider.uid,
+            barberAvailability: appProvider.barberAvailability);
+
+        appProvider.setUpdateDaysCIP(false);
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Days updated successfully'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+        }
+      }, child: Consumer<AppProvider>(
+        builder: (context, provider, child) {
+          return provider.updateDaysCIP
+              ? Container(
+                  width: 20.0,
+                  height: 20.0,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                )
+              : const Icon(Icons.done);
+        },
+      )),
       appBar: AppBar(
         title: const Text('Manage Days'),
         actions: [
