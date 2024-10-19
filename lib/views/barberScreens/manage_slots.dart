@@ -136,8 +136,55 @@ class _ManageSlotsState extends State<ManageSlots> {
                                               color: CustomColors.white),
                                         ),
                                       ),
+                                      !slot['isBooked']
+                                          ? Transform.scale(
+                                              scale: 0.8,
+                                              child: Switch(
+                                                trackOutlineWidth:
+                                                    const MaterialStatePropertyAll(
+                                                        1),
+                                                trackOutlineColor:
+                                                    const MaterialStatePropertyAll(
+                                                        CustomColors
+                                                            .peelOrange),
+                                                activeColor:
+                                                    CustomColors.charcoal,
+                                                activeTrackColor:
+                                                    CustomColors.peelOrange,
+                                                inactiveThumbColor:
+                                                    CustomColors.peelOrange,
+                                                inactiveTrackColor:
+                                                    CustomColors.transparent,
+                                                value: slot['isAvailable'],
+                                                onChanged: slot['isBooked']
+                                                    ? null
+                                                    : (value) {
+                                                        provider
+                                                            .updateBarberSlotsAvailability(
+                                                                day: widget.day,
+                                                                slotIndex:
+                                                                    index,
+                                                                value: value);
+                                                      },
+                                              ),
+                                            )
+                                          : Container(
+                                              height: 36,
+                                              width: 50,
+                                            )
                                     ],
                                   ),
+                                  slot['isBooked']
+                                      ? Container(
+                                          margin: EdgeInsets.only(bottom: 6),
+                                          child: const Text(
+                                            'Booked',
+                                            style: TextStyle(
+                                                color: Colors.greenAccent,
+                                                fontSize: 12),
+                                          ),
+                                        )
+                                      : Container(),
                                 ],
                               ),
                             );
