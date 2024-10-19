@@ -92,6 +92,57 @@ class _ManageSlotsState extends State<ManageSlots> {
             : SingleChildScrollView(
                 child: Column(
                   children: [
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: appProvider
+                            .barberAvailability[widget.day]['slots'].length,
+                        itemBuilder: (context, index) {
+                          var slot = appProvider.barberAvailability[widget.day]
+                              ['slots'][index];
+                          return Consumer<AppProvider>(
+                              builder: (context, provider, child) {
+                            return Container(
+                              padding: const EdgeInsets.only(
+                                  top: 10, bottom: 10, left: 16, right: 16),
+                              decoration: BoxDecoration(
+                                color: CustomColors.charcoal,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: Colors.black38, // Border color
+                                  width: 1, // Border width
+                                ),
+                              ),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 6, horizontal: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        child: const Text(
+                                          'Slot Time:',
+                                          style: TextStyle(
+                                              color: CustomColors.white),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          '${DateFormat('hh : mm').format(DateTime.parse(slot['start']))} - ${DateFormat('hh : mm').format(DateTime.parse(slot['end']))}',
+                                          style: const TextStyle(
+                                              color: CustomColors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                        }),
                     const SizedBox(
                       height: 70,
                     )
