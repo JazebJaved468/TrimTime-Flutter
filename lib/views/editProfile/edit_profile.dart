@@ -83,7 +83,6 @@ class _EditProfileState extends State<EditProfileClient> {
     TextEditingController addressController = TextEditingController(
         text: appProvider.localDataInProvider['userData']['address']);
 
-    // print(appProvider.localDataInProvider['userData']['gender']);
     print('image: ${appProvider.profileImageInBytes}');
 
     return Scaffold(
@@ -100,44 +99,17 @@ class _EditProfileState extends State<EditProfileClient> {
             },
           ),
         ),
-
-        // AppBar(
-        //   backgroundColor: CustomColors.gunmetal,
-        //   title: const Text(
-        //     "Set Your Profile",
-        //     style: TextStyle(
-        //         color: CustomColors.white, fontWeight: FontWeight.w600),
-        //   ),
-        //   actions: [
-        //     IconButton(
-        //       onPressed: () async {
-        //         // await signOut();
-        //         // Navigator.of(context).pushAndRemoveUntil(
-        //         //     MaterialPageRoute(builder: (context) => const SignIn()),
-        //         //     (Route route) => false);
-        //       },
-        //       icon: const Icon(
-        //         Icons.logout,
-        //         color: CustomColors.white,
-        //       ),
-        //     ),
-        //   ],
-        // ),
         body: Container(
           height: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           color: CustomColors.gunmetal,
           child: SingleChildScrollView(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // mainAxisSize: MainAxisSize.min,
               children: [
-                // const Text('Register Yourself Here!'),
                 Consumer<AppProvider>(builder: (builder, provider, child) {
                   return _image != null
                       ? Stack(children: [
                           Container(
-                            // color: Colors.pink,
                             width: 126,
                             height: 126,
                           ),
@@ -155,7 +127,7 @@ class _EditProfileState extends State<EditProfileClient> {
                                   selectImage();
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.all(4),
+                                  padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
                                     color: CustomColors.peelOrange,
                                     borderRadius: BorderRadius.circular(50),
@@ -192,7 +164,7 @@ class _EditProfileState extends State<EditProfileClient> {
                                       selectImage();
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.all(4),
+                                      padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         color: CustomColors.peelOrange,
                                         borderRadius: BorderRadius.circular(50),
@@ -228,7 +200,7 @@ class _EditProfileState extends State<EditProfileClient> {
                                       selectImage();
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.all(4),
+                                      padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         color: CustomColors.peelOrange,
                                         borderRadius: BorderRadius.circular(50),
@@ -407,22 +379,7 @@ class _EditProfileState extends State<EditProfileClient> {
                               phoneNumberController.text.trim().isNotEmpty &&
                               addressController.text.trim().isNotEmpty) {
                             provider.setEditClientProfileCIP(true);
-                            // await updateUserRegistrationDataInFirestore(
-                            //     userId: appProvider
-                            //         .localDataInProvider['userData']['uid'],
-                            //     isClient: appProvider
-                            //             .localDataInProvider['userData']
-                            //         ['isClient'],
-                            //     data: {
-                            //       'name': fullNameController.text,
-                            //       'nickName': nickNameController.text,
-                            //       'phoneNumber': phoneNumberController.text,
-                            //       'gender': appProvider
-                            //           .localDataInProvider['userData']['gender']
-                            //           .toLowerCase(),
-                            //       'address': addressController.text,
 
-                            //     });
                             if (mounted) {
                               Navigator.pop(context);
                             }
@@ -485,9 +442,6 @@ class _EditProfileState extends State<EditProfileClient> {
                             if (_image != null) {
                               appProvider.setProfileImageInBytes(_image);
                             }
-                            // if (mounted) {
-                            //   Navigator.pop(context);
-                            // }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

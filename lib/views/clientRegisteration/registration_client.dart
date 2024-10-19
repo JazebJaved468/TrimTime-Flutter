@@ -44,11 +44,9 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
   InputDecoration getTextFieldDecoration({required String placeHolderText}) {
     return InputDecoration(
       counterText: "",
-
       alignLabelWithHint: true,
       contentPadding:
           const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
-      // labelText: 'Full Name',
       hintText: placeHolderText,
       hintStyle: TextStyle(color: CustomColors.white.withOpacity(0.6)),
       border: OutlineInputBorder(

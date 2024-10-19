@@ -183,20 +183,6 @@ class _SupportAndFeedbackState extends State<SupportAndFeedback> {
                           decoration: BoxDecoration(
                             color: Colors.green,
                             borderRadius: BorderRadius.circular(50),
-                            // border: const Border(
-                            //   top: BorderSide(
-                            //     color: Colors.green,
-                            //   ), // Top border
-                            //   bottom: BorderSide(
-                            //     color: Colors.green,
-                            //   ), // Bottom border
-                            //   left: BorderSide(
-                            //     color: Colors.green,
-                            //   ), // Left border
-                            //   right: BorderSide(
-                            //     color: Colors.green,
-                            //   ), // Right border
-                            // ),
                           ),
                           child: Center(
                             child: provider.rateBarberCIP

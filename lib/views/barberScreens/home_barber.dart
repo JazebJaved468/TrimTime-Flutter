@@ -1,15 +1,11 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
-import 'package:trim_time/components/CustomDrawer.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/providers/sample_provider.dart';
-import 'package:trim_time/views/barberScreens/barber_bookings.dart';
 import 'package:trim_time/views/barberScreens/manage_days.dart';
-import 'package:trim_time/views/homescreenclient/homecontent.dart';
 import 'package:trim_time/views/sign_in/sign_in.dart';
 
 class BarberHomePage extends StatefulWidget {
@@ -192,9 +188,9 @@ class _BarberHomePageState extends State<BarberHomePage> {
                                         crossAxisAlignment:
                                             WrapCrossAlignment.center,
                                         children: [
-                                          Text(
+                                          const Text(
                                             'Hello',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                               color: CustomColors.white,
@@ -242,17 +238,16 @@ class _BarberHomePageState extends State<BarberHomePage> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 10),
-                          child: Text(
+                          child: const Text(
                             'Dashboard',
                             style: TextStyle(
                                 fontSize: 24, color: CustomColors.white),
                           ),
                         ),
                         Container(
-                          padding:
-                              EdgeInsets.all(16.0), // Padding for the container
+                          padding: const EdgeInsets.all(16.0),
                           child: GridView.count(
                             crossAxisCount: 2, // 2 columns
                             crossAxisSpacing: 16, // Space between columns
@@ -272,17 +267,18 @@ class _BarberHomePageState extends State<BarberHomePage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ManageDays()),
+                                          builder: (context) =>
+                                              const ManageDays()),
                                     );
                                   }
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.only(left: 20, right: 20),
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
                                   decoration: BoxDecoration(
-                                    color: CustomColors.peelOrange.withOpacity(
-                                        0.8), // Background color of each box
-                                    borderRadius: BorderRadius.circular(
-                                        20), // Rounded corners
+                                    color: CustomColors.peelOrange
+                                        .withOpacity(0.8),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -295,12 +291,12 @@ class _BarberHomePageState extends State<BarberHomePage> {
                                           size: 40,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 20,
                                       ),
                                       Text(
                                         '${cardData[index]['name']}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 18,
                                         ),
@@ -317,62 +313,5 @@ class _BarberHomePageState extends State<BarberHomePage> {
                   ),
                 )),
     );
-
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: const Text('Barber Home Page'),
-    //     actions: [
-    //       IconButton(
-    //         onPressed: () async {
-    //           await appProvider.handleLogoutByProvider();
-    //           Navigator.of(context).pushAndRemoveUntil(
-    //               MaterialPageRoute(builder: (context) => const SignIn()),
-    //               (Route route) => false);
-    //         },
-    //         icon: const Icon(Icons.logout),
-    //       ),
-    //     ],
-    //   ),
-    //   body: _isLoading
-    //       ? const Center(
-    //           child: SpinKitFadingCircle(
-    //           color: CustomColors.peelOrange,
-    //           size: 50.0,
-    //         ))
-    //       : Center(
-    //           child: Column(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: [
-    //               Text('Welcome ${localData['userData']['name']}'),
-    //               Text('Email: ${localData['userData']['email']}'),
-    //               Text('Phone Number: ${localData['userData']['phoneNumber']}'),
-    //               Text('isClient: ${localData['isClient']}'),
-    //               ElevatedButton(
-    //                 onPressed: () {
-    //                   appProvider.uid = localData['userData']['uid'];
-    //                   // appProvider.setUserData(localData['userData']);
-    //                   appProvider.barberAvailability =
-    //                       localData['userData']['availability'];
-    //                   Navigator.push(
-    //                     context,
-    //                     MaterialPageRoute(builder: (context) => ManageDays()),
-    //                   );
-    //                 },
-    //                 child: const Text('Manage Slots'),
-    //               ),
-    //               ElevatedButton(
-    //                 onPressed: () {
-    //                   Navigator.push(
-    //                     context,
-    //                     MaterialPageRoute(
-    //                         builder: (context) => BarberBookings()),
-    //                   );
-    //                 },
-    //                 child: const Text('Bookings'),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    // );
   }
 }

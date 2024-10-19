@@ -55,21 +55,7 @@ class _BarberProfileState extends State<BarberProfile> {
                   height: 250,
                   color: Colors.transparent,
                   child: ImageCarousel()),
-              // const SizedBox(
-              //   height: 50,
-              // ),
-              // Align(
-              //   alignment: Alignment.center,
-              //   child: ClipRRect(
-              //     borderRadius: BorderRadius.circular(100),
-              //     child: Image.network(
-              //       appProvider.selectedBarber['photoURL'],
-              //       width: 170,
-              //       height: 170,
-              //       fit: BoxFit.cover,
-              //     ),
-              //   ),
-              // ),
+
               const SizedBox(
                 height: 24,
               ),
@@ -91,8 +77,6 @@ class _BarberProfileState extends State<BarberProfile> {
                         color: CustomColors.white,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
-
-                        // fontFamily: 'Raleway'
                       ),
                     ),
                     Padding(
@@ -106,11 +90,9 @@ class _BarberProfileState extends State<BarberProfile> {
                         return GestureDetector(
                           onTap: () async {
                             if (isFavourite) {
-                              print('remove fav');
                               appProvider
                                   .removeBarberFromFavourites(selectedBarberId);
                             } else {
-                              print('add fav');
                               appProvider
                                   .addBarberToFavourites(selectedBarberId);
                             }
@@ -150,7 +132,6 @@ class _BarberProfileState extends State<BarberProfile> {
                       style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
-                          // fontFamily: 'Raleway',
                           letterSpacing: 1),
                     )
                   ],
@@ -180,7 +161,6 @@ class _BarberProfileState extends State<BarberProfile> {
                         style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
-                          // fontFamily: 'Raleway',
                           letterSpacing: 1,
                         ),
                         softWrap: true,
@@ -212,7 +192,6 @@ class _BarberProfileState extends State<BarberProfile> {
                       style: const TextStyle(
                           color: CustomColors.white,
                           fontSize: 14,
-                          // fontFamily: 'Raleway',
                           letterSpacing: 1),
                     ),
                   ],
@@ -259,16 +238,11 @@ class _BarberProfileState extends State<BarberProfile> {
                 height: 24,
               ),
 
-              // const Divider(
-              //   color: CustomColors.charcoal,
-              // ),
-
               Container(
                 padding: const EdgeInsets.only(left: 16),
                 child: const Text(
                   'Select Service',
                   style: TextStyle(
-                      // fontFamily: 'Raleway',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: CustomColors.white),
@@ -292,8 +266,6 @@ class _BarberProfileState extends State<BarberProfile> {
                         isSelected: provider.selectedService ==
                             services[index]['serviceId'],
                         imageFileName: services[index]['imageFileName'],
-                        // onTap: provider.updateSelectedService(
-                        //     services[index]['serviceId']),
                       );
                     });
                   },
@@ -316,7 +288,6 @@ class _BarberProfileState extends State<BarberProfile> {
                     const Text(
                       'Select Date',
                       style: TextStyle(
-                          // fontFamily: 'Raleway',
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: CustomColors.white),
@@ -364,7 +335,6 @@ class _BarberProfileState extends State<BarberProfile> {
                 child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     width: double.infinity,
-                    // height: 70,
                     decoration: const BoxDecoration(
                         color: CustomColors.charcoal,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -381,7 +351,6 @@ class _BarberProfileState extends State<BarberProfile> {
                                 : 'Schedule Booking on $date',
                             style: const TextStyle(
                               color: CustomColors.white,
-                              // fontFamily: 'Poppins',
                               fontSize: 14,
                             ),
                             textAlign: TextAlign.center,
@@ -402,7 +371,6 @@ class _BarberProfileState extends State<BarberProfile> {
                 child: const Text(
                   'Select Time',
                   style: TextStyle(
-                      // fontFamily: 'Raleway',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: CustomColors.white),
@@ -416,7 +384,6 @@ class _BarberProfileState extends State<BarberProfile> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 width: double.infinity,
-                // height: 70,
                 decoration: const BoxDecoration(
                     color: CustomColors.charcoal,
                     borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -424,7 +391,6 @@ class _BarberProfileState extends State<BarberProfile> {
                     Consumer<AppProvider>(builder: (context, provider, child) {
                   var day = DateFormat('EEEE').format(provider.selectedDate);
 
-                  // List slots = provider.slotsToShow;
                   List slots = provider.getSlotsToShow();
 
                   return Padding(

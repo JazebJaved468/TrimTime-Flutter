@@ -23,12 +23,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         title: 'Your Favorite Barbers',
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         color: CustomColors.gunmetal,
         child: Consumer<AppProvider>(
           builder: (context, provider, child) {
             return appProvider.inAppfavouriteList.isEmpty
-                ? EmptyList(
+                ? const EmptyList(
                     message:
                         'You have not marked any barber as a favorite yet.',
                   )

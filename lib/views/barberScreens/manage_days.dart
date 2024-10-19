@@ -5,16 +5,13 @@ import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/components/CustomAppBar.dart';
 import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/local_storage.dart';
-import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barberScreens/manage_slots.dart';
 import 'package:intl/intl.dart';
-import 'package:trim_time/views/sign_in/sign_in.dart';
 
 class ManageDays extends StatefulWidget {
   const ManageDays({super.key});
 
-  // final barberAvailability;
   @override
   State<ManageDays> createState() => _ManageDaysState();
 }
@@ -124,7 +121,7 @@ class _ManageDaysState extends State<ManageDays> {
                 children: [
                   ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: appProvider.barberAvailability.keys.length,
                       itemBuilder: (context, index) {
                         var day = days[index];
@@ -143,8 +140,8 @@ class _ManageDaysState extends State<ManageDays> {
                           child: Consumer<AppProvider>(
                               builder: (context, provider, child) {
                             return Container(
-                              padding:
-                                  EdgeInsets.only(top: 10, bottom: 10, left: 4),
+                              padding: const EdgeInsets.only(
+                                  top: 10, bottom: 10, left: 4),
                               decoration: BoxDecoration(
                                 color: CustomColors.charcoal,
                                 borderRadius: BorderRadius.circular(20),
@@ -153,27 +150,28 @@ class _ManageDaysState extends State<ManageDays> {
                                   width: 1, // Border width
                                 ),
                               ),
-                              margin: EdgeInsets.symmetric(
+                              margin: const EdgeInsets.symmetric(
                                   vertical: 6, horizontal: 8),
                               child: ListTile(
                                   title: Text(
                                     'Day : ${DateFormat('EEEE').format(DateTime.parse(day))}',
-                                    style: TextStyle(color: CustomColors.white),
+                                    style: const TextStyle(
+                                        color: CustomColors.white),
                                   ),
                                   subtitle:
                                       Wrap(direction: Axis.vertical, children: [
                                     Text(
                                       'Date : ${DateFormat('d MMM').format(DateTime.parse(day))}',
-                                      style:
-                                          TextStyle(color: CustomColors.white),
+                                      style: const TextStyle(
+                                          color: CustomColors.white),
                                     ),
                                     Transform.scale(
                                       scale: 0.8,
                                       child: Switch(
                                         trackOutlineWidth:
-                                            MaterialStatePropertyAll(1),
+                                            const MaterialStatePropertyAll(1),
                                         trackOutlineColor:
-                                            MaterialStatePropertyAll(
+                                            const MaterialStatePropertyAll(
                                                 CustomColors.peelOrange),
                                         activeColor: Colors.black,
                                         activeTrackColor:
@@ -199,14 +197,14 @@ class _ManageDaysState extends State<ManageDays> {
                                       ),
                                     ),
                                   ]),
-                                  trailing: Icon(
+                                  trailing: const Icon(
                                       Icons.arrow_forward_ios_rounded,
                                       color: CustomColors.white)),
                             );
                           }),
                         );
                       }),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   )
                 ],

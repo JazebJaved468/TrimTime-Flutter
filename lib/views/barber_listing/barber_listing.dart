@@ -9,8 +9,6 @@ import 'package:trim_time/views/barber_profile/barber_profile.dart';
 class BarberListing extends StatefulWidget {
   const BarberListing({super.key});
 
-  // final List<Map<String, dynamic>> allBarbers;
-
   @override
   State<BarberListing> createState() => _BarberListingState();
 }
@@ -49,35 +47,6 @@ class _BarberListingState extends State<BarberListing> {
       ),
       body: Column(
         children: [
-          // Container(
-          //   padding: const EdgeInsets.all(5),
-          //   margin: const EdgeInsets.symmetric(horizontal: 10),
-          //   child: TextFormField(
-          //     style: const TextStyle(color: Colors.white),
-          //     decoration: InputDecoration(
-          //         hintText: 'Search',
-          //         hintStyle: const TextStyle(
-          //             color: Colors.grey, fontFamily: 'Raleway'),
-          //         fillColor: CustomColors.charcoal,
-          //         filled: true,
-          //         prefixIcon: const Icon(
-          //           Icons.search,
-          //           color: Colors.grey,
-          //         ),
-          //         // suffixIcon: const Icon(
-          //         //   Icons.visibility_off_outlined,
-          //         // ),
-          //         focusedBorder: OutlineInputBorder(
-          //           borderSide: const BorderSide(color: Colors.white),
-          //           borderRadius: BorderRadius.circular(10),
-          //         ),
-          //         enabledBorder: OutlineInputBorder(
-          //           // borderSide: const BorderSide(color: Color(0xffE4E7EB)),
-          //           borderRadius: BorderRadius.circular(15),
-          //         )),
-          //   ),
-          // ),
-          // const SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
@@ -108,7 +77,6 @@ class _BarberListingState extends State<BarberListing> {
           ),
           Expanded(
             child: Container(
-              // color: Colors.pink,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ListView.builder(
                 itemCount: currentListing.length,
@@ -121,7 +89,6 @@ class _BarberListingState extends State<BarberListing> {
                     shopName: barber['shopName'],
                     stars: barber['averageRating'],
                     imageUrl: barber['photoURL'],
-                    // isFavourite: barber['isFavourite'],
                   );
                 },
               ),
@@ -141,7 +108,6 @@ class _BarberListingState extends State<BarberListing> {
         });
       },
       child: Container(
-        // width: 100,
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
           color: isSelected ? CustomColors.peelOrange : Colors.transparent,
@@ -154,7 +120,6 @@ class _BarberListingState extends State<BarberListing> {
           label,
           style: TextStyle(
             color: isSelected ? Colors.white : CustomColors.peelOrange,
-            // fontFamily: 'Raleway',
           ),
         ),
       ),
@@ -168,7 +133,6 @@ class BarberCard extends StatefulWidget {
   final String stars;
   final String imageUrl;
   final String barberId;
-  // final bool isFavourite;
 
   const BarberCard({
     required this.barberName,
@@ -176,7 +140,6 @@ class BarberCard extends StatefulWidget {
     required this.stars,
     required this.imageUrl,
     Key? key,
-    // required this.isFavourite,
     required this.barberId,
   }) : super(key: key);
 
@@ -190,7 +153,6 @@ class _BarberCardState extends State<BarberCard> {
   @override
   void initState() {
     super.initState();
-    // isFavourite = widget.isFavourite;
   }
 
   @override
@@ -246,11 +208,9 @@ class _BarberCardState extends State<BarberCard> {
                           return GestureDetector(
                             onTap: () async {
                               if (isFavourite) {
-                                print('remove fav');
                                 appProvider.removeBarberFromFavourites(
                                     widget.barberId);
                               } else {
-                                print('add fav');
                                 appProvider
                                     .addBarberToFavourites(widget.barberId);
                               }
@@ -263,26 +223,6 @@ class _BarberCardState extends State<BarberCard> {
                             ),
                           );
                         }),
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     if (isFavourite) {
-                        //       print('remove fav');
-                        //       appProvider
-                        //           .removeBarberFromFavourites(widget.barberId);
-                        //       isFavourite = false;
-                        //       setState(() {});
-                        //     } else {
-                        //       isFavourite = true;
-                        //       setState(() {});
-                        //     }
-                        //   },
-                        //   child: Icon(
-                        //     isFavourite
-                        //         ? Icons.favorite
-                        //         : Icons.favorite_border,
-                        //     color: isFavourite ? Colors.red : Colors.white,
-                        //   ),
-                        // ),
                       ],
                     ),
                     const SizedBox(height: 5),

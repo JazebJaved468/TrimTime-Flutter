@@ -65,13 +65,13 @@ class FAQItemView extends StatelessWidget {
           ),
           collapsedBackgroundColor: CustomColors.charcoal,
           tilePadding: EdgeInsetsGeometry.lerp(
-            EdgeInsets.symmetric(horizontal: 16),
-            EdgeInsets.all(0),
+            const EdgeInsets.symmetric(horizontal: 16),
+            const EdgeInsets.all(0),
             0,
           ),
           childrenPadding: EdgeInsetsGeometry.lerp(
-            EdgeInsets.all(0),
-            EdgeInsets.all(0),
+            const EdgeInsets.all(0),
+            const EdgeInsets.all(0),
             0,
           ),
           shape: RoundedRectangleBorder(
@@ -82,7 +82,7 @@ class FAQItemView extends StatelessWidget {
           collapsedIconColor: CustomColors.white.withOpacity(0.5),
           title: Text(
             question,
-            style: TextStyle(
+            style: const TextStyle(
               color: CustomColors.white,
               fontWeight: FontWeight.w500,
               fontSize: 16,
@@ -93,7 +93,7 @@ class FAQItemView extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 answer,
-                style: TextStyle(
+                style: const TextStyle(
                     color: CustomColors.white,
                     fontWeight: FontWeight.w300,
                     fontSize: 14),

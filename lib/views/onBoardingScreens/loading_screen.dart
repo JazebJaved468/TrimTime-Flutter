@@ -11,17 +11,10 @@ class LoadingScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    // Future.delayed(Duration(seconds: 2), () {
-    //   Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => WelcomeScreen()),
-    //   );
-    // });
     return Scaffold(
       backgroundColor: CustomColors.gunmetal,
       body: Center(
         child: Container(
-          // color: Colors.pink,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

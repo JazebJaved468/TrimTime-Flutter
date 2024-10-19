@@ -217,9 +217,6 @@ class BookingCardClient extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // String day = DateFormat('EEEE').format(DateTime.parse(dateTime));
-    // String date = DateFormat('d MMM').format(DateTime.parse(dateTime));
-
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     Widget getStatus() {
@@ -307,7 +304,7 @@ class BookingCardClient extends StatelessWidget {
           ),
           child: Text(
             'Remaining Amount : Rs. ${calculatePercentages(int.parse(totalAmount))['remainingAmount']}',
-            style: TextStyle(color: Colors.white, fontSize: 12),
+            style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
         );
       } else if (!isCancelled && !isRated && isCompleted && isPaid) {
@@ -348,7 +345,6 @@ class BookingCardClient extends StatelessWidget {
       return Container();
     }
 
-// build func
     return Stack(children: [
       Card(
         color: CustomColors.charcoal,

@@ -90,43 +90,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  // const SizedBox(height: 50),
-                  // AnimatedSmoothIndicator(
-                  //   activeIndex: _current,
-                  //   count: imgList.length,
-                  //   effect: const ExpandingDotsEffect(
-                  //     dotWidth: 7.0,
-                  //     dotHeight: 6.0,
-                  //     activeDotColor: CustomColors.peelOrange,
-                  //     dotColor: Colors.white,
-                  //   ),
-                  // )
-                  //     ],
-                  //   ),
-                  // ),
-                  // // SizedBox(height: screenHeight * 0.14),
-                  // Container(
-                  //   margin: EdgeInsets.only(bottom: 20),
-                  //   child: InkWell(
-                  //     splashColor: CustomColors.transparent,
-                  //     highlightColor: CustomColors.transparent,
-                  //     onTap: () {
-                  //       if (_current < 2) {
-                  //         _controller.nextPage();
-                  //       } else {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => SignIn()),
-                  //         );
-                  //       }
-                  //     },
-                  //     child: Container(
-                  //       padding: const EdgeInsets.symmetric(vertical: 15),
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(25),
-                  //         color: CustomColors.peelOrange,
-                  //       ),
-                  //     ),
                   const SizedBox(height: 50),
                   AnimatedSmoothIndicator(
                     activeIndex: _current,
@@ -139,36 +102,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                     ),
                   ),
                   SizedBox(height: screenHeight * 0.14),
-                  // InkWell(
-                  //   splashColor: CustomColors.transparent,
-                  //   highlightColor: CustomColors.transparent,
-                  //   onTap: () async {
-                  //     if (_current < 2) {
-                  //       _controller.nextPage();
-                  //     } else {
-                  //       await updateBooleanDataInLocalStorage(
-                  //           key: 'isFirstVisit', value: false);
-                  //       Navigator.of(context).pushAndRemoveUntil(
-                  //           MaterialPageRoute(builder: (context) => SignIn()),
-                  //           (Route route) => false);
-                  //     }
-                  //   },
-                  //   child: Container(
-                  //     padding: const EdgeInsets.symmetric(vertical: 15),
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(25),
-                  //       color: CustomColors.peelOrange,
-                  //     ),
-                  //     width: screenWidth * .85,
-                  //     child: Center(
-                  //       child: Text(
-                  //         _current < 2 ? "Next" : "Get Started",
-                  //         style: TextStyle(
-                  //             color: Colors.white, fontFamily: 'dmsans'),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
