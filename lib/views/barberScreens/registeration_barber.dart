@@ -66,6 +66,23 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
     _loadData();
   }
 
+  InputDecoration getTextFieldDecoration({required String placeHolderText}) {
+    return InputDecoration(
+      counterText: "",
+      alignLabelWithHint: true,
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
+      hintText: placeHolderText,
+      hintStyle: TextStyle(color: CustomColors.white.withOpacity(0.6)),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
+      ),
+      filled: true,
+      fillColor: CustomColors.charcoal,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
@@ -109,7 +126,12 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
     return Scaffold(
         // resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Text("Barber's Registration Page"),
+          backgroundColor: CustomColors.gunmetal,
+          title: const Text(
+            "Barber's Registration Page",
+            style: TextStyle(
+                color: CustomColors.white, fontWeight: FontWeight.w600),
+          ),
           actions: [
             IconButton(
               onPressed: () async {
@@ -118,13 +140,17 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                     MaterialPageRoute(builder: (context) => const SignIn()),
                     (Route route) => false);
               },
-              icon: const Icon(Icons.logout),
+              icon: const Icon(
+                Icons.logout,
+                color: CustomColors.white,
+              ),
             ),
           ],
         ),
         body: Container(
           height: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          color: CustomColors.gunmetal,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -154,7 +180,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                                   padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
                                     color: CustomColors.peelOrange,
-                                    borderRadius: BorderRadius.circular(50),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Icon(
                                     Icons.camera_alt_rounded,
@@ -186,15 +212,15 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                                   selectImage();
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(6),
+                                  padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                    color: CustomColors.black,
+                                    color: CustomColors.peelOrange,
                                     borderRadius: BorderRadius.circular(50),
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.camera_alt_rounded,
-                                    color: CustomColors.white,
-                                    size: 16,
+                                    color: CustomColors.black,
+                                    size: 20,
                                   ),
                                 ),
                               ),
@@ -202,420 +228,717 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                           ),
                         ]);
                 }),
-                TextField(
-                  maxLength: 30,
-                  controller: fullNameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Full Name',
-                  ),
+                const SizedBox(
+                  height: 30,
                 ),
                 TextField(
+                  cursorColor: CustomColors.white.withOpacity(1),
+                  cursorRadius: const Radius.circular(10),
+                  cursorOpacityAnimates: true,
+                  maxLength: 30,
+                  controller: fullNameController,
+                  decoration:
+                      getTextFieldDecoration(placeHolderText: 'Full Name'),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: CustomColors.white,
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextField(
+                  cursorColor: CustomColors.white.withOpacity(1),
+                  cursorRadius: const Radius.circular(10),
+                  cursorOpacityAnimates: true,
                   maxLength: 30,
                   controller: nickNameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Nick Name   (Optional)',
+                  decoration: getTextFieldDecoration(
+                      placeHolderText: 'Nick Name - Optional'),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: CustomColors.white,
                   ),
+                ),
+                const SizedBox(
+                  height: 16,
                 ),
                 TextField(
                   enabled: false,
                   controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
+                  decoration: getTextFieldDecoration(placeHolderText: 'Email'),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: CustomColors.white.withOpacity(0.5),
                   ),
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
                 TextField(
+                  cursorColor: CustomColors.white.withOpacity(1),
+                  cursorRadius: const Radius.circular(10),
+                  cursorOpacityAnimates: true,
                   maxLength: 11,
                   keyboardType: TextInputType.phone,
                   controller: phoneNumberController,
-                  decoration: const InputDecoration(
-                    labelText: 'Phone Number',
+                  decoration:
+                      getTextFieldDecoration(placeHolderText: 'Phone Number'),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: CustomColors.white,
                   ),
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
                 TextField(
+                  cursorColor: CustomColors.white.withOpacity(1),
+                  cursorRadius: const Radius.circular(10),
+                  cursorOpacityAnimates: true,
                   maxLength: 70,
                   controller: shopNameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Shop Name',
+                  decoration:
+                      getTextFieldDecoration(placeHolderText: 'Shop Name'),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: CustomColors.white,
                   ),
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
                 TextField(
+                  cursorColor: CustomColors.white.withOpacity(1),
+                  cursorRadius: const Radius.circular(10),
+                  cursorOpacityAnimates: true,
+                  decoration:
+                      getTextFieldDecoration(placeHolderText: 'Shop Address'),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: CustomColors.white,
+                  ),
                   maxLength: 70,
                   controller: shopAddressController,
-                  decoration: const InputDecoration(
-                    labelText: 'Shop Address',
-                  ),
+                ),
+                const SizedBox(
+                  height: 16,
                 ),
                 TextField(
+                  cursorColor: CustomColors.white.withOpacity(1),
+                  cursorRadius: const Radius.circular(10),
+                  cursorOpacityAnimates: true,
+                  decoration: getTextFieldDecoration(
+                      placeHolderText: 'Shop Phone Number'),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: CustomColors.white,
+                  ),
                   maxLength: 11,
                   keyboardType: TextInputType.phone,
                   controller: shopPhoneNumberController,
-                  decoration: const InputDecoration(
-                    labelText: 'Shop Phone Number',
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Consumer<AppProvider>(
+                  builder: (context, provider, child) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: CustomColors.charcoal,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: DropdownButton(
+                        dropdownColor: CustomColors.charcoal.withOpacity(1),
+
+                        borderRadius: BorderRadius.circular(10),
+                        alignment: Alignment.bottomLeft,
+                        isDense: true,
+                        elevation: 0,
+                        underline: const SizedBox(
+                          width: 0,
+                          height: 0,
+                        ),
+                        iconSize: 24,
+
+                        isExpanded: true,
+                        iconEnabledColor: CustomColors.white,
+                        // Initial Value
+                        value: provider.barberGender,
+
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        items: genders.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(
+                              items.toUpperCase(),
+                              style: const TextStyle(
+                                color: CustomColors.white,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+
+                        onChanged: (String? newValue) {
+                          provider.updateBarberGender(newValue!);
+                        },
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: const Text(
+                    'Opening Time (Morning - Afternoon)',
+                    style: TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
+                const SizedBox(
+                  height: 8,
+                ),
                 Consumer<AppProvider>(
                   builder: (context, provider, child) {
-                    return DropdownButton(
-                      // Initial Value
-                      value: provider.barberGender,
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: CustomColors.charcoal,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: DropdownButton(
+                        dropdownColor: CustomColors.charcoal.withOpacity(1),
 
-                      icon: const Icon(Icons.keyboard_arrow_down),
+                        borderRadius: BorderRadius.circular(10),
+                        alignment: Alignment.bottomLeft,
+                        isDense: true,
+                        elevation: 0,
+                        underline: const SizedBox(
+                          width: 0,
+                          height: 0,
+                        ),
+                        iconSize: 24,
 
-                      items: genders.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items.toUpperCase()),
-                        );
-                      }).toList(),
+                        isExpanded: true,
+                        iconEnabledColor: CustomColors.white,
+                        // Initial Value
+                        value: provider.barberOpeningTime,
 
-                      onChanged: (String? newValue) {
-                        provider.updateBarberGender(newValue!);
-                      },
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        items: openingTimes.map((int time) {
+                          return DropdownMenuItem(
+                            value: time,
+                            child: Text(
+                              time < 12
+                                  ? '$time AM'
+                                  : time == 12
+                                      ? '12 PM'
+                                      : '${time - 12} PM',
+                              style: const TextStyle(
+                                color: CustomColors.white,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+
+                        onChanged: (int? newValue) {
+                          provider.updateBarberOpeningTime(newValue!);
+                        },
+                      ),
                     );
                   },
                 ),
-                const Text('Opening Time (Morning - Afternoon)'),
+                const SizedBox(
+                  height: 24,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: const Text(
+                    'Closing Time (Evening - Night)',
+                    style: TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
                 Consumer<AppProvider>(
                   builder: (context, provider, child) {
-                    return DropdownButton(
-                      // Initial Value
-                      value: provider.barberOpeningTime,
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: CustomColors.charcoal,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: DropdownButton(
+                        dropdownColor: CustomColors.charcoal.withOpacity(1),
 
-                      icon: const Icon(Icons.keyboard_arrow_down),
+                        borderRadius: BorderRadius.circular(10),
+                        alignment: Alignment.bottomLeft,
+                        isDense: true,
+                        elevation: 0,
+                        underline: const SizedBox(
+                          width: 0,
+                          height: 0,
+                        ),
+                        iconSize: 24,
 
-                      items: openingTimes.map((int time) {
-                        return DropdownMenuItem(
-                          value: time,
-                          child: Text(time < 12
-                              ? '$time AM'
-                              : time == 12
-                                  ? '12 PM'
-                                  : '${time - 12} PM'),
-                        );
-                      }).toList(),
+                        isExpanded: true,
+                        iconEnabledColor: CustomColors.white,
+                        // Initial Value
+                        value: provider.barberClosingTime,
 
-                      onChanged: (int? newValue) {
-                        provider.updateBarberOpeningTime(newValue!);
-                      },
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        items: closingTimes.map((int time) {
+                          return DropdownMenuItem(
+                            value: time,
+                            child: Text(
+                              '${time - 12} PM',
+                              style: const TextStyle(
+                                color: CustomColors.white,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+
+                        onChanged: (int? newValue) {
+                          provider.updateBarberClosingTime(newValue!);
+                        },
+                      ),
                     );
                   },
                 ),
-                const Text('Closing Time (Evening - Night)'),
-                Consumer<AppProvider>(
-                  builder: (context, provider, child) {
-                    return DropdownButton(
-                      // Initial Value
-                      value: provider.barberClosingTime,
-
-                      icon: const Icon(Icons.keyboard_arrow_down),
-
-                      items: closingTimes.map((int time) {
-                        return DropdownMenuItem(
-                          value: time,
-                          child: Text('${time - 12} PM'),
-                        );
-                      }).toList(),
-
-                      onChanged: (int? newValue) {
-                        provider.updateBarberClosingTime(newValue!);
-                      },
-                    );
-                  },
+                const SizedBox(
+                  height: 40,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: const Text(
+                    'Services To Offer',
+                    style: TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Consumer<AppProvider>(builder: (context, provider, child) {
                       return Checkbox(
+                        checkColor: CustomColors.gunmetal,
+                        activeColor: CustomColors.peelOrange,
+                        side: const BorderSide(
+                          color: CustomColors.peelOrange,
+                          width: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                         value: provider.isProvidingHaircut,
                         onChanged: (bool? updatedValue) {
                           provider.setIsProvidingHaircut(updatedValue!);
                         },
                       );
                     }),
-                    const Text('Haircut'),
+                    const Text(
+                      'Haircut',
+                      style: TextStyle(
+                        color: CustomColors.white,
+                      ),
+                    ),
                     const SizedBox(
                       width: 20,
                     ),
                     SizedBox(
-                      width: 100,
+                      width: 150,
                       child: TextField(
+                        cursorColor: CustomColors.white.withOpacity(1),
+                        cursorRadius: const Radius.circular(10),
+                        cursorOpacityAnimates: true,
+                        decoration: getTextFieldDecoration(
+                            placeHolderText: 'Price (Rs)'),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: CustomColors.white,
+                        ),
                         maxLength: 3,
                         controller: haircutPriceController,
-                        decoration: const InputDecoration(
-                          labelText: 'Price',
-                        ),
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Consumer<AppProvider>(builder: (context, provider, child) {
                       return Checkbox(
+                        checkColor: CustomColors.gunmetal,
+                        activeColor: CustomColors.peelOrange,
+                        side: const BorderSide(
+                          color: CustomColors.peelOrange,
+                          width: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                         value: provider.isProvidingShave,
                         onChanged: (bool? updatedValue) {
                           provider.setIsProvidingShave(updatedValue!);
                         },
                       );
                     }),
-                    const Text('Shave'),
+                    const Text(
+                      'Shave',
+                      style: TextStyle(
+                        color: CustomColors.white,
+                      ),
+                    ),
                     const SizedBox(
                       width: 20,
                     ),
                     SizedBox(
-                      width: 100,
+                      width: 150,
                       child: TextField(
+                        cursorColor: CustomColors.white.withOpacity(1),
+                        cursorRadius: const Radius.circular(10),
+                        cursorOpacityAnimates: true,
+                        decoration: getTextFieldDecoration(
+                            placeHolderText: 'Price (Rs)'),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: CustomColors.white,
+                        ),
                         maxLength: 3,
                         controller: shavePriceController,
-                        decoration: const InputDecoration(
-                          labelText: 'Price',
-                        ),
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Consumer<AppProvider>(builder: (context, provider, child) {
                       return Checkbox(
+                        checkColor: CustomColors.gunmetal,
+                        activeColor: CustomColors.peelOrange,
+                        side: const BorderSide(
+                          color: CustomColors.peelOrange,
+                          width: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                         value: provider.isProvidingBeardTrim,
                         onChanged: (bool? updatedValue) {
                           provider.setIsProvidingBeardTrim(updatedValue!);
                         },
                       );
                     }),
-                    const Text('Beard Trim'),
+                    const Text(
+                      'Beard Trim',
+                      style: TextStyle(
+                        color: CustomColors.white,
+                      ),
+                    ),
                     const SizedBox(
                       width: 20,
                     ),
                     SizedBox(
-                      width: 100,
+                      width: 150,
                       child: TextField(
+                        cursorColor: CustomColors.white.withOpacity(1),
+                        cursorRadius: const Radius.circular(10),
+                        cursorOpacityAnimates: true,
+                        decoration: getTextFieldDecoration(
+                            placeHolderText: 'Price (Rs)'),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: CustomColors.white,
+                        ),
                         maxLength: 3,
                         controller: beardTrimPriceController,
-                        decoration: const InputDecoration(
-                          labelText: 'Price',
-                        ),
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Consumer<AppProvider>(builder: (context, provider, child) {
                       return Checkbox(
+                        checkColor: CustomColors.gunmetal,
+                        activeColor: CustomColors.peelOrange,
+                        side: const BorderSide(
+                          color: CustomColors.peelOrange,
+                          width: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                         value: provider.isProvidingMassage,
                         onChanged: (bool? updatedValue) {
                           provider.setIsProvidingMassage(updatedValue!);
                         },
                       );
                     }),
-                    const Text('Massage'),
+                    const Text(
+                      'Massage',
+                      style: TextStyle(
+                        color: CustomColors.white,
+                      ),
+                    ),
                     const SizedBox(
                       width: 20,
                     ),
                     SizedBox(
-                      width: 100,
+                      width: 150,
                       child: TextField(
+                        cursorColor: CustomColors.white.withOpacity(1),
+                        cursorRadius: const Radius.circular(10),
+                        cursorOpacityAnimates: true,
+                        decoration: getTextFieldDecoration(
+                            placeHolderText: 'Price (Rs)'),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: CustomColors.white,
+                        ),
                         maxLength: 3,
                         controller: massagePriceController,
-                        decoration: const InputDecoration(
-                          labelText: 'Price',
-                        ),
                       ),
                     ),
                   ],
                 ),
                 Consumer<AppProvider>(builder: (context, provider, child) {
-                  return ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: CustomColors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
+                  return Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(top: 40.0, bottom: 16.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        backgroundColor: CustomColors.peelOrange,
+                        // padding: const EdgeInsets.symmetric(
+                        //     vertical: 14.0, horizontal: 0.0),
                       ),
-                    ),
-                    onPressed: () async {
-                      if (appProvider.isProvidingShave! ||
-                          appProvider.isProvidingShave! ||
-                          appProvider.isProvidingBeardTrim! ||
-                          appProvider.isProvidingMassage!) {
-                        if (fullNameController.text.trim().isNotEmpty &&
-                            phoneNumberController.text.trim().isNotEmpty &&
-                            shopNameController.text.trim().isNotEmpty &&
-                            shopAddressController.text.trim().isNotEmpty &&
-                            shopPhoneNumberController.text.trim().isNotEmpty &&
-                            haircutPriceController.text.trim().isNotEmpty &&
-                            shavePriceController.text.trim().isNotEmpty &&
-                            beardTrimPriceController.text.trim().isNotEmpty &&
-                            massagePriceController.text.trim().isNotEmpty) {
-                          provider.setSaveClientProfileCIP(true);
+                      onPressed: () async {
+                        if (appProvider.isProvidingShave! ||
+                            appProvider.isProvidingShave! ||
+                            appProvider.isProvidingBeardTrim! ||
+                            appProvider.isProvidingMassage!) {
+                          if (fullNameController.text.trim().isNotEmpty &&
+                              phoneNumberController.text.trim().isNotEmpty &&
+                              shopNameController.text.trim().isNotEmpty &&
+                              shopAddressController.text.trim().isNotEmpty &&
+                              shopPhoneNumberController.text
+                                  .trim()
+                                  .isNotEmpty &&
+                              haircutPriceController.text.trim().isNotEmpty &&
+                              shavePriceController.text.trim().isNotEmpty &&
+                              beardTrimPriceController.text.trim().isNotEmpty &&
+                              massagePriceController.text.trim().isNotEmpty) {
+                            provider.setSaveClientProfileCIP(true);
 
-                          if (_image != null) {
-                            final photo = await appProvider
-                                .updateUserProflileImage(
-                                    userId: appProvider
-                                        .localDataInProvider['userData']['uid'],
-                                    isClient: appProvider
-                                            .localDataInProvider['userData']
-                                        ['isClient'],
-                                    file: _image);
-
-                            await updateUserRegistrationDataInFirestore(
-                                userId: widget.uid,
-                                isClient: isClient,
-                                data: {
-                                  'isRegistered': true,
-                                  'name': fullNameController.text,
-                                  'nickName': nickNameController.text,
-                                  'email': emailController.text,
-                                  'phoneNumber': phoneNumberController.text,
-                                  'gender':
-                                      appProvider.barberGender.toLowerCase(),
-                                  'shopName': shopNameController.text,
-                                  'shopAddress': shopAddressController.text,
-                                  'openingTime': appProvider.barberOpeningTime,
-                                  'closingTime': appProvider.barberClosingTime,
-                                  'shopPhoneNumber':
-                                      shopPhoneNumberController.text,
-                                  'availability': generate7DaysSlots(
-                                      DateTime.now(),
-                                      appProvider.barberOpeningTime,
-                                      appProvider.barberClosingTime),
-                                  'services': {
-                                    '1': {
-                                      'serviceId': '1',
-                                      'isProviding':
-                                          appProvider.isProvidingHaircut,
-                                      'price': int.parse(
-                                          haircutPriceController.text),
-                                    },
-                                    '2': {
-                                      'serviceId': '2',
-                                      'isProviding':
-                                          appProvider.isProvidingShave,
-                                      'price':
-                                          int.parse(shavePriceController.text),
-                                    },
-                                    '3': {
-                                      'serviceId': '3',
-                                      'isProviding':
-                                          appProvider.isProvidingBeardTrim,
-                                      'price': int.parse(
-                                          beardTrimPriceController.text),
-                                    },
-                                    '4': {
-                                      'serviceId': '4',
-                                      'isProviding':
-                                          appProvider.isProvidingMassage,
-                                      'price': int.parse(
-                                          massagePriceController.text),
-                                    },
-                                  },
-                                  'photoURL': photo == ''
-                                      ? appProvider
+                            if (_image != null) {
+                              final photo =
+                                  await appProvider.updateUserProflileImage(
+                                      userId: appProvider
                                               .localDataInProvider['userData']
-                                          ['photoURL']
-                                      : photo,
-                                });
+                                          ['uid'],
+                                      isClient: appProvider
+                                              .localDataInProvider['userData']
+                                          ['isClient'],
+                                      file: _image);
+
+                              await updateUserRegistrationDataInFirestore(
+                                  userId: widget.uid,
+                                  isClient: isClient,
+                                  data: {
+                                    'isRegistered': true,
+                                    'name': fullNameController.text,
+                                    'nickName': nickNameController.text,
+                                    'email': emailController.text,
+                                    'phoneNumber': phoneNumberController.text,
+                                    'gender':
+                                        appProvider.barberGender.toLowerCase(),
+                                    'shopName': shopNameController.text,
+                                    'shopAddress': shopAddressController.text,
+                                    'openingTime':
+                                        appProvider.barberOpeningTime,
+                                    'closingTime':
+                                        appProvider.barberClosingTime,
+                                    'shopPhoneNumber':
+                                        shopPhoneNumberController.text,
+                                    'availability': generate7DaysSlots(
+                                        DateTime.now(),
+                                        appProvider.barberOpeningTime,
+                                        appProvider.barberClosingTime),
+                                    'services': {
+                                      '1': {
+                                        'serviceId': '1',
+                                        'isProviding':
+                                            appProvider.isProvidingHaircut,
+                                        'price': int.parse(
+                                            haircutPriceController.text),
+                                      },
+                                      '2': {
+                                        'serviceId': '2',
+                                        'isProviding':
+                                            appProvider.isProvidingShave,
+                                        'price': int.parse(
+                                            shavePriceController.text),
+                                      },
+                                      '3': {
+                                        'serviceId': '3',
+                                        'isProviding':
+                                            appProvider.isProvidingBeardTrim,
+                                        'price': int.parse(
+                                            beardTrimPriceController.text),
+                                      },
+                                      '4': {
+                                        'serviceId': '4',
+                                        'isProviding':
+                                            appProvider.isProvidingMassage,
+                                        'price': int.parse(
+                                            massagePriceController.text),
+                                      },
+                                    },
+                                    'photoURL': photo == ''
+                                        ? appProvider
+                                                .localDataInProvider['userData']
+                                            ['photoURL']
+                                        : photo,
+                                  });
+                            } else {
+                              await updateUserRegistrationDataInFirestore(
+                                  userId: widget.uid,
+                                  isClient: isClient,
+                                  data: {
+                                    'isRegistered': true,
+                                    'name': fullNameController.text,
+                                    'nickName': nickNameController.text,
+                                    'email': emailController.text,
+                                    'phoneNumber': phoneNumberController.text,
+                                    'gender':
+                                        appProvider.barberGender.toLowerCase(),
+                                    'shopName': shopNameController.text,
+                                    'shopAddress': shopAddressController.text,
+                                    'openingTime':
+                                        appProvider.barberOpeningTime,
+                                    'closingTime':
+                                        appProvider.barberClosingTime,
+                                    'shopPhoneNumber':
+                                        shopPhoneNumberController.text,
+                                    'availability': generate7DaysSlots(
+                                        DateTime.now(),
+                                        appProvider.barberOpeningTime,
+                                        appProvider.barberClosingTime),
+                                    'services': {
+                                      '1': {
+                                        'serviceId': '1',
+                                        'isProviding':
+                                            appProvider.isProvidingHaircut,
+                                        'price': int.parse(
+                                            haircutPriceController.text),
+                                      },
+                                      '2': {
+                                        'serviceId': '2',
+                                        'isProviding':
+                                            appProvider.isProvidingShave,
+                                        'price': int.parse(
+                                            shavePriceController.text),
+                                      },
+                                      '3': {
+                                        'serviceId': '3',
+                                        'isProviding':
+                                            appProvider.isProvidingBeardTrim,
+                                        'price': int.parse(
+                                            beardTrimPriceController.text),
+                                      },
+                                      '4': {
+                                        'serviceId': '4',
+                                        'isProviding':
+                                            appProvider.isProvidingMassage,
+                                        'price': int.parse(
+                                            massagePriceController.text),
+                                      },
+                                    },
+                                  });
+                            }
+
+                            await updateUserDataInLocalStorage(
+                                data: await getUserDataFromFirestore(
+                                    widget.uid, isClient));
+
+                            provider.setSaveClientProfileCIP(false);
+                            if (_image != null) {
+                              appProvider.setProfileImageInBytes(_image);
+                            }
+                            if (mounted) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BarberHomePage()),
+                              );
+                            }
                           } else {
-                            await updateUserRegistrationDataInFirestore(
-                                userId: widget.uid,
-                                isClient: isClient,
-                                data: {
-                                  'isRegistered': true,
-                                  'name': fullNameController.text,
-                                  'nickName': nickNameController.text,
-                                  'email': emailController.text,
-                                  'phoneNumber': phoneNumberController.text,
-                                  'gender':
-                                      appProvider.barberGender.toLowerCase(),
-                                  'shopName': shopNameController.text,
-                                  'shopAddress': shopAddressController.text,
-                                  'openingTime': appProvider.barberOpeningTime,
-                                  'closingTime': appProvider.barberClosingTime,
-                                  'shopPhoneNumber':
-                                      shopPhoneNumberController.text,
-                                  'availability': generate7DaysSlots(
-                                      DateTime.now(),
-                                      appProvider.barberOpeningTime,
-                                      appProvider.barberClosingTime),
-                                  'services': {
-                                    '1': {
-                                      'serviceId': '1',
-                                      'isProviding':
-                                          appProvider.isProvidingHaircut,
-                                      'price': int.parse(
-                                          haircutPriceController.text),
-                                    },
-                                    '2': {
-                                      'serviceId': '2',
-                                      'isProviding':
-                                          appProvider.isProvidingShave,
-                                      'price':
-                                          int.parse(shavePriceController.text),
-                                    },
-                                    '3': {
-                                      'serviceId': '3',
-                                      'isProviding':
-                                          appProvider.isProvidingBeardTrim,
-                                      'price': int.parse(
-                                          beardTrimPriceController.text),
-                                    },
-                                    '4': {
-                                      'serviceId': '4',
-                                      'isProviding':
-                                          appProvider.isProvidingMassage,
-                                      'price': int.parse(
-                                          massagePriceController.text),
-                                    },
-                                  },
-                                });
-                          }
-
-                          await updateUserDataInLocalStorage(
-                              data: await getUserDataFromFirestore(
-                                  widget.uid, isClient));
-
-                          provider.setSaveClientProfileCIP(false);
-                          if (_image != null) {
-                            appProvider.setProfileImageInBytes(_image);
-                          }
-                          if (mounted) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BarberHomePage()),
-                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content:
+                                  Text('Kindly fill all the required fields'),
+                            ));
                           }
                         } else {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             content:
-                                Text('Kindly fill all the required fields'),
+                                Text('Please provide at least one service'),
                           ));
                         }
-                      } else {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text('Please provide at least one service'),
-                        ));
-                      }
-                    },
-                    child: Container(
-                      height: 50,
-                      child: Center(
-                        child: provider.saveClientProfileCIP
-                            ? const SpinKitFadingCircle(
-                                color: CustomColors.white,
-                                size: 26.0,
-                              )
-                            : const Text(
-                                'Save Profile',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: CustomColors.white,
+                      },
+                      child: Container(
+                        height: 50,
+                        child: Center(
+                          child: provider.saveClientProfileCIP
+                              ? const SpinKitFadingCircle(
+                                  color: CustomColors.charcoal,
+                                  size: 26.0,
+                                )
+                              : const Text(
+                                  'Save Profile',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: CustomColors.white,
+                                  ),
                                 ),
-                              ),
+                        ),
                       ),
                     ),
                   );
