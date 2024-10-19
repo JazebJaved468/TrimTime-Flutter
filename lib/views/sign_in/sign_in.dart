@@ -14,103 +14,6 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   bool isClient = true;
 
-  // Future _handleLogin(BuildContext context) async {
-  //   Map<String, dynamic> response = await signInWithGoogle(isClient: isClient);
-
-  //   if (response['user'] != null) {
-  //     final localData = await getDataFromLocalStorage();
-  //     ;
-
-  //     final isRegistered = localData['userData']['isRegistered'];
-
-  //     if (response['existsInOtherCategory']) {
-  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //         content: Text(
-  //             'Account ALready exists in ${isClient ? 'barber' : 'client'} category'),
-  //       ));
-  //       await signOut();
-  //     } else if (response['existsInItsOwnCategory'] && isClient) {
-  //       if (isRegistered) {
-  //         Navigator.pushReplacement(
-  //           context,
-  //           MaterialPageRoute(builder: (context) => HomeScreen()),
-  //         );
-  //       } else {
-  //         Navigator.pushReplacement(
-  //           context,
-  //           MaterialPageRoute(
-  //               builder: (context) => ClientRegistrationPage(
-  //                     photoURL: localData['userData']['photoURL'],
-  //                     phoneNumber: localData['userData']['phoneNumber'],
-  //                     email: localData['userData']['email'],
-  //                     fullName: localData['userData']['name'],
-  //                     gender: localData['userData']['gender'],
-  //                     shouldNavigate: true,
-  //                   )),
-  //         );
-  //       }
-  //     } else if (response['existsInItsOwnCategory'] && !isClient) {
-  //       if (isRegistered) {
-  //         Navigator.pushReplacement(
-  //           context,
-  //           MaterialPageRoute(builder: (context) => BarberHomePage()),
-  //         );
-  //       } else {
-  //         Navigator.pushReplacement(
-  //           context,
-  //           MaterialPageRoute(
-  //               builder: (context) => BarberRegistrationPage(
-  //                     photoURL: localData['userData']['photoURL'],
-  //                     phoneNumber: localData['userData']['phoneNumber'],
-  //                     email: localData['userData']['email'],
-  //                     fullName: localData['userData']['name'],
-  //                     gender: localData['userData']['gender'],
-  //                     openingTime: localData['userData']['openingTime'],
-  //                     closingTime: localData['userData']['closingTime'],
-  //                     services: localData['userData']['services'],
-  //                     uid: localData['uid'],
-  //                   )),
-  //         );
-  //       }
-  //     } else if (!response['existsInItsOwnCategory']) {
-  //       if (isClient) {
-  //         Navigator.pushReplacement(
-  //           context,
-  //           MaterialPageRoute(
-  //               builder: (context) => ClientRegistrationPage(
-  //                     photoURL: localData['userData']['photoURL'],
-  //                     phoneNumber: localData['userData']['phoneNumber'],
-  //                     email: localData['userData']['email'],
-  //                     fullName: localData['userData']['name'],
-  //                     gender: localData['userData']['gender'],
-  //                     shouldNavigate: true,
-  //                   )),
-  //         );
-  //       } else {
-  //         Navigator.pushReplacement(
-  //           context,
-  //           MaterialPageRoute(
-  //               builder: (context) => BarberRegistrationPage(
-  //                     photoURL: localData['userData']['photoURL'],
-  //                     phoneNumber: localData['userData']['phoneNumber'],
-  //                     email: localData['userData']['email'],
-  //                     fullName: localData['userData']['name'],
-  //                     gender: localData['userData']['gender'],
-  //                     openingTime: localData['userData']['openingTime'],
-  //                     closingTime: localData['userData']['closingTime'],
-  //                     services: localData['userData']['services'],
-  //                     uid: localData['uid'],
-  //                   )),
-  //         );
-  //       }
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //       content: Text('Error in login. Please try again.'),
-  //     ));
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
@@ -272,7 +175,6 @@ class _SignInState extends State<SignIn> {
           text,
           style: TextStyle(
             color: isSelected ? Colors.white : CustomColors.peelOrange,
-            // fontFamily: 'dmsans',
           ),
         ),
       ),

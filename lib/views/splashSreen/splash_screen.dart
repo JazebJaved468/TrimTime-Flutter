@@ -19,83 +19,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   late Map<String, dynamic> localData;
 
-  // _loadData() async {
-  //   print('-----------------> Splash Screen Starts <-----------------');
-  //   await Future.delayed(const Duration(seconds: 2));
-
-  //   await initializeApp();
-
-  //   localData = await getDataFromLocalStorage();
-
-  //   if (localData['isFirstVisit']) {
-  //     Navigator.pushReplacement(
-  //       context,
-
-  //       // MaterialPageRoute(builder: (context) => OnBoardingScreen()),
-  //       MaterialPageRoute(builder: (context) => WelcomeScreen()),
-  //     );
-  //   } else {
-  //     if (localData['uid'] != null) {
-  //       final isRegistered = localData['userData']['isRegistered'];
-  //       if (localData['isClient']) {
-  //         if (isRegistered) {
-  //           Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(builder: (context) => HomeScreen()),
-  //           );
-  //         } else {
-  //           Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(
-  //                 builder: (context) => ClientRegistrationPage(
-  //                       photoURL: localData['userData']['photoURL'],
-  //                       phoneNumber: localData['userData']['phoneNumber'],
-  //                       email: localData['userData']['email'],
-  //                       fullName: localData['userData']['name'],
-  //                       gender: localData['userData']['gender'],
-  //                       shouldNavigate: true,
-  //                     )),
-  //           );
-  //         }
-  //       } else if (!localData['isClient']) {
-  //         if (isRegistered) {
-  //           Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(builder: (context) => BarberHomePage()),
-  //           );
-  //         } else {
-  //           Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(
-  //                 builder: (context) => BarberRegistrationPage(
-  //                       photoURL: localData['userData']['photoURL'],
-  //                       phoneNumber: localData['userData']['phoneNumber'],
-  //                       email: localData['userData']['email'],
-  //                       fullName: localData['userData']['name'],
-  //                       gender: localData['userData']['gender'],
-  //                       openingTime: localData['userData']['openingTime'],
-  //                       closingTime: localData['userData']['closingTime'],
-  //                       services: localData['userData']['services'],
-  //                       uid: localData['uid'],
-  //                     )),
-  //           );
-  //         }
-  //       }
-  //     } else {
-  //       Navigator.of(context).pushAndRemoveUntil(
-  //           MaterialPageRoute(builder: (context) => SignIn()),
-  //           (Route route) => false);
-  //     }
-  //   }
-  // }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // _loadData();
-  }
-
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
@@ -139,7 +62,6 @@ class _SplashScreenState extends State<SplashScreen> {
                               ['name'],
                           gender: provider.localDataInProvider['userData']
                               ['gender'],
-                          // shouldNavigate: true,
                         )),
               );
             });
@@ -189,11 +111,6 @@ class _SplashScreenState extends State<SplashScreen> {
       }
 
       return const LoadingScreen();
-      // else{
-      // return LoadingScreen();
-
-      // }
-      // return provider.isAppInitialLoading  LoadingScreen();
     });
   }
 }

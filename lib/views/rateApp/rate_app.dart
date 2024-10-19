@@ -43,11 +43,9 @@ class _RateAppState extends State<RateApp> {
       ),
       body: Center(
         child: Container(
-          // color: Colors.amberAccent,
           padding: const EdgeInsets.all(12),
           child: SingleChildScrollView(
             child: Container(
-              // color: Colors.pink,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,11 +56,7 @@ class _RateAppState extends State<RateApp> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // const SizedBox(
-                        //   height: 30,
-                        // ),
                         Container(
-                          // child: Image.asset('assets/images/review1.png'),
                           child: SvgPicture.asset(
                               'assets/images/svgs/rateApp.svg'),
                           height: 250,
@@ -120,7 +114,6 @@ class _RateAppState extends State<RateApp> {
                             },
                           ),
                         ),
-
                         const SizedBox(
                           height: 30,
                         ),
@@ -157,10 +150,6 @@ class _RateAppState extends State<RateApp> {
                         onTap: () async {
                           provider.setRateBarberCIP(true);
 
-                          // Add your logic here
-                          // log('star: $rating');
-                          // log(myController.text);
-
                           await provider.rateAppByProvider(
                             rating: rating,
                             review: myController.text,
@@ -182,7 +171,6 @@ class _RateAppState extends State<RateApp> {
                           height: 50,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            // color: CustomColors.peelOrange,
                             borderRadius: BorderRadius.circular(50),
                             border: const Border(
                               top: BorderSide(
@@ -207,7 +195,7 @@ class _RateAppState extends State<RateApp> {
                                   )
                                 : const Text(
                                     'Submit',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: CustomColors.peelOrange,
                                       // fontFamily: 'Poppins',
                                       fontSize: 15,

@@ -12,34 +12,15 @@ import 'package:trim_time/views/sign_in/sign_in.dart';
 
 class HomeContent extends StatefulWidget {
   HomeContent({Key? key}) : super(key: key);
-  // final List<Map<String, dynamic>> allBarbers;
-  // final List<Map<String, dynamic>> allBookings;
 
   @override
   State<HomeContent> createState() => _HomeContentState();
 }
 
 class _HomeContentState extends State<HomeContent> {
-  // late Map<String, dynamic> localData;
-
   final isClient = true;
 
   bool _isLoading = false;
-
-  // _loadData() async {
-  //   localData = await getDataFromLocalStorage();
-
-  //   setState(() {
-  //     _isLoading = false;
-  //   });
-  // }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // _loadData();
-  }
 
   final GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey();
 
@@ -169,9 +150,6 @@ class _HomeContentState extends State<HomeContent> {
                       children: [
                         Consumer<AppProvider>(
                           builder: (context, provider, child) {
-                            // print('----------------------in home screen');
-                            // print(
-                            //     '----------------------local data in provider in  home screen ${appProvider.localDataInProvider}');
                             return Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 10),
@@ -342,7 +320,6 @@ class CategorySection extends StatelessWidget {
                       color: CustomColors.peelOrange,
                     ),
                   )),
-
               CategoryChip(
                   label: 'Beard Trim',
                   icon: Container(
@@ -352,7 +329,6 @@ class CategorySection extends StatelessWidget {
                       color: CustomColors.peelOrange,
                     ),
                   )),
-
               const CategoryChip(
                   label: 'Massage',
                   icon: Icon(
@@ -360,11 +336,6 @@ class CategorySection extends StatelessWidget {
                     color: CustomColors.peelOrange,
                     size: 25,
                   )),
-
-              // CategoryChip(label: 'Haircut', icon: Icons.content_cut),
-              // CategoryChip(label: 'Shave', icon: Icons.brush_rounded),
-              // CategoryChip(label: 'Beard Trim', icon: Icons.handyman_rounded),
-              // CategoryChip(label: 'Massage', icon: Icons.spa),
             ],
           ),
         ],
@@ -418,7 +389,6 @@ class LocationSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
-    // return Consumer<AppProvider>(builder: (context, provider, child) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -442,11 +412,6 @@ class LocationSection extends StatelessWidget {
                 stars: appProvider.popularBarbers[index]['averageRating'],
                 imageUrl: appProvider.popularBarbers[index]['photoURL'],
                 barberId: appProvider.popularBarbers[index]['uid']);
-
-            // Text(
-            //   appProvider.popularBarbers[index]['name'],
-            //   style: TextStyle(color: CustomColors.white),
-            // );
           },
         )
       ],
@@ -482,15 +447,6 @@ class _LocationCardState extends State<LocationCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            // leading: ClipRRect(
-            //   borderRadius: BorderRadius.circular(6.0),
-            //   child: Image.asset(
-            //     'assets/images/testpic.jpg',
-            //     width: 60.0,
-            //     height: 75.0,
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
             title: Text(
               widget.title,
               style: const TextStyle(color: Colors.white),

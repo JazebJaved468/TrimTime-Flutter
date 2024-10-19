@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -18,13 +16,6 @@ class AppointmentSummary extends StatefulWidget {
 }
 
 class _AppointmentSummaryState extends State<AppointmentSummary> {
-  // final List<Map<String, String>> services = [
-  //   {'name': 'Haircut', 'price': '500'},
-  //   {'name': 'Hair Coloring', 'price': '2000'},
-  //   {'name': 'Face Treatment', 'price': '800'},
-  //   // Add more services as needed
-  // ];
-
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
@@ -86,7 +77,6 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              // fontFamily: 'Poppins',
                             ),
                           ),
                           Text(
@@ -95,7 +85,6 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
-                              // fontFamily: 'Poppins',
                             ),
                           ),
                         ],
@@ -111,7 +100,6 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              // fontFamily: 'Poppins',
                             ),
                           ),
                           Text(
@@ -120,7 +108,6 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
-                              // fontFamily: 'Poppins',
                             ),
                           ),
                         ],
@@ -136,7 +123,6 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
-                              // fontFamily: 'Poppins',
                             ),
                           ),
                           const SizedBox(
@@ -294,38 +280,6 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                           ),
                         ],
                       ),
-                      // ...services.map(
-                      //     (service) //It spreads the resulting list of widgets into the parent widget's children list.
-                      //     {
-                      //   return Column(
-                      //     children: [
-                      //       Row(
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: [
-                      //           Text(
-                      //             service['name']!,
-                      //             style: const TextStyle(
-                      //               color: Colors.grey,
-                      //               fontSize: 12,
-                      //               fontFamily: 'Poppins',
-                      //             ),
-                      //           ),
-                      //           Text(
-                      //             'Rs. ${service['price']}',
-                      //             style: const TextStyle(
-                      //               color: Colors.white,
-                      //               fontSize: 13,
-                      //               fontFamily: 'Poppins',
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //       const SizedBox(
-                      //         height: 10,
-                      //       ),
-                      //     ],
-                      //   );
-                      // }),
                       const SizedBox(
                         height: 5,
                       ),
@@ -362,29 +316,6 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                     ],
                   ),
                 ),
-                // Container(
-                //   width: double.infinity,
-                //   margin:
-                //       const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                //   padding: const EdgeInsets.only(
-                //     top: 10,
-                //     bottom: 10,
-                //     left: 20,
-                //     right: 20,
-                //   ),
-                //   decoration: const BoxDecoration(
-                //     color: CustomColors.charcoal,
-                //     borderRadius: BorderRadius.all(
-                //       Radius.circular(10),
-                //     ),
-                //   ),
-                //   child: Text(
-                //       'Note : Barber will approve the booking and then you have to pay $ADVANCE_PAYMENT_PERCENTAGE% of the total amount within 5 minutes to confirm your booking',
-                //       style: TextStyle(
-                //         color: Colors.grey,
-                //         fontSize: 12,
-                //       )),
-                // ),
               ],
             ),
           ),
@@ -485,27 +416,6 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),
                                 ),
-
-                          //  Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   crossAxisAlignment: CrossAxisAlignment.center,
-                          //   children: [
-                          //     Text(
-                          //   'Confirm Booking',
-                          //   style: TextStyle(
-                          //       color: Colors.white,
-                          //       fontSize: 20,
-                          //       fontWeight: FontWeight.bold,
-                          //       fontFamily: 'Poppins'),
-                          // ),
-                          // SizedBox(
-                          //   width: 10,
-                          // ),
-                          // Image(
-                          //   image: AssetImage('assets/images/stripe-logo.png'),
-                          //   height: 25,
-                          // ),
-                          // ],
                         ),
                       ),
                     ),
@@ -520,17 +430,3 @@ class _AppointmentSummaryState extends State<AppointmentSummary> {
     );
   }
 }
-
-// //example payment page
-// class NextScreen extends StatelessWidget {
-//   const NextScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Make Payment'),
-//       ),
-//     );
-//   }
-// }

@@ -128,15 +128,11 @@ class _ReviewsAndRatingState extends State<ReviewsAndRating> {
                 ),
                 Consumer<AppProvider>(builder: (context, provider, child) {
                   return Container(
-                    margin:
-                        const EdgeInsets.all(30), // Margin around the button
+                    margin: const EdgeInsets.all(30),
                     child: GestureDetector(
                       onTap: () async {
                         provider.setRateBarberCIP(true);
 
-                        // Add your logic here
-                        // log('star: $rating');
-                        // log(myController.text);
                         await provider.rateBarberByProvider(
                             rating: rating,
                             review: myController.text,
@@ -180,7 +176,6 @@ class _ReviewsAndRatingState extends State<ReviewsAndRating> {
                                   'Submit',
                                   style: TextStyle(
                                     color: CustomColors.peelOrange,
-                                    // fontFamily: 'Poppins',
                                     fontSize: 15,
                                   ),
                                 ),

@@ -45,15 +45,6 @@ class SearchPage extends StatelessWidget {
                     ),
                     filled: true,
                     fillColor: CustomColors.charcoal,
-                    // focusedBorder: OutlineInputBorder(
-                    //   borderSide:
-                    //       BorderSide(color: Colors.white.withOpacity(0.1)),
-                    //   borderRadius: BorderRadius.circular(10),
-                    // ),
-                    // enabledBorder: OutlineInputBorder(
-                    //   // borderSide: const BorderSide(color: Color(0xffE4E7EB)),
-                    //   borderRadius: BorderRadius.circular(15),
-                    // ),
                   ),
                   style: const TextStyle(color: CustomColors.white),
                 ),
