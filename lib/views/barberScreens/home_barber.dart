@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/providers/sample_provider.dart';
+import 'package:trim_time/views/barberScreens/barber_bookings.dart';
+import 'package:trim_time/views/barberScreens/barber_reviews.dart';
 import 'package:trim_time/views/barberScreens/manage_days.dart';
 import 'package:trim_time/views/sign_in/sign_in.dart';
 
@@ -254,6 +256,7 @@ class _BarberHomePageState extends State<BarberHomePage> {
                             mainAxisSpacing: 16, // Space between rows
                             shrinkWrap:
                                 true, // Shrinks the grid to fit the content
+                            physics: const NeverScrollableScrollPhysics(),
                             children: List.generate(3, (index) {
                               return GestureDetector(
                                 onTap: () {
@@ -270,6 +273,20 @@ class _BarberHomePageState extends State<BarberHomePage> {
                                           builder: (context) =>
                                               const ManageDays()),
                                     );
+                                  } else if (index == 1) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const BarberBookings()),
+                                    );
+                                  } else if (index == 2) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const BarberReviews()),
+                                    );
                                   }
                                 },
                                 child: Container(
@@ -283,12 +300,14 @@ class _BarberHomePageState extends State<BarberHomePage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Container(
                                         child: Icon(
                                           cardData[index]['icon'],
                                           size: 40,
+                                          color: CustomColors.white
+                                              .withOpacity(0.8),
                                         ),
                                       ),
                                       const SizedBox(
