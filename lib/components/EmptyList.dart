@@ -15,7 +15,7 @@ class EmptyList extends StatelessWidget {
           Opacity(
             opacity: 0.5,
             child: SvgPicture.asset(
-              'assets/images/svgs/logo2.svg',
+              'assets/images/svgs/logo2_timelytrim.svg',
               width: 150,
             ),
           ),

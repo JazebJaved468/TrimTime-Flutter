@@ -93,7 +93,7 @@ class _SignInState extends State<SignIn> {
                             ),
                           ),
                           const Text(
-                            'Welcome to Trim Time!',
+                            'Welcome to Timely Trim!',
                             style: TextStyle(color: CustomColors.white),
                           ),
                           SizedBox(

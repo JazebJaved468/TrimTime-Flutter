@@ -20,7 +20,7 @@ class LoadingScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Logo
-              SvgPicture.asset('assets/images/svgs/logo1.svg',
+              SvgPicture.asset('assets/images/svgs/logo1_timelytrim.svg',
                   // Update with your logo asset path
                   height: screenHeight * .3,
                   width: screenWidth * .3),
