@@ -67,7 +67,7 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                         const ScaleEffect(alignment: Alignment.centerLeft)
                       ],
-                      child: const Text("Trim Time").animate(),
+                      child: const Text("Timely Trim").animate(),
                     ),
                   ),
                 ),

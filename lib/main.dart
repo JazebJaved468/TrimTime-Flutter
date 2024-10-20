@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Trim Time',
+        title: 'Timely Trim',
         theme: ThemeData(
           useMaterial3: true,
           fontFamily: 'Urbanist',

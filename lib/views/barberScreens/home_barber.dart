@@ -64,7 +64,7 @@ class _BarberHomePageState extends State<BarberHomePage> {
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.symmetric(vertical: 6),
                 child: SvgPicture.asset(
-                  'assets/images/svgs/logo2.svg',
+                  'assets/images/svgs/logo2_timelytrim.svg',
                 ),
               ),
             ),
@@ -76,7 +76,7 @@ class _BarberHomePageState extends State<BarberHomePage> {
                 fontWeight: FontWeight.w500),
             backgroundColor: CustomColors.gunmetal,
             title: const Text(
-              'Trim Time',
+              'Timely Trim',
             ),
             actions: [
               IconButton(
