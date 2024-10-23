@@ -398,6 +398,8 @@ createBookingInFirestore({
   }
 }
 
+
+
 storeUserDataInFirestore(
     {required UserCredential user, required bool isClient}) async {
   print(
@@ -465,5 +467,34 @@ storeUserDataInFirestore(
       'availability':
           generate7DaysSlots(DateTime.now(), OPENING_TIME, CLOSING_TIME)
     });
+  }
+}
+
+getBarberBookings(String barberId) async {
+  CollectionReference bookingCollection = FirebaseFirestore.instance.collection('bookings');
+
+    // Query for all documents where 'barberId' matches the provided value
+    QuerySnapshot querySnapshot = await bookingCollection.where('barberId', isEqualTo: barberId,).get();
+
+    // Map the query result to a list of dynamic objects (or a specific model)
+    print("Number of documents found: ${querySnapshot.docs.length}");
+    List<dynamic> bookings = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    return bookings;
+}
+
+confirmUserBooking(String bookingId) async {
+  CollectionReference bookingCollection = FirebaseFirestore.instance.collection('bookings');
+
+  QuerySnapshot querySnapshot = await bookingCollection.where('id', isEqualTo: bookingId).get();
+
+  if (querySnapshot.docs.isNotEmpty) {
+    DocumentSnapshot doc = querySnapshot.docs.first;
+
+    await bookingCollection.doc(doc.id).update({'isConfirmed': true});
+
+    print("Booking confirmed: ${doc.id}");
+  } else {
+    print("No booking found with ID: $bookingId");
   }
 }
