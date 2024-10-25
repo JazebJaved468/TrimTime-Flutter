@@ -281,7 +281,6 @@ class AppProvider with ChangeNotifier {
     upcomingBookingsClient.forEach((booking) {
       if (booking['id'] == bookingId) {
         booking['isPaid'] = true;
-        // print(booking);
       }
       notifyListeners();
     });

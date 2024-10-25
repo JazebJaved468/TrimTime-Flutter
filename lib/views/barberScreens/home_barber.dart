@@ -277,8 +277,10 @@ class _BarberHomePageState extends State<BarberHomePage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const BarberBookings()),
+                                          builder: (context) => BarberBookings(
+                                                barberId: localData['userData']
+                                                    ['uid'],
+                                              )),
                                     );
                                   } else if (index == 2) {
                                     Navigator.push(
