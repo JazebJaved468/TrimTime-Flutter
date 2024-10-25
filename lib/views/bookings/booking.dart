@@ -268,17 +268,17 @@ class BookingCardClient extends StatelessWidget {
                 Map amounts = calculatePercentages(int.parse(totalAmount));
                 int amountToPay = amounts['amountToPay'];
 
-                print('do pay call start');
-                var res = await StripePaymentHandle()
-                    .MakePayment(amountToPay.toString());
+                // print('do pay call start');
+                // var res = await StripePaymentHandle()
+                //     .MakePayment(amountToPay.toString());
 
-                if (res == 0) {
-                  print('Payment success');
-                  appProvider.payBarberByProvider(
-                      barberId: booking['barberId'],
-                      bookingId: bookingId,
-                      paidAmount: amountToPay);
-                }
+                // if (res == 0) {
+                print('Payment success');
+                appProvider.payBarberByProvider(
+                    barberId: booking['barberId'],
+                    bookingId: bookingId,
+                    paidAmount: amountToPay);
+                // }
 
                 print('do pay call end');
               }
