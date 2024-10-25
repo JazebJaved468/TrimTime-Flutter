@@ -48,12 +48,19 @@ flutter doctor
 
 https://docs.flutter.dev/get-started/install/windows/mobile
 
-### 4. Clone the Repository
+### 4a. Clone the Repository
 
 ```bash
 git clone https://github.com/JazebJaved468/TrimTime-Flutter.git
 cd TrimTime-Flutter
 ```
+
+### 4b. Checkout To develop branch
+
+```bash
+git checkout develop
+```
+
 
 ### 5. Install Project Dependencies
 
