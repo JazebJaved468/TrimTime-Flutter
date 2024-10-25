@@ -6,7 +6,9 @@ import 'package:trim_time/components/EmptyList.dart';
 import 'package:trim_time/controller/firestore.dart';
 
 class BarberBookings extends StatefulWidget {
-  const BarberBookings({super.key});
+  const BarberBookings({super.key, required this.barberId});
+
+  final String barberId;
 
   @override
   State<BarberBookings> createState() => _BarberBookingsState();
@@ -24,8 +26,7 @@ class _BarberBookingsState extends State<BarberBookings> {
   }
 
   Future<void> fetchBookings() async {
-    dynamic fetchedBookings =
-        await getBarberBookings('XdW13qLwfDSXGKLg4mz2UAUBq7I3');
+    dynamic fetchedBookings = await getBarberBookings(widget.barberId);
 
     List<dynamic> futureBookings = fetchedBookings.where((booking) {
       DateTime startTime = DateTime.parse(booking['startTime']);
@@ -92,11 +93,11 @@ class _BarberBookingsState extends State<BarberBookings> {
       ),
       backgroundColor: CustomColors.gunmetal,
       body: bookings == null
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : bookings.isEmpty
-              ? EmptyList(message: 'No Bookings Found')
+              ? const EmptyList(message: 'No Bookings Found')
               : ListView.builder(
                   itemCount: bookings.length,
                   itemBuilder: (context, index) {
@@ -106,7 +107,7 @@ class _BarberBookingsState extends State<BarberBookings> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(
+                          return const Center(
                             child: CircularProgressIndicator(),
                           );
                         } else if (snapshot.hasError) {
@@ -121,7 +122,7 @@ class _BarberBookingsState extends State<BarberBookings> {
                           int remainingPayment = totalAmount - paidAmount;
 
                           return Card(
-                            margin: EdgeInsets.all(12),
+                            margin: const EdgeInsets.all(12),
                             color: CustomColors.charcoal,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -139,10 +140,10 @@ class _BarberBookingsState extends State<BarberBookings> {
                                         backgroundImage: NetworkImage(photoUrl),
                                         radius: 30,
                                       ),
-                                      SizedBox(width: 10),
+                                      const SizedBox(width: 10),
                                       Text(
                                         userData['name'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -150,35 +151,37 @@ class _BarberBookingsState extends State<BarberBookings> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 12),
+                                  const SizedBox(height: 12),
                                   Row(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.calendar_today,
                                         color: Colors.white,
                                       ),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Text(
                                         'Start Time: ${formatStartTime(booking['startTime'])}',
-                                        style: TextStyle(color: Colors.white),
+                                        style: const TextStyle(
+                                            color: Colors.white),
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Row(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.attach_money,
                                         color: Colors.white,
                                       ),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Text(
                                         'Total Fee: Rs.${booking['totalAmount']}',
-                                        style: TextStyle(color: Colors.white),
+                                        style: const TextStyle(
+                                            color: Colors.white),
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Row(
                                     children: [
                                       Icon(
@@ -189,7 +192,7 @@ class _BarberBookingsState extends State<BarberBookings> {
                                             ? Colors.green
                                             : Colors.red,
                                       ),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Text(
                                         booking['isPaid']
                                             ? 'Paid: Rs.${paidAmount.toStringAsFixed(2)}'
@@ -203,27 +206,29 @@ class _BarberBookingsState extends State<BarberBookings> {
                                     ],
                                   ),
                                   if (booking['isConfirmed'])
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                   if (booking['isConfirmed'])
-                                    remainingPayment>0 ? Row(
-                                      children: [
-                                        Icon(
-                                          Icons.warning_amber_outlined,
-                                          color: Colors.yellow,
-                                        ),
-                                        SizedBox(width: 5),
-                                          Text(
-                                          'Payment Due: Rs.${remainingPayment.toStringAsFixed(2)}',
-                                          style:
-                                              TextStyle(color: Colors.yellow),
-                                        ),
-                                      ],
-                                    ):Text(''),
-                                  SizedBox(height: 8),
+                                    remainingPayment > 0
+                                        ? Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.warning_amber_outlined,
+                                                color: Colors.yellow,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Text(
+                                                'Payment Due: Rs.${remainingPayment.toStringAsFixed(2)}',
+                                                style: const TextStyle(
+                                                    color: Colors.yellow),
+                                              ),
+                                            ],
+                                          )
+                                        : const Text(''),
+                                  const SizedBox(height: 8),
                                   Align(
                                     alignment: Alignment.centerRight,
                                     child: booking['isConfirmed']
-                                        ? Row(
+                                        ? const Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Icon(
@@ -237,16 +242,15 @@ class _BarberBookingsState extends State<BarberBookings> {
                                             ],
                                           )
                                         : confirmingBookingId == booking['id']
-                                            ? CircularProgressIndicator()
+                                            ? const CircularProgressIndicator()
                                             : ElevatedButton(
                                                 onPressed: () =>
                                                     confirmUserBookingHandler(
                                                         booking['id']),
-                                                child: Text('Confirm',
+                                                child: const Text('Confirm',
                                                     style: TextStyle(
                                                         color: Colors.white)),
-                                                style: ElevatedButton
-                                                    .styleFrom(
+                                                style: ElevatedButton.styleFrom(
                                                   backgroundColor:
                                                       CustomColors.peelOrange,
                                                 ),
@@ -257,7 +261,7 @@ class _BarberBookingsState extends State<BarberBookings> {
                             ),
                           );
                         } else {
-                          return Center(
+                          return const Center(
                             child: Text('No user found',
                                 style: TextStyle(color: Colors.white)),
                           );
