@@ -50,8 +50,10 @@ https://docs.flutter.dev/get-started/install/windows/mobile
 
 ### 4. Clone the Repository
 
+```bash
 git clone https://github.com/JazebJaved468/TrimTime-Flutter.git
 cd TrimTime-Flutter
+```
 
 ### 5. Install Project Dependencies
 
